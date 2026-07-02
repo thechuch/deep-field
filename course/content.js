@@ -1,5 +1,4 @@
-// DEEP FIELD · Sell the Depth. Full course content (19 lessons, 9 sections).
-// All names are unscreened placeholders; all figures illustrative. Fictional showcase by Small Circle.
+// DEEP FIELD · Sell the Depth. Full course content (19 lessons, 9 sections). Crafted by Small Circle.
 const PITCH = "Deep Field is one biodynamic field on a high, cool ridge above the Northern California fog. It is made by a former astrophotographer who now farms by the same sky she used to watch. One place, farmed slowly and read honestly, in eight grape-forward wines. Nothing is rushed and nothing is hidden. Look deeper.";
 const SIGLINE = "The longer you look, the more there is.";
 
@@ -13,13 +12,13 @@ const COURSE = {
       { t:"hero", img:"../assets/img/field_hero_fog.jpg", kicker:"START HERE · LESSON 1 OF 19", title:"Start with the pitch." },
       { t:"text", p:["You sell between accounts, on your phone, with two minutes to spare. So this course gives you the money first: the pitch, the reasons it sells, and the one wine for the account in front of you. Everything else is here when you want the depth."] },
       { t:"recall", id:"baseline", prompt:"Before we start: in one line, what would you say right now to get an account to try a wine like this? Jot it down. We will come back to it at the end." },
-      { t:"audio", label:"The 30-second pitch · in Marne's voice", script: PITCH },
-      { t:"cards", h:"The five takeaways", items:[
-        "One field, fully in focus: a single biodynamic site, not a catalog of blocks.",
-        "A founder story that sells itself: astrophotographer to farmer, farming by the sky.",
-        "Farming is the product, not a badge: biodynamic, regenerative, low-intervention, and buyers ask for it.",
-        "Eight wines, eight clear roles: one right wine for every account.",
-        "Sell the depth: patience, place, and restraint, made literal from soil to glass." ] },
+      { t:"audio", file:"marne_pitch", label:"The 30-second pitch · in Marne's voice", script: PITCH },
+      { t:"flip", h:"The five takeaways", sub:"Tap each card to turn it over. These five lines are the spine of every pitch you will make.", small:true, cards:[
+        { f:"01 · ONE FIELD", b:"One field, fully in focus: a single biodynamic site, not a catalog of blocks." },
+        { f:"02 · THE FOUNDER", b:"A founder story that sells itself: astrophotographer to farmer, farming by the sky." },
+        { f:"03 · THE FARMING", b:"Farming is the product, not a badge: biodynamic, regenerative, low-intervention, and buyers ask for it." },
+        { f:"04 · EIGHT ROLES", b:"Eight wines, eight clear roles: one right wine for every account." },
+        { f:"05 · THE DEPTH", b:"Sell the depth: patience, place, and restraint, made literal from soil to glass." } ] },
       { t:"download", h:"Your selling tools, in one place.", items:[
         {label:"DOWNLOAD THE SELL SHEET (PDF)", href:"../downloads/deep-field-sell-sheet.pdf"},
         {label:"VISIT THE BRAND SITE ↗", href:"../index.html", ext:true} ] }
@@ -39,7 +38,7 @@ const COURSE = {
       { t:"decide", stem:"Which of these will this course NOT help you do?", opts:[
         { o:"Deliver the 30-second pitch", fb:"Not quite. That is a core skill this course builds, starting with the audio you just heard." },
         { o:"Handle common objections", fb:"Not quite. There is a whole drill for the five most common pushbacks." },
-        { o:"Memorize every terroir figure as verified fact", ok:1, fb:"Right. The site figures are illustrative demonstration data, always flagged, never sold as fact. You will sell the story, not recite numbers." },
+        { o:"Recite every terroir figure from memory", ok:1, fb:"Right. Nobody buys a spec sheet. You will sell the story and connect one or two site facts to what the buyer tastes, not recite numbers." },
         { o:"Pick the right wine per account", fb:"Not quite. The eight-role system exists exactly so you can do this." } ] }
     ]}
   ]},
@@ -49,11 +48,14 @@ const COURSE = {
       { t:"hero", img:"../assets/img/vine_deepfocus.jpg", kicker:"THE BRAND STORY", title:"Look deeper." },
       { t:"statement", text:"In a category that shouts, the quiet one has the most depth." },
       { t:"text", p:["Most wine competes on volume: louder labels, bigger extraction, more oak, more adjectives. Deep Field competes on attention. One field, farmed slowly and read honestly, that holds up under a long stare.","The name works on three layers, and you lead with the first two. First, the field: a single piece of ground. Second, depth: of flavor, of roots, of patience. The third is earned."] },
-      { t:"buckets", prompt:"Place each phrase under the layer it belongs to, then check.", buckets:["FIELD","DEPTH","COSMOS"], items:[
-        { txt:"The actual soil and roots", b:0 },
-        { txt:"Flavor and patience that reward waiting", b:1 },
-        { txt:"Farming by the moon and stars", b:2 } ],
-        fb:"Lead with field and depth, the plain and tangible. Let the cosmos layer be earned by how the field is farmed, not decorated. When you reach for it, it should feel inevitable, not clever." },
+      { t:"dragmatch", prompt:"Drag each phrase to the layer it belongs to. You will feel it click.", zones:[
+        { name:"FIELD", why:"The plain and tangible. Always lead here." },
+        { name:"DEPTH", why:"What patience tastes like. Your second beat." },
+        { name:"COSMOS", why:"Earned by the farming, never decorated. Reach for it last, and it feels inevitable." } ], items:[
+        { txt:"The actual soil and roots", z:0, hint:"That one is literal. Think ground." },
+        { txt:"Flavor and patience that reward waiting", z:1, hint:"What rewards a long stare?" },
+        { txt:"Farming by the moon and stars", z:2, hint:"Look up." } ],
+        done:"Field, then depth, then the sky. Lead with the tangible and let the cosmos be earned." },
       { t:"statement", small:true, text:"“" + SIGLINE + "”" }
     ]},
     { id:"B2", title:"The Founder, Marne Okafor", time:"3 min", blocks:[
@@ -66,7 +68,7 @@ const COURSE = {
         { o:"She wanted a career change", fb:"There is more to it. The pivot is coherent, not a restart: the same sky now schedules the work." },
         { o:"Because biodynamics is farming by the cosmos, so the same moon and stars now schedule the work", ok:1, fb:"That is the whole pivot in one breath. She did not abandon the sky; she started farming by it. That coherence is what makes the story sell rather than charm." },
         { o:"Astronomy and wine are unrelated hobbies", fb:"They are not unrelated here, and that is the point a buyer remembers: biodynamics literally follows the moon and the stars." } ] },
-      { t:"audio", label:"Marne's signature line · about 6 seconds", script: SIGLINE }
+      { t:"audio", file:"marne_line", label:"Marne's signature line · about 6 seconds", script: SIGLINE }
     ]}
   ]},
 
@@ -74,12 +76,14 @@ const COURSE = {
     { id:"C1", title:"Halden Rise (The Place)", time:"3 min", blocks:[
       { t:"hero", img:"../assets/img/field_night_stars.jpg", kicker:"THE FIELD", title:"Above the fog. Under the stars." },
       { t:"text", p:["Deep Field is grown on Halden Rise, a high, cool ridge on the Northern California coast. It sits above the marine fog by morning and under genuinely dark sky by night. Cool bright days, long cold nights, an unhurried season.","That is the point: slow ripening, retained acidity, length rather than weight. The soils are deep, the vines dry-farmed and deep-rooted, and the whole site is farmed as one living field."] },
-      { t:"note", text:"Halden Rise is an invented placeholder site, coined for this course. It lets us tell a full terroir story without misusing a real place. Illustrative, not verified data." },
-      { t:"buckets", prompt:"You are not selling numbers. Connect each site fact to the thing the buyer will taste.", buckets:["RETAINED ACIDITY + LENGTH","CONCENTRATION WITHOUT IRRIGATION","SLOW RIPENING, FRESHNESS OVER WEIGHT"], items:[
-        { txt:"Above the fog, dark cold nights", b:0 },
-        { txt:"Deep soils, dry-farmed roots", b:1 },
-        { txt:"Cool bright days", b:2 } ],
-        fb:"Two clean links beat ten figures. One site fact, one taste benefit, and stop." }
+      { t:"dragmatch", prompt:"You are not selling numbers. Drag each site fact onto the thing the buyer will actually taste.", zones:[
+        { name:"RETAINED ACIDITY + LENGTH", why:"Cold nights keep the wine's nerve. That is the freshness a buyer notices first." },
+        { name:"CONCENTRATION WITHOUT IRRIGATION", why:"Roots that drink from depth, not a hose. The literal deep field, in the glass." },
+        { name:"SLOW RIPENING, FRESHNESS OVER WEIGHT", why:"An unhurried season trades weight for length. Say exactly that." } ], items:[
+        { txt:"Above the fog, dark cold nights", z:0, hint:"What do cold nights protect?" },
+        { txt:"Deep soils, dry-farmed roots", z:1, hint:"No irrigation. Where does the water come from?" },
+        { txt:"Cool bright days", z:2, hint:"Slow and steady ripens the race." } ],
+        done:"Two clean links beat ten figures. One site fact, one taste benefit, and stop." }
     ]},
     { id:"C2", title:"Farmed by the Sky", time:"4 min", blocks:[
       { t:"hero", img:"../assets/img/sheep_vines.jpg", kicker:"THE FARMING", title:"The farming is the product." },
@@ -94,7 +98,7 @@ const COURSE = {
         { o:"“It is better for the planet.”", fb:"True but not the sell. She is not buying ethics; she is buying something her guests want and her staff can talk about." },
         { o:"“It is what your natural-list and by-the-glass guests already ask for, and it gives your staff a real story to tell tableside.”", ok:1, fb:"Sell the buyer benefit, not the virtue. This is the answer that moves a list." },
         { o:"“It is a certification we have.”", fb:"A mark is proof, not a pitch. Lead with what her guests want; let the certification back you up." } ] },
-      { t:"audio", label:"The farming pitch · about 15 seconds", script:"We farm one field by the moon and the stars, with sheep, compost, and cover crops, and let native yeast finish the job. Nothing added to fake it, nothing stripped to fix it. Your natural list already wants this. We just do it honestly." }
+      { t:"audio", file:"farming_pitch", label:"The farming pitch · about 15 seconds", script:"We farm one field by the moon and the stars, with sheep, compost, and cover crops, and let native yeast finish the job. Nothing added to fake it, nothing stripped to fix it. Your natural list already wants this. We just do it honestly." }
     ]}
   ]},
 
@@ -117,16 +121,26 @@ const COURSE = {
     { id:"E1", title:"Eight Wines, Eight Roles", time:"4 min", blocks:[
       { t:"hero", img:"../assets/img/lineup_group.jpg", kicker:"THE LINEUP", title:"Eight wines, eight jobs." },
       { t:"text", p:["Each wine has one role, so there is always one right answer for the account in front of you. Learn the roles and the portfolio sells itself."] },
-      { t:"buckets", prompt:"Assign each wine its one role. Every role is unique by design.", buckets:["DEFINE","SERIOUS","BROADEN","ANCHOR","CURIOSITY","RECRUIT","TWILIGHT","DEPTH"], items:[
-        { txt:"Deep Field · the field blend", b:0 },
-        { txt:"Pinot Noir · estate", b:1 },
-        { txt:"Syrah · cool-climate", b:2 },
-        { txt:"Chardonnay · no new oak", b:3 },
-        { txt:"Duskfall · skin-contact Chenin", b:4 },
-        { txt:"Daybreak · chilled Gamay", b:5 },
-        { txt:"Afterglow · Pinot Noir rosé", b:6 },
-        { txt:"Long Exposure · reserve Pinot", b:7 } ],
-        fb:"Each role is unique by design, so there is exactly one right home per wine. If two feel interchangeable, look again at the word: Anchor holds a list, Define states the estate." }
+      { t:"flip", h:"First, meet the eight", sub:"Tap each wine to learn its role and its one-line story. Take your time; the check comes after.", cards:[
+        { f:"DEEP FIELD", fs:"Field blend", b:"DEFINE · The whole living field, co-planted and co-fermented, in one bottle." },
+        { f:"PINOT NOIR", fs:"Estate", b:"SERIOUS · The noble cool-climate red: transparency and site, nothing hidden." },
+        { f:"SYRAH", fs:"Cool-climate", b:"BROADEN · Savory and peppery, not a warm-climate blockbuster." },
+        { f:"CHARDONNAY", fs:"No new oak", b:"ANCHOR · Taut and mineral: the white that anchors the list." },
+        { f:"DUSKFALL", fs:"Skin-contact Chenin", b:"CURIOSITY · The amber discovery, the somm's find on the list." },
+        { f:"DAYBREAK", fs:"Chilled Gamay", b:"RECRUIT · First wine off the field each year, made to pour by the glass." },
+        { f:"AFTERGLOW", fs:"Pinot Noir rosé", b:"TWILIGHT · A pale, dry rosé: the last light of day in a glass." },
+        { f:"LONG EXPOSURE", fs:"Reserve Pinot Noir", b:"DEPTH · The flagship grape given more time. Depth, made literal." } ] },
+      { t:"dragmatch", prompt:"Now place each wine in its role. Every drop tells you immediately, so use the misses to learn.", zones:[
+        { name:"DEFINE" },{ name:"SERIOUS" },{ name:"BROADEN" },{ name:"ANCHOR" },{ name:"CURIOSITY" },{ name:"RECRUIT" },{ name:"TWILIGHT" },{ name:"DEPTH" } ], items:[
+        { txt:"Deep Field", z:0, hint:"The estate's thesis statement." },
+        { txt:"Pinot Noir", z:1, hint:"The credibility red." },
+        { txt:"Syrah", z:2, hint:"For the list that has Pinot covered." },
+        { txt:"Chardonnay", z:3, hint:"It holds the white list steady." },
+        { txt:"Duskfall", z:4, hint:"The somm's discovery." },
+        { txt:"Daybreak", z:5, hint:"Born for by-the-glass." },
+        { txt:"Afterglow", z:6, hint:"Dusk, in a glass." },
+        { txt:"Long Exposure", z:7, hint:"The trade-up. Time, literally." } ],
+        done:"Eight wines, eight jobs, one right answer for every account. If two ever feel interchangeable, look at the word again: Anchor holds a list, Define states the estate." }
     ]},
     { id:"E2", title:"The Reds + The Flagship", time:"4 min", blocks:[
       { t:"hotspot", img:"../assets/img/bottle_deepfield.jpg", wine:"DEEP FIELD", grape:"Field blend · Define",
@@ -161,7 +175,7 @@ const COURSE = {
         { o:"Daybreak", fb:"Daybreak is a fresh by-the-glass pour, the Recruit. Match the role to the ask." },
         { o:"Long Exposure", ok:1, fb:"Long Exposure is the trade-up and cellar wine. Depth is exactly what a collector table buys." },
         { o:"Afterglow", fb:"Afterglow is the twilight rosé. Lovely, and wrong for this ask. Match the role to the ask." } ] },
-      { t:"audio", label:"The flagship pitch · about 15 seconds", script:"Deep Field, the flagship, is the whole field in one bottle: co-planted, co-fermented, one living biodynamic site read honestly. If a buyer only tries one wine, it is this one. It is the thesis." }
+      { t:"audio", file:"flagship_pitch", label:"The flagship pitch · about 15 seconds", script:"Deep Field, the flagship, is the whole field in one bottle: co-planted, co-fermented, one living biodynamic site read honestly. If a buyer only tries one wine, it is this one. It is the thesis." }
     ]},
     { id:"E3", title:"The Whites + The Curiosity", time:"3 min", blocks:[
       { t:"hotspot", img:"../assets/img/bottle_chardonnay.jpg", wine:"CHARDONNAY", grape:"Estate, no new oak · Anchor",
@@ -191,7 +205,7 @@ const COURSE = {
       { t:"decide", stem:"Same bar, and the buyer adds: “And a rosé people will photograph at sunset.”", opts:[
         { o:"Afterglow, the dusk-pale Pinot rosé, and sell the pair as dawn and dusk on one list", ok:1, fb:"Now the two wines are one story: Daybreak opens the day, Afterglow closes it. A list that tells time. That is a placement, not a pour." },
         { o:"Duskfall, because it is also about evening", fb:"Duskfall is the amber curiosity, a different job. The rosé ask is Afterglow's, and pairing it with Daybreak turns two glasses into a story." } ] },
-      { t:"audio", label:"The by-the-glass pitch · about 12 seconds", script:"Daybreak and Afterglow are the day on our ridge, poured at both ends: the first bright Gamay of the year, and a dusk-pale rosé. Two glasses, one story your staff can tell in a sentence." }
+      { t:"audio", file:"btg_pitch", label:"The by-the-glass pitch · about 12 seconds", script:"Daybreak and Afterglow are the day on our ridge, poured at both ends: the first bright Gamay of the year, and a dusk-pale rosé. Two glasses, one story your staff can tell in a sentence." }
     ]}
   ]},
 
@@ -199,11 +213,14 @@ const COURSE = {
     { id:"F1", title:"Pairing Deep Field", time:"3 min", blocks:[
       { t:"hero", img:"../assets/img/pairing_flagship.jpg", kicker:"THE TABLE", title:"The same soil, read twice." },
       { t:"text", p:["Pairing here is a sell, not a garnish: farm-to-glass dinners and chef collaborations are how on-premise accounts turn this brand into events. Learn three confident pairings and the one-line reason each works."] },
-      { t:"buckets", prompt:"Pair each dish to its wine before the reasons unlock.", buckets:["DEEP FIELD","DUSKFALL","AFTERGLOW"], items:[
-        { txt:"Seared duck, maitake, dark jus", b:0 },
-        { txt:"Roast squash, spiced honey, toasted seeds", b:1 },
-        { txt:"Oysters, lemon, mignonette", b:2 } ],
-        fb:"Why each works, in one line: the field blend's savory depth carries duck and jus. Duskfall's skin-contact grip loves sweet-spiced roast. Afterglow's dusk-pale salinity is built for cold brine and citrus." },
+      { t:"dragmatch", prompt:"Drag each dish to its wine. Every correct drop tells you why it works, and that why is your tableside line.", zones:[
+        { name:"DEEP FIELD", why:"Savory depth meets savory depth: the field blend's dark fruit carries duck and jus." },
+        { name:"DUSKFALL", why:"Skin-contact grip loves sweet-spiced roast. Texture with texture." },
+        { name:"AFTERGLOW", why:"Dusk-pale salinity, built for cold brine and citrus. The easiest yes of the summer." } ], items:[
+        { txt:"Seared duck, maitake, dark jus", z:0, hint:"Dark, savory, structured. Which wine matches that weight?" },
+        { txt:"Roast squash, spiced honey, toasted seeds", z:1, hint:"Sweet spice and texture want grip." },
+        { txt:"Oysters, lemon, mignonette", z:2, hint:"Cold brine wants the palest glass." } ],
+        done:"Three pairings, three one-line reasons. Say the why, not just the match: that is what a staff pick sounds like." },
       { t:"accordion", h:"The recipes (optional depth, from the field kitchen)", items:[
         { h:"Seared duck with maitake + jus · for Deep Field", body:"Score and slow-render the breast skin-down until deeply bronzed; rest. Roast maitake hard in the duck fat. Reduce stock with a spoon of the wine and a little butter. Slice, salt, pour, and serve with the field blend just below room temperature." },
         { h:"Spiced honey squash · for Duskfall", body:"Halve delicata, roast cut-side down until caramelized. Warm honey with chile and cider vinegar; brush generously. Finish with toasted seeds, torn herbs, flaky salt. The skin-contact grip wants that sweet heat." },
@@ -215,40 +232,48 @@ const COURSE = {
     { id:"G1", title:"The Circle, the Almanac, the Sessions", time:"3 min", blocks:[
       { t:"hero", img:"../assets/img/tasting_field.jpg", kicker:"THE BRAND WORLD", title:"A world, not just a bottle." },
       { t:"text", p:["Deep Field gives you three name-droppable programs. Each one is a selling hook, not a brochure line. Match the asset to the hook it unlocks."] },
-      { t:"buckets", prompt:"Match each brand-world asset to the buyer hook it unlocks.", buckets:["FIRST-IN-LINE ALLOCATION","STAFF STORYTELLING FUEL","A BUYER EXPERIENCE THAT CLOSES"], items:[
-        { txt:"The Deep Field Circle (membership)", b:0 },
-        { txt:"The Field Almanac (the farming year, told by the sky)", b:1 },
-        { txt:"The Field Sessions (tasting from dusk into dark)", b:2 } ],
-        fb:"The Circle turns allocation into urgency: commit now, be first in line. The Almanac hands staff a story per season, free training content. And nothing closes a wavering buyer like a Session at the field as the stars come out. Invite them." }
+      { t:"dragmatch", prompt:"Match each program to the selling hook it unlocks. Each one is a door into an account.", zones:[
+        { name:"FIRST-IN-LINE ALLOCATION", why:"The Circle turns scarcity into urgency: commit now and be first in line." },
+        { name:"STAFF STORYTELLING FUEL", why:"The Almanac hands staff a fresh story every season. Free training content for the account." },
+        { name:"A BUYER EXPERIENCE THAT CLOSES", why:"Nothing closes a wavering buyer like a Session at the field as the stars come out. Invite them." } ], items:[
+        { txt:"The Deep Field Circle (membership)", z:0, hint:"Allocation, membership, first access." },
+        { txt:"The Field Almanac (the farming year, told by the sky)", z:1, hint:"Something the floor staff can retell." },
+        { txt:"The Field Sessions (tasting from dusk into dark)", z:2, hint:"You cannot email an evening on the ridge." } ],
+        done:"Three programs, three doors: urgency for the buyer, stories for the staff, and an evening that closes the deal." }
     ]}
   ]},
 
   { id:"H", name:"Selling Deep Field", lessons:[
     { id:"H1", title:"Certifications as a Selling Lever", time:"4 min", blocks:[
-      { t:"badges", img:"../assets/img/badges_sheet.jpg", caption:"Illustrative certification marks, shown to demonstrate presentation. A real client's actual certification logos would be used in production." },
+      { t:"badges", img:"../assets/img/badges_sheet.jpg", caption:"Farmed and certified: biodynamic, regenerative organic, and organic." },
       { t:"text", p:["Three marks, three different buyers convinced. A certification is proof, not a pitch: lead with what the buyer wants, then let the mark close the credibility gap."] },
-      { t:"buckets", prompt:"Link each mark to the buyer it convinces most, before the model answer.", buckets:["THE NATURAL-LIST SOMM","THE SUSTAINABILITY-MINDED CHAIN BUYER","THE CAUTIOUS FIRST-TIMER"], items:[
-        { txt:"BIODYNAMIC FARMED (the moon-and-root mark)", b:0 },
-        { txt:"REGENERATIVE ORGANIC (the soil-and-sprout mark)", b:1 },
-        { txt:"ORGANIC FARMED (the leaf mark)", b:2 } ],
-        fb:"The somm wants the biodynamic story and the calendar. The chain buyer needs the regenerative claim their corporate deck already values. And plain organic is the reassurance a cautious buyer recognizes on sight. One mark each, matched to the room." },
-      { t:"decide", stem:"Quick guardrail check: how do you present these marks honestly in this showcase?", opts:[
-        { o:"As Deep Field's actual certifications", fb:"No. The brand is fictional, so the marks are illustrative by design, and we always say so." },
-        { o:"As illustrative marks that demonstrate presentation, clearly captioned", ok:1, fb:"Right. The caption is mandatory: illustrative marks, shown to demonstrate presentation. A real client's real logos take their place in production." } ] },
-      { t:"audio", label:"The certification talk track · about 12 seconds", script:"Certified biodynamic, regenerative, and organic. Not printed promises: audited farming. Your guests ask for this, your staff can say it with confidence, and the marks on the bottle back them up." }
+      { t:"dragmatch", prompt:"Each mark convinces a different room. Drag the mark to the buyer it wins.", zones:[
+        { name:"THE NATURAL-LIST SOMM", why:"The somm wants the biodynamic story and the celestial calendar behind it. Lead with the moon-and-root mark here." },
+        { name:"THE SUSTAINABILITY-MINDED CHAIN BUYER", why:"Regenerative is the claim their corporate deck already values. This mark speaks their language." },
+        { name:"THE CAUTIOUS FIRST-TIMER", why:"Plain organic is the reassurance a careful buyer recognizes on sight. Familiar, safe, true." } ], items:[
+        { txt:"BIODYNAMIC FARMED (the moon-and-root mark)", z:0, hint:"Who romances the calendar?" },
+        { txt:"REGENERATIVE ORGANIC (the soil-and-sprout mark)", z:1, hint:"Which buyer reports to a sustainability deck?" },
+        { txt:"ORGANIC FARMED (the leaf mark)", z:2, hint:"The most familiar word on the shelf." } ],
+        done:"One mark each, matched to the room. Proof lands hardest when it answers the fear that buyer actually has." },
+      { t:"decide", stem:"A certification is proof, not a pitch. What does that look like in a real conversation?", opts:[
+        { o:"Open by listing all three certifications before anything else", fb:"Marks first is a resume, not a sell. Lead with what the buyer wants; the certification is your closing proof, not your opener." },
+        { o:"Lead with the buyer benefit, then let the mark close the credibility gap", ok:1, fb:"Right. The guest wants the story and the glass; the mark is what lets the buyer trust it. Benefit first, proof second, always." } ] },
+      { t:"audio", file:"cert_track", label:"The certification talk track · about 12 seconds", script:"Certified biodynamic, regenerative, and organic. Not printed promises: audited farming. Your guests ask for this, your staff can say it with confidence, and the marks on the bottle back them up." }
     ]},
     { id:"H2", title:"Why Pour It vs Why Stock It", time:"4 min", blocks:[
       { t:"text", h:"Two channels, two different pitches.", p:["On-premise buys a pour: velocity by the glass, a story staff can retell, a list that feels curated. Off-premise buys a placement: margin, a premium set that trades shoppers up, and a shelf story that sells unattended. Never give one pitch to both rooms."] },
-      { t:"buckets", prompt:"Sort each selling point into its channel before the reveal.", buckets:["ON-PREMISE (WHY POUR)","OFF-PREMISE (WHY STOCK)"], items:[
-        { txt:"By-the-glass velocity with a staff story", b:0 },
-        { txt:"Natural-list credibility for the somm", b:0 },
-        { txt:"Farm-to-glass dinners and chef collabs", b:0 },
-        { txt:"A premium set that trades shoppers up", b:1 },
-        { txt:"Shelf story that sells without a person", b:1 },
-        { txt:"Case-stack potential on Daybreak in season", b:1 } ],
-        fb:"Channel-true or nothing. The somm never hears about case stacks; the shop buyer never hears about chef dinners. Same wine, two languages." },
-      { t:"audio", label:"On-premise pitch · about 12 seconds", script:"Pour it because your guests already ask for biodynamic, your staff gets a story they can tell in one breath, and the glass trades up to the bottle. Start with Daybreak and Duskfall, and let the list tell time." },
-      { t:"audio", label:"Off-premise pitch · about 12 seconds", script:"Stock it because the premium set needs a story that sells itself: one field, farmed by the sky, eight clear roles. The label does the talking, the margin holds, and Daybreak stacks in season." }
+      { t:"dragmatch", prompt:"Sort each selling point into its channel. Every drop confirms or corrects you on the spot.", zones:[
+        { name:"ON-PREMISE · WHY POUR", cap:3 },
+        { name:"OFF-PREMISE · WHY STOCK", cap:3 } ], items:[
+        { txt:"By-the-glass velocity with a staff story", z:0, hint:"Glasses move where people talk." },
+        { txt:"Natural-list credibility for the somm", z:0, hint:"Who curates a list?" },
+        { txt:"Farm-to-glass dinners and chef collabs", z:0, hint:"Events happen where there is a kitchen." },
+        { txt:"A premium set that trades shoppers up", z:1, hint:"Sets live on shelves." },
+        { txt:"Shelf story that sells without a person", z:1, hint:"No staff standing by." },
+        { txt:"Case-stack potential on Daybreak in season", z:1, hint:"Nobody stacks cases in a dining room." } ],
+        done:"Channel-true or nothing. The somm never hears about case stacks; the shop buyer never hears about chef dinners. Same wine, two languages." },
+      { t:"audio", file:"onprem_pitch", label:"On-premise pitch · about 12 seconds", script:"Pour it because your guests already ask for biodynamic, your staff gets a story they can tell in one breath, and the glass trades up to the bottle. Start with Daybreak and Duskfall, and let the list tell time." },
+      { t:"audio", file:"offprem_pitch", label:"Off-premise pitch · about 12 seconds", script:"Stock it because the premium set needs a story that sells itself: one field, farmed by the sky, eight clear roles. The label does the talking, the margin holds, and Daybreak stacks in season." }
     ]},
     { id:"H3", title:"Objection Handling", time:"5 min", blocks:[
       { t:"text", h:"The five pushbacks, rehearsed calm.", p:["Every objection below is a real conversation you will have. Choose your response before the model answer, and notice why the weaker options fail."] },
@@ -273,8 +298,7 @@ const COURSE = {
         { o:"“The allocation is the reason to commit now, not later. Lock your by-the-glass placement, join the Circle logic, and you are first in line while your competitor waits. Patience is rewarded, and so is moving early.”", ok:1, fb:"You flipped scarcity from obstacle to urgency and named the concrete move. That is the close." },
         { o:"Apologize for the small production", fb:"Treating scarcity as a problem hides that it is the lever. Small is the point; first in line is the prize." } ] },
       { t:"recall", id:"comeback", prompt:"Now, in your own words: your one-line comeback to the price objection. Say it out loud before you type it." },
-      { t:"audio", label:"Model rebuttal · price · about 12 seconds", script:"It is priced for what it is: a hand-farmed biodynamic single field. Put Daybreak by the glass, watch guests trade up for the story, and let the margin prove it." },
-      { t:"note", text:"Production note for the client: Halden Rise is a coined placeholder site for this demonstration, and every figure is flagged illustrative. In production this becomes a real client's real place, told exactly this richly. This note is for you, not a line a rep delivers." }
+      { t:"audio", file:"price_rebuttal", label:"Model rebuttal · price · about 12 seconds", script:"It is priced for what it is: a hand-farmed biodynamic single field. Put Daybreak by the glass, watch guests trade up for the story, and let the margin prove it." },
     ]}
   ]},
 
@@ -373,7 +397,7 @@ const ASSESS = {
       { o:"Because both jobs involve equipment on tripods", fb:"The connection that sells is the calendar: biodynamics literally follows the moon and stars." } ] },
     { kind:"mc", stem:"A buyer asks what the high, cold, above-the-fog site actually does for the wine. Your best one-line link?", opts:[
       { o:"“Dark cold nights above the fog keep the acidity, so the wines stay fresh and long.”", ok:1, fb:"One site fact, one taste benefit. That is how terroir sells: two clean links beat ten figures." },
-      { o:"Recite the elevation, row spacing, and soil series", fb:"Figures bury the sell, and ours are illustrative anyway. Connect one fact to one thing she will taste." },
+      { o:"Recite the elevation, row spacing, and soil series", fb:"Figures bury the sell. Connect one fact to one thing she will taste." },
       { o:"“It is just a beautiful place.”", fb:"Beauty is not a benefit in the glass. Link the site to the taste: cold nights, retained acidity, length." } ] },
     { kind:"mc", stem:"The honest way to use site and farming specifics in a pitch is:", opts:[
       { o:"Connect one or two facts to what the buyer will taste, and never bury the sell in figures", ok:1, fb:"Right. The story earns the placement; the figures, where real, back it quietly." },

@@ -4,7 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sell the Depth | Deep Field Brand Education</title>
-<meta name="description" content="The Deep Field trade education course. A fictional brand education showcase by Small Circle.">
+<meta name="description" content="Sell the Depth: the Deep Field trade education course.">
+<meta property="og:title" content="Sell the Depth | Deep Field Trade Education">
+<meta property="og:description" content="The pitch, the eight roles, the farming as a selling lever, and the buyer conversation.">
+<meta property="og:image" content="https://thechuch.github.io/deep-field/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#131B2C">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23C7A345' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +30,7 @@
   a{touch-action:manipulation}
   .ribbon{background:var(--ink);color:#B9C3D6;text-align:center;font-size:11px;letter-spacing:.4px;padding:7px 14px;position:relative;z-index:40}
   .ribbon b{color:var(--gold2);font-weight:500}
-  .app{display:flex;min-height:calc(100vh - 30px)}
+  .app{display:flex;min-height:100vh}
   /* sidebar */
   aside{width:320px;flex:none;background:var(--ink);color:#C7CFDD;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
   .sidehero{position:relative;padding:26px 24px 22px;background:linear-gradient(180deg,rgba(19,27,44,.25),rgba(19,27,44,.92)),url(../assets/img/field_night_stars.jpg) center/cover;color:var(--bone)}
@@ -60,6 +64,8 @@
   .kicker{font-family:var(--sans);font-size:11px;letter-spacing:.32em;color:var(--gold2);margin-bottom:12px}
   .hero h2{font-family:var(--sans);font-weight:300;letter-spacing:.1em;font-size:clamp(28px,4vw,44px)}
   .block{margin-top:44px}
+  h2,h3,h4{text-wrap:balance}
+  p{text-wrap:pretty}
   .block h3{font-family:var(--sans);font-weight:500;letter-spacing:.1em;font-size:19px;margin-bottom:14px}
   .block p{max-width:64ch;color:#2A3347;margin-bottom:14px}
   .block ul{max-width:64ch;color:#2A3347;padding-left:20px;display:grid;gap:6px}
@@ -96,19 +102,44 @@
   .btn:disabled{opacity:.4;cursor:not-allowed}
   .btn:active{transform:scale(.97)}
   .opt:active{border-color:var(--ink)}
-  /* buckets */
-  .tray{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
-  .chipbtn{background:var(--ink);color:var(--bone);border:none;padding:10px 16px;font-size:13px;transition:.2s}
-  .chipbtn.sel{background:var(--gold);color:var(--ink)}
-  .chipbtn.hide{display:none}
-  .bks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-  .bk{border:1.5px dashed var(--line);min-height:96px;padding:12px}
-  .bk h5{font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;color:var(--loam);margin-bottom:8px}
-  .bk .drop{display:grid;gap:6px}
-  .bk .placed{font-size:12px;background:var(--bone);padding:7px 10px;border:1px solid var(--line)}
-  .bk .placed.ok{border-color:var(--good);background:var(--goodbg)}
-  .bk .placed.bad{border-color:var(--bad);background:var(--badbg)}
-  .bk.armed{border-color:var(--gold);background:rgba(199,163,69,.05)}
+  /* flip cards */
+  .fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;perspective:1400px}
+  .fgrid.small{grid-template-columns:repeat(5,1fr)}
+  @media(max-width:900px){.fgrid,.fgrid.small{grid-template-columns:repeat(2,1fr)}}
+  .fcard{position:relative;aspect-ratio:4/3;cursor:pointer;background:none;border:none;padding:0;font-family:var(--body);text-align:left;-webkit-tap-highlight-color:transparent}
+  .fcard .inner{position:absolute;inset:0;transition:transform .65s cubic-bezier(.3,.7,.25,1);transform-style:preserve-3d}
+  .fcard.flipped .inner{transform:rotateY(180deg)}
+  .fcard .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center;padding:16px 16px;border:1px solid var(--line)}
+  .fcard .front{background:var(--ink);color:var(--bone);align-items:center;text-align:center}
+  .fcard .front .fring{width:22px;height:22px;border-radius:50%;border:1.2px solid var(--gold2);margin-bottom:12px;opacity:.9}
+  .fcard .front .ft{font-family:var(--sans);letter-spacing:.16em;font-size:14px}
+  .fcard .front .fsx{font-size:10.5px;color:#8F99AD;letter-spacing:.1em;margin-top:5px;text-transform:uppercase}
+  .fcard .front .cue{position:absolute;bottom:10px;font-size:9px;letter-spacing:.22em;color:#58637C}
+  .fcard .back{background:var(--white);transform:rotateY(180deg);font-size:12.5px;line-height:1.55;color:#2A3347}
+  .fcard .back b{font-family:var(--sans);letter-spacing:.18em;color:var(--gold);font-size:11px;display:block;margin-bottom:6px;font-weight:500}
+  .fcard.flipped .front .fring{opacity:0}
+  .fprog{font-family:var(--sans);font-size:10.5px;letter-spacing:.2em;color:var(--muted);margin-top:14px}
+  /* dragmatch */
+  .dmwrap{user-select:none;-webkit-user-select:none}
+  .dtray{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;min-height:44px}
+  .dchip{background:var(--ink);color:var(--bone);padding:11px 16px;font-size:13px;line-height:1.4;cursor:grab;touch-action:none;border:none;font-family:var(--body);transition:box-shadow .2s, opacity .2s;position:relative}
+  .dchip.sel{outline:2px solid var(--gold);outline-offset:2px}
+  .dchip.dragging{opacity:.95;cursor:grabbing;box-shadow:0 18px 34px -14px rgba(19,27,44,.55);z-index:100}
+  .dchip.gone{display:none}
+  .dzones{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+  .dz{border:1.5px dashed rgba(19,27,44,.28);min-height:86px;padding:12px;transition:border-color .2s, background .2s;position:relative}
+  .dz h5{font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;color:var(--loam);margin-bottom:8px;pointer-events:none}
+  .dz.over{border-color:var(--gold);background:rgba(199,163,69,.07);border-style:solid}
+  .dz.wrongflash{animation:dzshake .45s}
+  @keyframes dzshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}55%{transform:translateX(5px)}80%{transform:translateX(-3px)}}
+  .dz .locked{font-size:12px;background:var(--goodbg);border:1px solid var(--good);color:#1F5941;padding:7px 10px;margin-bottom:6px;animation:lockin .5s cubic-bezier(.3,1.4,.5,1)}
+  @keyframes lockin{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
+  .dz .why{font-size:11.5px;color:#1F5941;padding:6px 2px 0;line-height:1.5}
+  .dmhint{margin-top:14px;padding:12px 16px;font-size:13px;background:var(--badbg);border-left:3px solid var(--bad);color:#7A2F28;display:none}
+  .dmhint.show{display:block}
+  .dmdone{margin-top:14px;padding:14px 18px;font-size:13.5px;background:var(--goodbg);border-left:3px solid var(--good);color:#1F5941;display:none}
+  .dmdone.show{display:block;animation:lockin .5s}
+  .dmprog{font-family:var(--sans);font-size:10.5px;letter-spacing:.2em;color:var(--muted);margin-top:12px}
   /* steps */
   .step{border:1px solid var(--line);background:var(--white);padding:18px 22px;margin-bottom:12px}
   .step .q{font-weight:600;font-size:14px;margin-bottom:10px}
@@ -195,7 +226,7 @@
   #scrim{display:none}
   @media(max-width:900px){
     .ribbon{font-size:10px;line-height:1.5}
-    #mobbar{display:flex;position:sticky;top:0;z-index:58;background:var(--ink);color:var(--bone);align-items:center;gap:12px;padding:0 14px;height:56px}
+    #mobbar{display:flex;position:sticky;top:0;z-index:95;background:var(--ink);color:var(--bone);align-items:center;gap:12px;padding:0 14px;height:56px}
     #mobbar .mb-burg{width:44px;height:44px;background:none;border:none;position:relative;flex:none}
     #mobbar .mb-burg span{position:absolute;left:10px;right:10px;height:1.5px;background:var(--bone);transition:all .35s var(--ease, ease)}
     #mobbar .mb-burg span:nth-child(1){top:16px}
@@ -206,9 +237,9 @@
     body.navopen #mobbar .mb-burg span:nth-child(3){top:22px;transform:rotate(-45deg)}
     #mobbar .mb-title{font-family:var(--sans);font-size:12px;letter-spacing:.14em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
     #mobbar .mb-pct{font-family:var(--sans);font-size:11px;letter-spacing:.16em;color:var(--gold2);flex:none}
-    aside{position:fixed;left:0;top:0;bottom:0;width:min(320px,86vw);z-index:80;transform:translateX(-102%);transition:transform .45s cubic-bezier(.22,.61,.21,1);box-shadow:30px 0 60px -30px rgba(0,0,0,.5);height:100dvh}
+    aside{position:fixed;left:0;top:56px;bottom:0;width:min(320px,86vw);z-index:80;transform:translateX(-102%);transition:transform .45s cubic-bezier(.22,.61,.21,1);box-shadow:30px 0 60px -30px rgba(0,0,0,.5);height:calc(100dvh - 56px)}
     body.navopen aside{transform:none}
-    #scrim{display:block;position:fixed;inset:0;background:rgba(19,27,44,.55);z-index:70;opacity:0;pointer-events:none;transition:opacity .4s}
+    #scrim{display:block;position:fixed;inset:56px 0 0 0;background:rgba(19,27,44,.55);z-index:70;opacity:0;pointer-events:none;transition:opacity .4s}
     body.navopen #scrim{opacity:1;pointer-events:auto}
     body.navopen{overflow:hidden}
     .lesson{padding:0 20px 60px}
@@ -229,7 +260,6 @@
 </style>
 </head>
 <body>
-<div class="ribbon"><b>Fictional brand education showcase by Small Circle.</b> Deep Field is invented to demonstrate our instructional-design and creative work. All names are placeholders; all figures illustrative.</div>
 <div id="mobbar"><button class="mb-burg" id="mburg" aria-label="Lessons" aria-expanded="false"><span></span><span></span><span></span></button><div class="mb-title" id="mbtitle">SELL THE DEPTH</div><div class="mb-pct" id="mbpct">0%</div></div>
 <div id="scrim"></div>
 <div class="app">
@@ -299,13 +329,14 @@ function renderBlock(b, l){
     case 'cards': return `<div class="block"><h3>${b.h}</h3><div class="cardrow">${b.items.map((x,i)=>`<div class="tcard"><b>${i+1}</b>${x}</div>`).join('')}</div></div>`;
     case 'audio': {
       const id='au'+(uid++);
-      return `<div class="block"><div class="audio"><button class="play" id="${id}" onclick="speak('${id}',\`${b.script.replace(/`/g,'')}\`)">▶</button><div><div class="lab">${b.label.toUpperCase()}</div><div class="script">“${b.script}”</div><span class="chip">DEMO VO: BROWSER SPEECH · PRODUCED VOICEOVER IN THE PRODUCTION BUILD · TRANSCRIPT SHOWN</span></div></div></div>`; }
+      return `<div class="block"><div class="audio"><button class="play" id="${id}" onclick="playVO('${id}','${b.file||''}')">▶</button><audio id="${id}x" src="../assets/audio/${b.file}.mp3" preload="none"></audio><div><div class="lab">${b.label.toUpperCase()}</div><div class="script">“${b.script}”</div></div></div></div>`; }
     case 'recall': {
       const v = S.recall[b.id]||'';
       return `<div class="block"><div class="ix"><div class="prompt">${b.prompt}</div><textarea style="width:100%;border:1px solid var(--line);padding:12px;font-family:var(--body);font-size:16px;min-height:70px" oninput="S.recall['${b.id}']=this.value;save()" placeholder="Type it here. It stays on your device.">${v}</textarea></div></div>`; }
     case 'download': return `<div class="block"><h3>${b.h}</h3><div class="dl">${b.items.map(x=>`<a href="${x.href}" ${x.ext?'':'download'}>${x.label}</a>`).join('')}</div></div>`;
     case 'decide': return decideHTML(b);
-    case 'buckets': return bucketsHTML(b);
+    case 'flip': return flipHTML(b);
+    case 'dragmatch': return dragmatchHTML(b);
     case 'steps': return stepsHTML(b);
     case 'predictpair': return predictPairHTML(b);
     case 'hotspot': return hotspotHTML(b);
@@ -335,20 +366,138 @@ function answer(gid, i, ok, btn){
   if(ok){ gates[gid]=true; document.querySelectorAll(`#${gid} .opt`).forEach(o=>o.disabled=true); btn.disabled=true; updateGate(); }
 }
 
-/* buckets (click chip, click bucket, check) */
-const BK = {};
-function bucketsHTML(b){
-  const gid = gateId(); BK[gid] = {b, sel:null, placed:{}};
-  const chips = b.items.map((it,i)=>`<button class="chipbtn" id="${gid}c${i}" onclick="pick('${gid}',${i})">${it.txt}</button>`).join('');
-  const bks = b.buckets.map((name,bi)=>`<div class="bk" id="${gid}b${bi}" onclick="drop('${gid}',${bi})"><h5>${name}</h5><div class="drop" id="${gid}d${bi}"></div></div>`).join('');
-  return `<div class="block"><div class="ix"><div class="prompt">${b.prompt}</div><div class="tray" id="${gid}tray">${chips}</div><div class="bks">${bks}</div><div style="margin-top:18px"><button class="btn" onclick="checkBk('${gid}')">CHECK</button></div><div class="fb" id="${gid}fb">${b.fb}</div></div></div>`;
+/* flip cards (teach) */
+function flipHTML(b){
+  const gid = gateId(); window['_fl_'+gid] = {n:b.cards.length, seen:new Set()};
+  const cards = b.cards.map((c,i)=>`<button class="fcard" id="${gid}c${i}" onclick="flipCard('${gid}',${i})" aria-pressed="false">
+    <span class="inner"><span class="face front"><span class="fring"></span><span class="ft">${c.f}</span>${c.fs?`<span class="fsx">${c.fs}</span>`:''}<span class="cue">TAP TO TURN</span></span>
+    <span class="face back">${c.b.includes('·')?`<b>${c.b.split('·')[0].trim()}</b>${c.b.split('·').slice(1).join('·').trim()}`:c.b}</span></span></button>`).join('');
+  return `<div class="block">${b.h?`<h3>${b.h}</h3>`:''}${b.sub?`<p style="margin-top:-6px;margin-bottom:16px;color:var(--muted);font-size:13.5px">${b.sub}</p>`:''}
+    <div class="fgrid ${b.small?'small':''}">${cards}</div><div class="fprog" id="${gid}p">0 OF ${b.cards.length} TURNED</div></div>`;
 }
-function pick(gid,i){ const st=BK[gid]; st.sel=i; document.querySelectorAll(`[id^="${gid}c"]`).forEach(c=>c.classList.remove('sel')); document.getElementById(gid+'c'+i).classList.add('sel'); document.querySelectorAll(`[id^="${gid}b"]`).forEach(b=>b.classList.add('armed')); }
-function drop(gid,bi){ const st=BK[gid]; if(st.sel===null) return; st.placed[st.sel]=bi; document.getElementById(gid+'c'+st.sel).classList.add('hide'); const d=document.getElementById(gid+'d'+bi); d.insertAdjacentHTML('beforeend',`<div class="placed" id="${gid}p${st.sel}" data-i="${st.sel}">${st.b.items[st.sel].txt}</div>`); st.sel=null; document.querySelectorAll(`[id^="${gid}c"]`).forEach(c=>c.classList.remove('sel')); document.querySelectorAll(`[id^="${gid}b"]`).forEach(b=>b.classList.remove('armed')); }
-function checkBk(gid){ const st=BK[gid]; const items=st.b.items; let all= Object.keys(st.placed).length===items.length; let right=true;
-  items.forEach((it,i)=>{ const p=document.getElementById(gid+'p'+i); if(!p) return; const ok = st.placed[i]===it.b; p.classList.remove('ok','bad'); p.classList.add(ok?'ok':'bad');
-    if(!ok){ right=false; setTimeout(()=>{ p.remove(); delete st.placed[i]; const c=document.getElementById(gid+'c'+i); c.classList.remove('hide'); },900); } });
-  if(all && right){ document.getElementById(gid+'fb').classList.add('ok'); gates[gid]=true; updateGate(); }
+function flipCard(gid,i){
+  const st = window['_fl_'+gid];
+  const el = document.getElementById(gid+'c'+i);
+  el.classList.toggle('flipped');
+  el.setAttribute('aria-pressed', el.classList.contains('flipped'));
+  st.seen.add(i);
+  document.getElementById(gid+'p').textContent = st.seen.size+' OF '+st.n+' TURNED';
+  if(st.seen.size>=st.n){ gates[gid]=true; document.getElementById(gid+'p').textContent='ALL '+st.n+' TURNED · NICELY DONE'; updateGate(); }
+}
+
+/* dragmatch: drag or tap, immediate feedback per drop */
+const DM = {};
+function dragmatchHTML(b){
+  const gid = gateId();
+  DM[gid] = {b, placed:0, sel:null};
+  const chips = b.items.map((it,i)=>`<button class="dchip" id="${gid}i${i}" data-i="${i}">${it.txt}</button>`).join('');
+  const zones = b.zones.map((z,zi)=>`<div class="dz" id="${gid}z${zi}" data-z="${zi}"><h5>${z.name}</h5><div id="${gid}zd${zi}"></div></div>`).join('');
+  return `<div class="block"><div class="ix dmwrap" id="${gid}" data-gid="${gid}">
+    <div class="prompt">${b.prompt}</div>
+    <div class="dtray" id="${gid}tray">${chips}</div>
+    <div class="dzones">${zones}</div>
+    <div class="dmhint" id="${gid}hint"></div>
+    <div class="dmdone" id="${gid}done">${b.done||'All placed.'}</div>
+    <div class="dmprog" id="${gid}prog">0 OF ${b.items.length} PLACED · DRAG A CARD, OR TAP IT THEN TAP ITS HOME</div>
+  </div></div>`;
+}
+function dmEval(gid, idx, zi){
+  const st = DM[gid]; const it = st.b.items[idx];
+  const chip = document.getElementById(gid+'i'+idx);
+  const hint = document.getElementById(gid+'hint');
+  const zone = document.getElementById(gid+'z'+zi);
+  if(+it.z === +zi){
+    chip.classList.add('gone'); chip.disabled = true;
+    const zd = document.getElementById(gid+'zd'+zi);
+    zd.insertAdjacentHTML('beforeend', `<div class="locked">✓ ${it.txt}</div>`);
+    const why = st.b.zones[zi].why;
+    if(why && !document.getElementById(gid+'why'+zi)){ zd.insertAdjacentHTML('beforeend', `<div class="why" id="${gid}why${zi}">${why}</div>`); }
+    hint.classList.remove('show');
+    st.placed++;
+    const prog = document.getElementById(gid+'prog');
+    prog.textContent = st.placed+' OF '+st.b.items.length+' PLACED';
+    if(st.placed >= st.b.items.length){
+      document.getElementById(gid+'done').classList.add('show');
+      prog.textContent = 'ALL PLACED';
+      gates[gid]=true; updateGate();
+    }
+    return true;
+  } else {
+    zone.classList.add('wrongflash');
+    setTimeout(()=>zone.classList.remove('wrongflash'), 500);
+    hint.textContent = 'Not quite. ' + (it.hint || 'Try another home.');
+    hint.classList.add('show');
+    return false;
+  }
+}
+/* pointer-based drag with tap fallback */
+let drag = null;
+addEventListener('pointerdown', e=>{
+  const chip = e.target.closest('.dchip');
+  if(!chip || chip.disabled) return;
+  const wrap = chip.closest('.dmwrap'); if(!wrap) return;
+  const r = chip.getBoundingClientRect();
+  drag = {chip, gid:wrap.dataset.gid, idx:+chip.dataset.i, sx:e.clientX, sy:e.clientY, dx:e.clientX-r.left, dy:e.clientY-r.top, moved:false, home:{x:r.left,y:r.top}};
+  chip.setPointerCapture(e.pointerId);
+});
+addEventListener('pointermove', e=>{
+  if(!drag) return;
+  if(!drag.moved && Math.hypot(e.clientX-drag.sx, e.clientY-drag.sy) > 7){
+    drag.moved = true;
+    const c = drag.chip, r = c.getBoundingClientRect();
+    c.classList.add('dragging');
+    c.style.position='fixed'; c.style.left=(e.clientX-drag.dx)+'px'; c.style.top=(e.clientY-drag.dy)+'px'; c.style.width=r.width+'px';
+  }
+  if(drag.moved){
+    drag.chip.style.left=(e.clientX-drag.dx)+'px';
+    drag.chip.style.top=(e.clientY-drag.dy)+'px';
+    document.querySelectorAll('.dz.over').forEach(z=>z.classList.remove('over'));
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const z = el && el.closest('.dz');
+    if(z && z.id.startsWith(drag.gid)) z.classList.add('over');
+  }
+});
+addEventListener('pointerup', e=>{
+  if(!drag) return;
+  const d = drag; drag = null;
+  document.querySelectorAll('.dz.over').forEach(z=>z.classList.remove('over'));
+  if(d.moved){
+    const c = d.chip;
+    c.classList.remove('dragging');
+    c.style.position=''; c.style.left=''; c.style.top=''; c.style.width='';
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const z = el && el.closest('.dz');
+    if(z && z.id.startsWith(d.gid)) dmEval(d.gid, d.idx, +z.dataset.z);
+  } else {
+    // tap: select chip, arm zones
+    const st = DM[d.gid];
+    if(st.sel !== null) document.getElementById(d.gid+'i'+st.sel)?.classList.remove('sel');
+    st.sel = d.idx;
+    d.chip.classList.add('sel');
+  }
+});
+addEventListener('click', e=>{
+  const z = e.target.closest('.dz'); if(!z) return;
+  const wrap = z.closest('.dmwrap'); if(!wrap) return;
+  const st = DM[wrap.dataset.gid];
+  if(st && st.sel !== null){
+    const ok = dmEval(wrap.dataset.gid, st.sel, +z.dataset.z);
+    document.getElementById(wrap.dataset.gid+'i'+st.sel)?.classList.remove('sel');
+    if(ok) st.sel = null;
+  }
+});
+
+/* real voiceover playback */
+let voPlaying = null;
+function playVO(id, file){
+  const btn = document.getElementById(id);
+  const au = document.getElementById(id+'x');
+  if(voPlaying && voPlaying !== au){ voPlaying.pause(); }
+  if(!au.paused){ au.pause(); btn.textContent='▶'; voPlaying=null; return; }
+  au.onended = ()=>{ btn.textContent='▶'; voPlaying=null; };
+  au.onerror = ()=>{ btn.textContent='▶'; };
+  au.currentTime = 0;
+  au.play().then(()=>{ btn.textContent='❚❚'; voPlaying=au; }).catch(()=>{});
 }
 
 /* steps (predict then reveal) */
@@ -557,18 +706,7 @@ function saveCommit(){
 }
 
 /* ---------- audio ---------- */
-let speaking = null;
-function speak(id, text){
-  const btn = document.getElementById(id);
-  if(speaking){ speechSynthesis.cancel(); if(speaking===id){ speaking=null; btn.textContent='▶'; return; } document.getElementById(speaking).textContent='▶'; }
-  const u = new SpeechSynthesisUtterance(text);
-  u.rate = .92; u.pitch = .95;
-  const v = speechSynthesis.getVoices().filter(v=>/en[-_]US/i.test(v.lang));
-  if(v.length) u.voice = v.find(x=>/female|samantha|aria|jenny/i.test(x.name)) || v[0];
-  u.onend = ()=>{ btn.textContent='▶'; speaking=null; };
-  speaking = id; btn.textContent='❚❚';
-  speechSynthesis.speak(u);
-}
+
 
 /* ---------- nav / gating ---------- */
 function footNav(l){
@@ -591,7 +729,7 @@ function finishLesson(){
   if(cur === LESSONS.length-1) return celebrate();
   go(cur+1);
 }
-function go(i){ speechSynthesis.cancel(); speaking=null; cur = i; document.body.classList.remove('navopen'); render(); }
+function go(i){ if(voPlaying){voPlaying.pause();voPlaying=null;} cur = i; document.body.classList.remove('navopen'); render(); }
 function celebrate(){
   sidebar();
   document.getElementById('stage').innerHTML = `
@@ -606,7 +744,7 @@ function celebrate(){
         <a href="../index.html">THE BRAND SITE</a>
         <a href="#" onclick="localStorage.removeItem('df_course_v2');location.hash='A1';location.reload();return false">RESET THE COURSE</a>
       </div>
-      <p style="margin-top:56px;font-size:11.5px;color:var(--muted)">A fictional brand education showcase, designed and built by Small Circle.</p>
+      <p style="margin-top:56px;font-size:11.5px;color:var(--muted)">Deep Field trade education, crafted by Small Circle.</p>
     </div>`;
   window.scrollTo({top:0});
 }
@@ -616,7 +754,6 @@ document.getElementById('mburg').addEventListener('click',()=>{
   document.getElementById('mburg').setAttribute('aria-expanded', open);
 });
 document.getElementById('scrim').addEventListener('click',()=>document.body.classList.remove('navopen'));
-speechSynthesis.getVoices();
 render();
 </script>
 </body>

@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sell the Depth | Deep Field Brand Education</title>
-<meta name="description" content="Sell the Depth: the Deep Field trade education course.">
-<meta property="og:title" content="Sell the Depth | Deep Field Trade Education">
+<title>Sell the Depth | Deep Fields Brand Education</title>
+<meta name="description" content="Sell the Depth: the Deep Fields trade education course.">
+<meta property="og:title" content="Sell the Depth | Deep Fields Trade Education">
 <meta property="og:description" content="The pitch, the eight roles, the farming as a selling lever, and the buyer conversation.">
 <meta property="og:image" content="https://thechuch.github.io/deep-field/assets/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -280,7 +280,7 @@ let gates = {}; // per-render gate map id->bool
 function sidebar(){
   const done = Object.keys(S.done).filter(k=>S.done[k]).length;
   const pct = Math.round(done/LESSONS.length*100);
-  let h = `<div class="sidehero"><div class="ringw"></div><div class="wm">DEEP FIELD</div><h1>Sell the Depth</h1><div class="sub">The trade education course · 19 lessons · about 35 minutes</div></div>
+  let h = `<div class="sidehero"><div class="ringw"></div><div class="wm">DEEP FIELDS</div><h1>Sell the Depth</h1><div class="sub">The trade education course · 19 lessons · about 35 minutes</div></div>
   <div class="pwrap"><div class="pbar"><i style="width:${pct}%"></i></div><div class="ptxt">${pct}% COMPLETE</div></div><div class="navsec">`;
   COURSE.sections.forEach(sec=>{
     h += `<div class="sec">${sec.id} · ${sec.name.toUpperCase()}</div>`;
@@ -290,8 +290,8 @@ function sidebar(){
     });
   });
   h += `</div><div class="sidefoot">
-    <a href="../downloads/deep-field-sell-sheet.pdf" download>↓ Sell sheet (PDF)</a>
-    <a href="../downloads/deep-field-brand-book.pdf" download>↓ Brand book (PDF)</a>
+    <a href="../downloads/deep-fields-sell-sheet.pdf" download>↓ Sell sheet (PDF)</a>
+    <a href="../downloads/deep-fields-brand-book.pdf" download>↓ Brand book (PDF)</a>
     <a href="../index.html">← deepfield wine · brand site</a>
     <span style="color:#58637C">Built by Small Circle</span></div>`;
   document.getElementById('side').innerHTML = h;
@@ -681,7 +681,7 @@ function commitHTML(){
   const gid = gateId();
   if(S.commit.account) gates[gid]=true;
   const base = S.recall.baseline ? `<div class="echo" style="margin-top:16px"><b>Where you started</b> · your line before the course: “${S.recall.baseline}”<br><b>Where you landed</b> · you now carry the 30-second pitch, eight roles, and five rebuttals. Read your old line once more, then say the new pitch out loud.</div>` : '';
-  const wines = ['Deep Field (the flagship)','Pinot Noir','Syrah','Chardonnay','Duskfall','Daybreak','Afterglow','Long Exposure'];
+  const wines = ['Deep Fields (the flagship)','Pinot Noir','Syrah','Chardonnay','Duskfall','Daybreak','Afterglow','Long Exposure'];
   return `<div class="block"><div class="ix">
     <div class="prompt">${COMMIT.prompt}</div>
     <div class="cform">
@@ -740,11 +740,11 @@ function celebrate(){
       <p style="max-width:52ch;margin:0 auto 8px;color:#2A3347">The pitch, the roles, the farming as a lever, five rebuttals, and one committed account${S.commit.account?` (<b>${S.commit.account}</b>)`:''}. Your boosters arrive on Day 2, 7, and 21.</p>
       <p style="font-family:var(--serif);font-style:italic;font-size:24px;color:var(--loam);margin:24px 0 34px">“${SIGLINE}”</p>
       <div class="dl" style="justify-content:center">
-        <a href="../downloads/deep-field-sell-sheet.pdf" download>SELL SHEET (PDF)</a>
+        <a href="../downloads/deep-fields-sell-sheet.pdf" download>SELL SHEET (PDF)</a>
         <a href="../index.html">THE BRAND SITE</a>
         <a href="#" onclick="localStorage.removeItem('df_course_v2');location.hash='A1';location.reload();return false">RESET THE COURSE</a>
       </div>
-      <p style="margin-top:56px;font-size:11.5px;color:var(--muted)">Deep Field trade education, crafted by Small Circle.</p>
+      <p style="margin-top:56px;font-size:11.5px;color:var(--muted)">Deep Fields trade education, crafted by Small Circle.</p>
     </div>`;
   window.scrollTo({top:0});
 }

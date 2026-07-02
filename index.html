@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Deep Field | One field, fully in focus</title>
-<meta name="description" content="Deep Field is one biodynamic field on a high, cool ridge above the Northern California fog. Eight grape-forward wines. Look deeper.">
-<meta property="og:title" content="Deep Field | Look deeper.">
-<meta property="og:description" content="One biodynamic field on a high, cool ridge above the Northern California fog. Eight grape-forward wines. Nothing rushed and nothing hidden.">
+<title>Deep Fields | Every field, fully in focus</title>
+<meta name="description" content="Deep Fields is a handful of deep-soiled fields on a high, cool ridge above the Northern California fog. Eight grape-forward wines. Look deeper.">
+<meta property="og:title" content="Deep Fields | Look deeper.">
+<meta property="og:description" content="A handful of deep-soiled fields on a high, cool ridge above the Northern California fog. Eight grape-forward wines. Nothing rushed and nothing hidden.">
 <meta property="og:image" content="https://thechuch.github.io/deep-field/assets/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -277,10 +277,30 @@
     .note{margin-top:44px}
   }
 
+
+  /* ---------- the descent (below the footer) ---------- */
+  #void{position:relative;height:340vh;background:linear-gradient(180deg,#131B2C 0%,#0B111F 22%,#050810 55%,#010209 100%);overflow:hidden}
+  .vstars{position:absolute;inset:0;opacity:0;transition:opacity .8s ease}
+  .vstars.l1{background-image:radial-gradient(1.4px 1.4px at 11% 22%,rgba(245,239,228,.9),transparent),radial-gradient(1px 1px at 31% 47%,rgba(231,200,118,.8),transparent),radial-gradient(1.2px 1.2px at 57% 31%,rgba(245,239,228,.75),transparent),radial-gradient(1px 1px at 76% 58%,rgba(245,239,228,.7),transparent),radial-gradient(1.4px 1.4px at 89% 37%,rgba(231,200,118,.8),transparent)}
+  .vstars.l2{background-image:radial-gradient(1px 1px at 18% 66%,rgba(245,239,228,.7),transparent),radial-gradient(1.2px 1.2px at 41% 79%,rgba(231,200,118,.7),transparent),radial-gradient(1px 1px at 63% 71%,rgba(245,239,228,.6),transparent),radial-gradient(1.3px 1.3px at 84% 82%,rgba(245,239,228,.7),transparent)}
+  .vstars.l3{background-image:radial-gradient(.9px .9px at 24% 88%,rgba(245,239,228,.55),transparent),radial-gradient(1px 1px at 49% 93%,rgba(231,200,118,.6),transparent),radial-gradient(.9px .9px at 71% 90%,rgba(245,239,228,.5),transparent)}
+  .vreveal{position:absolute;left:0;right:0;bottom:16vh;text-align:center;opacity:0;transform:translateY(26px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+  .vreveal.lit{opacity:1;transform:none}
+  #eggring{width:92px;height:92px;border-radius:50%;border:1.6px solid var(--bone);margin:0 auto 30px;position:relative;animation:eggpulse 4s ease-in-out infinite}
+  #eggring::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(231,200,118,.75);box-shadow:0 0 34px rgba(231,200,118,.4), inset 0 0 22px rgba(231,200,118,.15)}
+  @keyframes eggpulse{0%,100%{box-shadow:0 0 0 0 rgba(231,200,118,.25)}50%{box-shadow:0 0 46px 8px rgba(231,200,118,.22)}}
+  .vkick{font-family:var(--sans);font-size:12px;letter-spacing:.44em;color:var(--gold2);margin-bottom:14px}
+  .vline{font-family:var(--serif);font-style:italic;font-size:clamp(22px,3vw,32px);color:var(--bone);max-width:22em;margin:0 auto 30px}
+  .vup{display:inline-block;font-family:var(--sans);font-size:11px;letter-spacing:.26em;color:#8F99AD;border:1px solid rgba(143,153,173,.4);padding:12px 22px;transition:.3s}
+  .vup:hover{color:var(--gold2);border-color:var(--gold2)}
+  .vfin{position:absolute;bottom:3vh;left:0;right:0;text-align:center;font-family:var(--sans);font-size:9.5px;letter-spacing:.3em;color:#3A4358}
+  @media(max-width:640px){#void{height:250vh}}
+
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important}
     #exposure,#stardot{display:none !important}
     .rv,.stag>*{opacity:1 !important;transform:none !important}
+    .vstars,.vreveal{opacity:1 !important;transform:none !important}
     .mask img{transform:none !important}
     .rule{transform:scaleX(1) !important}
   }
@@ -290,7 +310,7 @@
 
 <nav id="nav">
   <div class="navin">
-    <a class="brand" href="#top" aria-label="Deep Field home"><span class="ring"></span><span class="wm">DEEP FIELD</span></a>
+    <a class="brand" href="#top" aria-label="Deep Fields home"><span class="ring"></span><span class="wm">DEEP FIELDS</span></a>
     <div class="links" id="navlinks">
       <a href="#field">THE FIELD</a>
       <a href="#farming">FARMING</a>
@@ -300,7 +320,7 @@
       <a href="#visit">VISIT</a>
       <a href="#trade">TRADE</a>
     </div>
-    <a class="cta gold" href="course/">TRADE EDUCATION ↗</a>
+    <a class="cta gold" href="course/">THE COURSE ↗</a>
     <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -313,7 +333,7 @@
   <a href="#wines" style="transition-delay:.27s">THE WINES</a>
   <a href="#table" style="transition-delay:.32s">THE TABLE</a>
   <a href="#visit" style="transition-delay:.37s">VISIT</a>
-  <a href="course/" style="transition-delay:.42s">TRADE EDUCATION<small>the course ↗</small></a>
+  <a href="course/" style="transition-delay:.42s">THE COURSE<small>for the trade ↗</small></a>
   <div class="mfoot">HALDEN RISE · NORTHERN CALIFORNIA · LOOK DEEPER.</div>
 </div>
 
@@ -325,9 +345,9 @@
   <div class="scrim"></div>
   <div class="heroin">
     <div class="ring rv"></div>
-    <h1 class="rv">DEEP FIELD</h1>
+    <h1 class="rv">DEEP FIELDS</h1>
     <p class="tag rv">Look deeper.</p>
-    <p class="sub rv">One biodynamic field on a high, cool ridge above the Northern California fog. Eight grape-forward wines. Nothing rushed and nothing hidden.</p>
+    <p class="sub rv">A handful of deep-soiled fields on a high, cool ridge above the Northern California fog. Eight grape-forward wines. Nothing rushed and nothing hidden.</p>
     <div class="row rv">
       <a class="cta" href="#wines">EXPLORE THE WINES</a>
       <a class="cta" href="course/">FOR THE TRADE</a>
@@ -341,7 +361,7 @@
   <div class="starfield2" data-plx="-0.05"></div>
   <div class="wrap">
     <div class="totality"></div>
-    <p class="big">Most wine competes on volume. Louder labels, bigger extraction, more adjectives. Deep Field competes on <em>attention</em>. One field, farmed slowly and read honestly, that holds up under a long stare.</p>
+    <p class="big">Most wine competes on volume. Louder labels, bigger extraction, more adjectives. Deep Fields competes on <em>attention</em>. A few small fields, farmed slowly and read honestly, that hold up under a long stare.</p>
   </div>
 </section>
 
@@ -349,11 +369,11 @@
   <div class="wrap">
     <div class="grid2">
       <div class="rv">
-        <div class="eyebrow">THE FIELD</div>
+        <div class="eyebrow">THE FIELDS</div>
         <h2>HALDEN RISE</h2>
         <div class="rule"></div>
-        <p class="lede">Deep Field is grown on Halden Rise, a high, cool ridge on the Northern California coast. It sits above the marine fog by morning and under genuinely dark sky by night. Cool bright days, long cold nights, an unhurried season.</p>
-        <p class="lede" style="margin-top:18px">That is the point: slow ripening, retained acidity, length rather than weight. The soils are deep, the vines dry-farmed and deep-rooted, and the whole site is farmed as one living field.</p>
+        <p class="lede">Deep Fields is grown on Halden Rise, a high, cool ridge on the Northern California coast. It sits above the marine fog by morning and under genuinely dark sky by night. Cool bright days, long cold nights, an unhurried season.</p>
+        <p class="lede" style="margin-top:18px">That is the point: slow ripening, retained acidity, length rather than weight. The soils are deep, the vines dry-farmed and deep-rooted, and the whole ridge is farmed field by field, by hand and by the sky.</p>
         
       </div>
       <div class="mask rv"><img class="imgtall" src="assets/img/field_night_stars.jpg" alt="The field under a brilliant night sky" loading="lazy" data-plx="0.05"></div>
@@ -372,7 +392,7 @@
       <div class="eyebrow">FARMED BY THE SKY</div>
       <h2>THE FARMING IS THE PRODUCT</h2>
       <div class="rule"></div>
-      <p class="lede">Biodynamic and regenerative, native yeast, low intervention. This is not a values badge on the back label. It is how the field stays alive, and it is why the wine reads the site instead of a recipe. The work follows the moon and the stars, the direct throughline from Marne's old practice to her new one.</p>
+      <p class="lede">Biodynamic and regenerative, native yeast, low intervention. This is not a values badge on the back label. It is how the fields stay alive, and it is why the wine reads the site instead of a recipe. The work follows the moon and the stars, the direct throughline from Marne's old practice to her new one.</p>
     </div>
     <div class="practices stag">
       <div class="practice" style="transition-delay:.04s"><h4>COVER CROPS + COMPOST</h4><p>Living soil, so the wine reads the site.</p></div>
@@ -405,7 +425,7 @@
       <div class="eyebrow" style="color:var(--gold2)">THE WINEMAKER</div>
       <h2>MARNE OKAFOR</h2>
       <div class="rule"></div>
-      <p class="lede">Marne Okafor came to wine through the sky. For years she was an astrophotographer, pointing an instrument at one dark patch and holding a long exposure open long enough for faint, far things to arrive. It is a practice of patience.</p>
+      <p class="lede">Marne Okafor came to wine through the sky. For years she was an astrophotographer, pointing an instrument at one dark patch and holding a long exposure open long enough for faint, far things to arrive. It is a practice of patience. The deepest of those images, the ones that held the longest, were called deep fields.</p>
       <p class="lede" style="margin-top:18px">She kept returning to one ridge above the fog because the nights were dark, until the ground under her tripod started to matter as much as the sky above it. So she began to farm it, by the same sky. Biodynamics is farming by the cosmos.</p>
       <p class="sig">"The longer you look, the more there is."</p>
     </div>
@@ -419,14 +439,14 @@
       <h2>EIGHT WINES, EIGHT ROLES</h2>
       <p class="lede" style="margin:0 auto">Each wine has one job, so there is always one right answer for the moment in front of you.</p>
     </div>
-    <div class="mask rv" id="lineupwide" style="margin-top:64px"><img src="assets/img/lineup_group.jpg" alt="The full Deep Field range" loading="lazy"></div>
+    <div class="mask rv" id="lineupwide" style="margin-top:64px"><img src="assets/img/lineup_group.jpg" alt="The full Deep Fields range" loading="lazy"></div>
     <div class="winegrid stag">
-      <a class="wine" style="transition-delay:.03s"><div class="ph"><img src="assets/img/bottle_deepfield.jpg" alt="Deep Field field blend" loading="lazy"></div><div class="meta"><div class="role">Define</div><h3>DEEP FIELD</h3><div class="grape">Field Blend · Halden Rise</div><p>The whole living field, co-planted and co-fermented, in one bottle.</p></div></a>
-      <a class="wine" style="transition-delay:.09s"><div class="ph"><img src="assets/img/bottle_pinot.jpg" alt="Deep Field Pinot Noir" loading="lazy"></div><div class="meta"><div class="role">Serious</div><h3>PINOT NOIR</h3><div class="grape">Estate · Halden Rise</div><p>The noble cool-climate red. Transparency and site, nothing hidden.</p></div></a>
-      <a class="wine" style="transition-delay:.15s"><div class="ph"><img src="assets/img/bottle_syrah.jpg" alt="Deep Field Syrah" loading="lazy"></div><div class="meta"><div class="role">Broaden</div><h3>SYRAH</h3><div class="grape">Estate, cool-climate</div><p>Savory and peppery, not a warm-climate blockbuster.</p></div></a>
-      <a class="wine" style="transition-delay:.21s"><div class="ph"><img src="assets/img/bottle_chardonnay.jpg" alt="Deep Field Chardonnay" loading="lazy"></div><div class="meta"><div class="role">Anchor</div><h3>CHARDONNAY</h3><div class="grape">Estate · no new oak</div><p>Taut and mineral. The white that anchors the list.</p></div></a>
+      <a class="wine" style="transition-delay:.03s"><div class="ph"><img src="assets/img/bottle_deepfield.jpg" alt="Deep Fields Field Blend" loading="lazy"></div><div class="meta"><div class="role">Define</div><h3>FIELD BLEND</h3><div class="grape">Field Blend · Halden Rise</div><p>The one co-planted field, every variety co-fermented into a single bottle.</p></div></a>
+      <a class="wine" style="transition-delay:.09s"><div class="ph"><img src="assets/img/bottle_pinot.jpg" alt="Deep Fields Pinot Noir" loading="lazy"></div><div class="meta"><div class="role">Serious</div><h3>PINOT NOIR</h3><div class="grape">Estate · Halden Rise</div><p>The noble cool-climate red. Transparency and site, nothing hidden.</p></div></a>
+      <a class="wine" style="transition-delay:.15s"><div class="ph"><img src="assets/img/bottle_syrah.jpg" alt="Deep Fields Syrah" loading="lazy"></div><div class="meta"><div class="role">Broaden</div><h3>SYRAH</h3><div class="grape">Estate, cool-climate</div><p>Savory and peppery, not a warm-climate blockbuster.</p></div></a>
+      <a class="wine" style="transition-delay:.21s"><div class="ph"><img src="assets/img/bottle_chardonnay.jpg" alt="Deep Fields Chardonnay" loading="lazy"></div><div class="meta"><div class="role">Anchor</div><h3>CHARDONNAY</h3><div class="grape">Estate · no new oak</div><p>Taut and mineral. The white that anchors the list.</p></div></a>
       <a class="wine" style="transition-delay:.03s"><div class="ph"><img src="assets/img/bottle_duskfall.jpg" alt="Duskfall skin-contact Chenin Blanc" loading="lazy"></div><div class="meta"><div class="role">Curiosity</div><h3>DUSKFALL</h3><div class="grape">Skin-contact Chenin Blanc</div><p>The textural amber discovery, the somm's find on the list.</p></div></a>
-      <a class="wine" style="transition-delay:.09s"><div class="ph"><img src="assets/img/bottle_daybreak.jpg" alt="Daybreak chilled Gamay" loading="lazy"></div><div class="meta"><div class="role">Recruit</div><h3>DAYBREAK</h3><div class="grape">Chilled Gamay</div><p>The first wine off the field each year, made to pour by the glass.</p></div></a>
+      <a class="wine" style="transition-delay:.09s"><div class="ph"><img src="assets/img/bottle_daybreak.jpg" alt="Daybreak chilled Gamay" loading="lazy"></div><div class="meta"><div class="role">Recruit</div><h3>DAYBREAK</h3><div class="grape">Chilled Gamay</div><p>The first wine off the fields each year, made to pour by the glass.</p></div></a>
       <a class="wine" style="transition-delay:.15s"><div class="ph"><img src="assets/img/bottle_afterglow.jpg" alt="Afterglow Pinot Noir rosé" loading="lazy"></div><div class="meta"><div class="role">Twilight</div><h3>AFTERGLOW</h3><div class="grape">Pinot Noir rosé</div><p>A pale, dry rosé. The last light of day in a glass.</p></div></a>
       <a class="wine" style="transition-delay:.21s"><div class="ph"><img src="assets/img/bottle_longexposure.jpg" alt="Long Exposure reserve Pinot Noir" loading="lazy"></div><div class="meta"><div class="role">Depth</div><h3>LONG EXPOSURE</h3><div class="grape">Reserve single-block Pinot Noir</div><p>The flagship grape given more time. Depth, made literal.</p></div></a>
     </div>
@@ -442,7 +462,7 @@
       <p class="lede">Farm-to-glass is not a slogan here. It is the same soil, read twice: once by the vine, once by the kitchen.</p>
     </div>
     <div class="plategrid stag">
-      <div class="plate" style="transition-delay:.05s"><div class="mask"><img src="assets/img/pairing_flagship.jpg" alt="Seared duck with maitake and Deep Field" loading="lazy"></div><h4>DEEP FIELD · SEARED DUCK + MAITAKE</h4><p>Savory depth meets savory depth. The field blend's dark fruit carries the jus.</p><button class="rbtn" aria-expanded="false"><i>+</i>THE RECIPE</button><div class="recipe"><p>Score and slow-render the duck breast skin-down until deeply bronzed, then rest it. Roast the maitake hard in the duck fat. Reduce stock with a spoonful of the wine and a knob of butter. Slice, season, pour, and serve the field blend just below room temperature.</p></div></div>
+      <div class="plate" style="transition-delay:.05s"><div class="mask"><img src="assets/img/pairing_flagship.jpg" alt="Seared duck with maitake and the Field Blend" loading="lazy"></div><h4>FIELD BLEND · SEARED DUCK + MAITAKE</h4><p>Savory depth meets savory depth. The field blend's dark fruit carries the jus.</p><button class="rbtn" aria-expanded="false"><i>+</i>THE RECIPE</button><div class="recipe"><p>Score and slow-render the duck breast skin-down until deeply bronzed, then rest it. Roast the maitake hard in the duck fat. Reduce stock with a spoonful of the wine and a knob of butter. Slice, season, pour, and serve the field blend just below room temperature.</p></div></div>
       <div class="plate" style="transition-delay:.15s"><div class="mask"><img src="assets/img/pairing_understory.jpg" alt="Roast squash with Duskfall" loading="lazy"></div><h4>DUSKFALL · SPICED HONEY SQUASH</h4><p>Skin-contact grip loves sweet-spiced roast. Texture with texture.</p><button class="rbtn" aria-expanded="false"><i>+</i>THE RECIPE</button><div class="recipe"><p>Halve a delicata and roast it cut-side down until caramelized. Warm honey with chile and cider vinegar and brush it on generously. Finish with toasted seeds, torn herbs, and flaky salt. The skin-contact grip wants that sweet heat.</p></div></div>
       <div class="plate" style="transition-delay:.25s"><div class="mask"><img src="assets/img/pairing_bluehour.jpg" alt="Oysters with Afterglow rosé" loading="lazy"></div><h4>AFTERGLOW · OYSTERS + MIGNONETTE</h4><p>Dusk-pale rosé, cold brine, lemon. The easiest yes of the summer.</p><button class="rbtn" aria-expanded="false"><i>+</i>THE RECIPE</button><div class="recipe"><p>Shuck a dozen, keep them cold. For the mignonette: minced shallot, cracked pepper, and good vinegar, given ten minutes to marry. Lemon on the side, the rosé colder than the room. Dusk optional but recommended.</p></div></div>
     </div>
@@ -463,7 +483,7 @@
     <div class="pillars stag">
       <a class="pillar" href="sessions/" style="transition-delay:.05s"><div class="eyebrow">VISIT</div><h4>THE FIELD SESSIONS</h4><p>A seated tasting at the edge of the field, from the last light into true night. Certain sessions follow the sky: a meteor shower, a dark-moon night.</p><span class="parr">RESERVE AN EVENING →</span></a>
       <a class="pillar" href="almanac/" style="transition-delay:.15s"><div class="eyebrow">READ</div><h4>THE FIELD ALMANAC</h4><p>The farming year, told by the celestial calendar that schedules it, alongside the sky over the field.</p><span class="parr">READ THE ALMANAC →</span></a>
-      <a class="pillar" href="circle/" style="transition-delay:.25s"><div class="eyebrow">JOIN</div><h4>THE DEEP FIELD CIRCLE</h4><p>A quiet membership. First access to Long Exposure, the single-block years, and each spring's Daybreak. Patience, rewarded.</p><span class="parr">REQUEST AN INVITATION →</span></a>
+      <a class="pillar" href="circle/" style="transition-delay:.25s"><div class="eyebrow">JOIN</div><h4>THE DEEP FIELDS CIRCLE</h4><p>A quiet membership. First access to Long Exposure, the single-block years, and each spring's Daybreak. Patience, rewarded.</p><span class="parr">REQUEST AN INVITATION →</span></a>
     </div>
   </div>
 </section>
@@ -474,20 +494,33 @@
     <h2>SELL THE DEPTH</h2>
     <p class="lede" style="margin:0 auto">Distributor and trade partners: the brand education course teaches the pitch, the roles, the farming as a selling lever, and the buyer conversation. The sell sheet puts it on one page.</p>
     <div class="row">
-      <a class="cta gold" href="course/">TAKE THE TRADE COURSE ↗</a>
-      <a class="cta" href="downloads/deep-field-sell-sheet.pdf" download>DOWNLOAD THE SELL SHEET</a>
-      <a class="cta" href="downloads/deep-field-brand-book.pdf" download>THE BRAND BOOK</a>
+      <a class="cta gold" href="course/">TAKE THE COURSE ↗</a>
+      <a class="cta" href="downloads/deep-fields-sell-sheet.pdf" download>DOWNLOAD THE SELL SHEET</a>
+      <a class="cta" href="downloads/deep-fields-brand-book.pdf" download>THE BRAND BOOK</a>
     </div>
     </div>
 </section>
 
 <footer>
   <div class="fin">
-    <div style="display:flex;align-items:center;gap:14px"><span class="ring" style="border-color:#8F99AD"></span><span class="wm">DEEP FIELD</span></div>
-    <div>Deep Field is a demonstration brand, designed end to end by <a href="https://circlesmall.com" target="_blank" rel="noopener">Small Circle</a>.</div>
-    <div><a href="course/">Trade education</a> · <a href="downloads/deep-field-sell-sheet.pdf">Sell sheet</a> · <a href="downloads/deep-field-brand-book.pdf">Brand book</a></div>
+    <div style="display:flex;align-items:center;gap:14px"><span class="ring" style="border-color:#8F99AD"></span><span class="wm">DEEP FIELDS</span></div>
+    <div>Deep Fields is a demonstration brand, designed end to end by <a href="https://circlesmall.com" target="_blank" rel="noopener">Small Circle</a>.</div>
+    <div><a href="course/">Trade education</a> · <a href="downloads/deep-fields-sell-sheet.pdf">Sell sheet</a> · <a href="downloads/deep-fields-brand-book.pdf">Brand book</a></div>
   </div>
 </footer>
+
+<div id="void" aria-hidden="true">
+  <div class="vstars l1"></div>
+  <div class="vstars l2"></div>
+  <div class="vstars l3"></div>
+  <div class="vreveal" id="vreveal">
+    <div id="eggring"></div>
+    <p class="vkick">YOU KEPT LOOKING.</p>
+    <p class="vline">"The longer you look, the more there is."</p>
+    <a class="vup" href="#top">↑ BACK TO THE SURFACE</a>
+  </div>
+  <p class="vfin">HALDEN RISE · DARK-SKY COUNTRY · THE END OF THE EXPOSURE</p>
+</div>
 
 <script>
 (function(){
@@ -545,7 +578,10 @@
       const x = mob ? ((i%2===0) ? 10 : 20) : ((i%2===0) ? W*.062 : W*.938);
       pts.push([x,y]);
     });
-    pts.push([mob? 14 : W*.5, H - 150]);
+    const egg = document.getElementById('eggring');
+    let eggY = H - 150;
+    if(egg){ const er = egg.getBoundingClientRect(); eggY = er.top + scrollY + er.height/2; }
+    pts.push([W*.5, eggY]);
     // smooth cubic path through points
     let d = `M ${pts[0][0]},${pts[0][1]}`;
     for(let i=1;i<pts.length;i++){
@@ -609,6 +645,15 @@
       star.style.left = p.x+'px'; star.style.top = p.y+'px';
       const df = drawn/plen;
       rings.forEach((r,i)=> r.classList.toggle('lit', df >= ringMarks[i]-.002));
+    }
+    // the descent: stars emerge with depth
+    const v = document.getElementById('void');
+    if(v){
+      const vp = Math.min(1, Math.max(0, (scrollY + innerHeight - v.offsetTop) / v.offsetHeight));
+      document.querySelectorAll('#void .vstars')[0].style.opacity = Math.min(1, Math.max(0, vp*2 - .2));
+      document.querySelectorAll('#void .vstars')[1].style.opacity = Math.min(1, Math.max(0, vp*2 - .7));
+      document.querySelectorAll('#void .vstars')[2].style.opacity = Math.min(1, Math.max(0, vp*2 - 1.1));
+      document.getElementById('vreveal').classList.toggle('lit', vp > .82);
     }
     plx.forEach(el=>{
       const r = el.getBoundingClientRect();

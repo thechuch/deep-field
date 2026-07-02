@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sell the Depth | Deep Field Brand Education</title>
+<meta name="description" content="The Deep Field trade education course. A fictional brand education showcase by Small Circle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#131B2C; --ink2:#1B2438; --ink3:#242F49; --bone:#F5EFE4; --bone2:#EDE5D5; --white:#FDFBF6;
+    --gold:#C7A345; --gold2:#E7C876; --loam:#8A6F55; --fog:#8F99AD; --muted:#6E7787; --line:rgba(19,27,44,.13);
+    --good:#2E7D5B; --goodbg:#E9F3EE; --bad:#A8433B; --badbg:#F8ECEA;
+    --sans:'Jost',sans-serif; --body:'Inter',sans-serif; --serif:'Cormorant Garamond',serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bone);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit}
+  button{font-family:var(--body);cursor:pointer}
+  .ribbon{background:var(--ink);color:#B9C3D6;text-align:center;font-size:11px;letter-spacing:.4px;padding:7px 14px;position:relative;z-index:40}
+  .ribbon b{color:var(--gold2);font-weight:500}
+  .app{display:flex;min-height:calc(100vh - 30px)}
+  /* sidebar */
+  aside{width:320px;flex:none;background:var(--ink);color:#C7CFDD;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+  .sidehero{position:relative;padding:26px 24px 22px;background:linear-gradient(180deg,rgba(19,27,44,.25),rgba(19,27,44,.92)),url(../assets/img/field_night_stars.jpg) center/cover;color:var(--bone)}
+  .ringw{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--bone);position:relative;margin-bottom:14px}
+  .ringw::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(231,200,118,.6)}
+  .sidehero .wm{font-family:var(--sans);letter-spacing:.4em;font-size:13px;color:var(--gold2)}
+  .sidehero h1{font-family:var(--sans);font-weight:400;letter-spacing:.12em;font-size:21px;margin:6px 0 4px}
+  .sidehero .sub{font-size:11.5px;color:#B9C3D6}
+  .pwrap{padding:14px 24px;border-bottom:1px solid rgba(245,239,228,.12)}
+  .pbar{height:4px;background:rgba(245,239,228,.15);border-radius:3px;overflow:hidden}
+  .pbar i{display:block;height:100%;background:var(--gold);width:0%;transition:width .5s ease}
+  .ptxt{font-size:10.5px;letter-spacing:.18em;margin-top:8px;color:var(--fog)}
+  .navsec{padding:10px 0 22px}
+  .sec{padding:16px 24px 6px;font-family:var(--sans);font-size:10.5px;letter-spacing:.28em;color:var(--gold2)}
+  .les{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:none;border:none;color:#C7CFDD;padding:10px 24px;font-size:13px;font-family:var(--body);transition:.2s;border-left:2px solid transparent}
+  .les:hover{background:rgba(245,239,228,.06);color:var(--bone)}
+  .les.active{background:rgba(199,163,69,.12);border-left-color:var(--gold);color:var(--bone)}
+  .tick{width:17px;height:17px;border-radius:50%;border:1.4px solid #58637C;flex:none;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--ink)}
+  .les.done .tick{background:var(--gold);border-color:var(--gold)}
+  .les .time{margin-left:auto;font-size:10.5px;color:#58637C;flex:none}
+  .sidefoot{margin-top:auto;padding:20px 24px 26px;border-top:1px solid rgba(245,239,228,.12);font-size:12px;display:grid;gap:10px}
+  .sidefoot a{color:#C7CFDD;text-decoration:none;letter-spacing:.06em}
+  .sidefoot a:hover{color:var(--gold2)}
+  /* main */
+  main{flex:1;min-width:0}
+  .lesson{max-width:880px;margin:0 auto;padding:0 40px 70px}
+  .hero{position:relative;margin:0 -40px;min-height:330px;display:flex;align-items:flex-end;color:var(--bone);isolation:isolate;overflow:hidden}
+  .hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,27,44,.15),rgba(19,27,44,.72));z-index:-1}
+  .hero .in{padding:60px 40px 34px}
+  .kicker{font-family:var(--sans);font-size:11px;letter-spacing:.32em;color:var(--gold2);margin-bottom:12px}
+  .hero h2{font-family:var(--sans);font-weight:300;letter-spacing:.1em;font-size:clamp(28px,4vw,44px)}
+  .block{margin-top:44px}
+  .block h3{font-family:var(--sans);font-weight:500;letter-spacing:.1em;font-size:19px;margin-bottom:14px}
+  .block p{max-width:64ch;color:#2A3347;margin-bottom:14px}
+  .block ul{max-width:64ch;color:#2A3347;padding-left:20px;display:grid;gap:6px}
+  .statement{font-family:var(--serif);font-style:italic;font-size:clamp(22px,3vw,30px);color:var(--ink);border-left:2px solid var(--gold);padding-left:26px;max-width:24em}
+  .statement.small{font-size:21px;color:var(--loam)}
+  .note{background:var(--bone2);border-left:3px solid var(--loam);padding:14px 18px;font-size:12.5px;color:#4A5468;max-width:70ch}
+  .cardrow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  @media(max-width:900px){.cardrow{grid-template-columns:1fr 1fr}}
+  .tcard{background:var(--white);border:1px solid var(--line);border-top:2px solid var(--gold);padding:16px 14px;font-size:12.5px;color:#2A3347}
+  .tcard b{display:block;font-family:var(--sans);font-size:20px;color:var(--gold);margin-bottom:8px;font-weight:400}
+  /* audio */
+  .audio{background:var(--ink);color:var(--bone);padding:22px 24px;display:flex;gap:20px;align-items:flex-start;border-left:3px solid var(--gold)}
+  .play{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--gold2);background:none;color:var(--gold2);font-size:17px;flex:none;transition:.2s}
+  .play:hover{background:var(--gold2);color:var(--ink)}
+  .audio .lab{font-family:var(--sans);font-size:11px;letter-spacing:.24em;color:var(--gold2);margin-bottom:8px}
+  .audio .script{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.55;color:var(--bone)}
+  .audio .chip{display:inline-block;margin-top:12px;font-size:10.5px;color:#8F99AD;letter-spacing:.06em}
+  /* interactions shared */
+  .ix{background:var(--white);border:1px solid var(--line);padding:28px}
+  .ix .prompt{font-weight:600;font-size:15.5px;margin-bottom:18px;max-width:62ch}
+  .opt{display:block;width:100%;text-align:left;background:var(--bone);border:1px solid var(--line);padding:14px 18px;margin-bottom:10px;font-size:14px;line-height:1.55;transition:.15s;color:#2A3347}
+  .opt:hover{border-color:var(--ink);background:#fff}
+  .opt.sel-ok{border-color:var(--good);background:var(--goodbg)}
+  .opt.sel-bad{border-color:var(--bad);background:var(--badbg)}
+  .opt:disabled{cursor:default;opacity:.75}
+  .opt.sel-ok:disabled,.opt.sel-bad:disabled{opacity:1}
+  .fb{display:none;margin-top:14px;padding:14px 18px;font-size:13.5px;line-height:1.6}
+  .fb.ok{display:block;background:var(--goodbg);color:#1F5941;border-left:3px solid var(--good)}
+  .fb.bad{display:block;background:var(--badbg);color:#7A2F28;border-left:3px solid var(--bad)}
+  .btn{font-family:var(--sans);font-size:12px;letter-spacing:.18em;border:1px solid var(--ink);background:var(--ink);color:var(--bone);padding:12px 26px;transition:.2s}
+  .btn:hover{background:var(--ink3)}
+  .btn.ghost{background:none;color:var(--ink)}
+  .btn.ghost:hover{background:var(--ink);color:var(--bone)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  /* buckets */
+  .tray{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+  .chipbtn{background:var(--ink);color:var(--bone);border:none;padding:10px 16px;font-size:13px;transition:.2s}
+  .chipbtn.sel{background:var(--gold);color:var(--ink)}
+  .chipbtn.hide{display:none}
+  .bks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+  .bk{border:1.5px dashed var(--line);min-height:96px;padding:12px}
+  .bk h5{font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;color:var(--loam);margin-bottom:8px}
+  .bk .drop{display:grid;gap:6px}
+  .bk .placed{font-size:12px;background:var(--bone);padding:7px 10px;border:1px solid var(--line)}
+  .bk .placed.ok{border-color:var(--good);background:var(--goodbg)}
+  .bk .placed.bad{border-color:var(--bad);background:var(--badbg)}
+  .bk.armed{border-color:var(--gold);background:rgba(199,163,69,.05)}
+  /* steps */
+  .step{border:1px solid var(--line);background:var(--white);padding:18px 22px;margin-bottom:12px}
+  .step .q{font-weight:600;font-size:14px;margin-bottom:10px}
+  .step .rv{display:none;margin-top:12px;padding:12px 16px;background:var(--goodbg);border-left:3px solid var(--good);font-size:13.5px;color:#1F5941}
+  .step.open .rv{display:block}
+  /* hotspot */
+  .hs{display:grid;grid-template-columns:300px 1fr;gap:0;background:var(--white);border:1px solid var(--line)}
+  @media(max-width:800px){.hs{grid-template-columns:1fr}}
+  .hs .ph{background:var(--bone2)}
+  .hs .ph img{width:100%;height:100%;object-fit:cover;max-height:480px}
+  .hs .bodyc{padding:26px 28px}
+  .hs .wname{font-family:var(--sans);letter-spacing:.22em;font-size:19px}
+  .hs .grape{font-size:12px;color:var(--muted);margin:4px 0 16px}
+  .tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .tab{font-family:var(--sans);font-size:11px;letter-spacing:.16em;padding:9px 16px;border:1px solid var(--line);background:none;transition:.2s}
+  .tab.on{background:var(--ink);color:var(--bone);border-color:var(--ink)}
+  .tab.lock{color:var(--muted)}
+  .tab.lock::before{content:"🔒 ";font-size:10px}
+  .hs .pane{font-size:14px;color:#2A3347;min-height:80px}
+  .hs .mini{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .hs .mini .prompt{font-size:13.5px;font-weight:600;margin-bottom:10px}
+  /* twoup */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  @media(max-width:800px){.two{grid-template-columns:1fr}}
+  .two .cell{background:var(--white);border:1px solid var(--line)}
+  .two img{aspect-ratio:2/3;object-fit:cover;width:100%}
+  .two .m{padding:18px 20px}
+  .two h4{font-family:var(--sans);letter-spacing:.2em;font-size:16px}
+  .two .s{font-size:11.5px;color:var(--gold);letter-spacing:.12em;margin:4px 0 8px;font-family:var(--sans)}
+  .two p{font-size:13px;color:#39435a}
+  /* accordion */
+  .acc{border:1px solid var(--line);background:var(--white)}
+  .acc .it+.it{border-top:1px solid var(--line)}
+  .acc button.h{width:100%;text-align:left;background:none;border:none;padding:16px 20px;font-family:var(--sans);letter-spacing:.08em;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+  .acc .bd{display:none;padding:0 20px 18px;font-size:13.5px;color:#39435a;max-width:70ch}
+  .acc .it.open .bd{display:block}
+  /* branch */
+  .paths{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:800px){.paths{grid-template-columns:1fr}}
+  .pathc{position:relative;border:1px solid var(--line);background:var(--white);text-align:left;padding:0;overflow:hidden;transition:.25s}
+  .pathc:hover{transform:translateY(-4px);box-shadow:0 24px 44px -34px rgba(19,27,44,.55)}
+  .pathc img{height:150px;width:100%;object-fit:cover}
+  .pathc .m{padding:18px 20px}
+  .pathc h4{font-family:var(--sans);letter-spacing:.18em;font-size:15px;margin-bottom:6px}
+  .pathc p{font-size:12.5px;color:#39435a}
+  .meter{display:flex;align-items:center;gap:14px;margin:20px 0}
+  .meter .bar{flex:1;height:6px;background:var(--bone2);border-radius:4px;overflow:hidden}
+  .meter .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--bad),var(--gold),var(--good));width:50%;transition:width .5s}
+  .meter .lab{font-family:var(--sans);font-size:10.5px;letter-spacing:.18em;color:var(--muted)}
+  .buyer{background:var(--ink);color:var(--bone);padding:20px 24px;font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.5;margin-bottom:16px}
+  .close-h{font-family:var(--sans);letter-spacing:.24em;font-size:20px;margin-bottom:10px}
+  /* assessment */
+  .qnum{font-family:var(--sans);font-size:11px;letter-spacing:.24em;color:var(--loam);margin-bottom:10px}
+  .gauge{display:flex;flex-direction:column;align-items:center;padding:30px 0 10px}
+  .gauge svg{width:220px;height:220px}
+  .gauge .score{font-family:var(--sans);font-size:15px;letter-spacing:.2em;margin-top:14px}
+  .clz input{border:none;border-bottom:1.5px solid var(--ink);background:none;font-family:var(--serif);font-style:italic;font-size:17px;padding:4px 8px;width:220px;outline:none}
+  .clz .row{margin-bottom:14px;font-family:var(--serif);font-style:italic;font-size:17px}
+  /* commit */
+  .cform{display:grid;gap:14px;max-width:520px}
+  .cform label{font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--loam)}
+  .cform input,.cform select,.cform textarea{border:1px solid var(--line);background:var(--white);padding:12px 14px;font-family:var(--body);font-size:14px;outline:none}
+  .cform input:focus,.cform textarea:focus{border-color:var(--gold)}
+  .echo{background:var(--bone2);padding:16px 20px;font-size:13px;color:#4A5468;border-left:3px solid var(--gold)}
+  .boost{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:800px){.boost{grid-template-columns:1fr}}
+  .bo{border:1px solid var(--line);background:var(--white);padding:18px}
+  .bo .d{font-family:var(--sans);font-size:11px;letter-spacing:.24em;color:var(--gold)}
+  .bo h5{font-family:var(--sans);letter-spacing:.1em;font-size:14px;margin:8px 0 6px}
+  .bo p{font-size:12.5px;color:#39435a}
+  /* downloads */
+  .dl{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+  .dl a{font-family:var(--sans);font-size:11.5px;letter-spacing:.16em;border:1px solid var(--ink);padding:12px 20px;text-decoration:none;transition:.2s}
+  .dl a:hover{background:var(--ink);color:var(--bone)}
+  /* footer nav */
+  .footnav{display:flex;justify-content:space-between;align-items:center;margin-top:60px;padding-top:26px;border-top:1px solid var(--line)}
+  .gatehint{font-size:12px;color:var(--muted)}
+  .donewrap{text-align:center;padding:70px 20px}
+  .bigring{width:110px;height:110px;border-radius:50%;border:2px solid var(--gold);margin:0 auto 30px;position:relative;animation:pulse 3s ease-in-out infinite}
+  .bigring::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:1px solid rgba(199,163,69,.4)}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(199,163,69,.35)}50%{box-shadow:0 0 40px 6px rgba(199,163,69,.25)}}
+  @media(max-width:900px){aside{display:none}.lesson{padding:0 22px 60px}.hero{margin:0 -22px}.hero .in{padding:50px 22px 28px}}
+</style>
+</head>
+<body>
+<div class="ribbon"><b>Fictional brand education showcase by Small Circle.</b> Deep Field is invented to demonstrate our instructional-design and creative work. All names are placeholders; all figures illustrative.</div>
+<div class="app">
+  <aside id="side"></aside>
+  <main><div class="lesson" id="stage"></div></main>
+</div>
+<script src="content.js"></script>
+<script>
+/* ---------- state ---------- */
+const S = JSON.parse(localStorage.getItem('df_course_v2')||'{}');
+S.done = S.done||{}; S.recall = S.recall||{}; S.commit = S.commit||{};
+const save = () => localStorage.setItem('df_course_v2', JSON.stringify(S));
+const LESSONS = COURSE.sections.flatMap(s=>s.lessons.map(l=>({...l, sec:s.name, secId:s.id})));
+let cur = Math.max(0, LESSONS.findIndex(l=>l.id===(location.hash||'').slice(1)));
+let gates = {}; // per-render gate map id->bool
+
+/* ---------- sidebar ---------- */
+function sidebar(){
+  const done = Object.keys(S.done).filter(k=>S.done[k]).length;
+  const pct = Math.round(done/LESSONS.length*100);
+  let h = `<div class="sidehero"><div class="ringw"></div><div class="wm">DEEP FIELD</div><h1>Sell the Depth</h1><div class="sub">The trade education course · 19 lessons · about 35 minutes</div></div>
+  <div class="pwrap"><div class="pbar"><i style="width:${pct}%"></i></div><div class="ptxt">${pct}% COMPLETE</div></div><div class="navsec">`;
+  COURSE.sections.forEach(sec=>{
+    h += `<div class="sec">${sec.id} · ${sec.name.toUpperCase()}</div>`;
+    sec.lessons.forEach(l=>{
+      const i = LESSONS.findIndex(x=>x.id===l.id);
+      h += `<button class="les ${i===cur?'active':''} ${S.done[l.id]?'done':''}" onclick="go(${i})"><span class="tick">${S.done[l.id]?'✓':''}</span><span>${l.title}</span><span class="time">${l.time}</span></button>`;
+    });
+  });
+  h += `</div><div class="sidefoot">
+    <a href="../downloads/deep-field-sell-sheet.pdf" download>↓ Sell sheet (PDF)</a>
+    <a href="../downloads/deep-field-brand-book.pdf" download>↓ Brand book (PDF)</a>
+    <a href="../index.html">← deepfield wine · brand site</a>
+    <span style="color:#58637C">Built by Small Circle</span></div>`;
+  document.getElementById('side').innerHTML = h;
+}
+
+/* ---------- block renderers ---------- */
+let uid = 0;
+const esc = s => (s||'').replace(/"/g,'&quot;');
+function render(){
+  uid = 0; gates = {};
+  const l = LESSONS[cur];
+  location.hash = l.id;
+  let h = '';
+  l.blocks.forEach(b=>{ h += renderBlock(b, l); });
+  h += footNav(l);
+  document.getElementById('stage').innerHTML = h;
+  document.querySelector('main').scrollIntoView?.();
+  window.scrollTo({top:0});
+  sidebar(); updateGate();
+}
+function gateId(){ const id = 'g'+(uid++); gates[id]=false; return id; }
+
+function renderBlock(b, l){
+  switch(b.t){
+    case 'hero': return `<div class="hero"><img src="${b.img}" alt=""><div class="scrim"></div><div class="in"><div class="kicker">${b.kicker||''}</div><h2>${b.title}</h2></div></div>`;
+    case 'text': {
+      let inner = b.h?`<h3>${b.h}</h3>`:'';
+      (b.p||[]).forEach(p=>inner+=`<p>${p}</p>`);
+      if(b.list){ inner+='<ul>'+b.list.map(x=>`<li>${x}</li>`).join('')+'</ul>'; }
+      return `<div class="block">${inner}</div>`; }
+    case 'statement': return `<div class="block"><div class="statement ${b.small?'small':''}">${b.text}</div></div>`;
+    case 'note': return `<div class="block"><div class="note">${b.text}</div></div>`;
+    case 'cards': return `<div class="block"><h3>${b.h}</h3><div class="cardrow">${b.items.map((x,i)=>`<div class="tcard"><b>${i+1}</b>${x}</div>`).join('')}</div></div>`;
+    case 'audio': {
+      const id='au'+(uid++);
+      return `<div class="block"><div class="audio"><button class="play" id="${id}" onclick="speak('${id}',\`${b.script.replace(/`/g,'')}\`)">▶</button><div><div class="lab">${b.label.toUpperCase()}</div><div class="script">“${b.script}”</div><span class="chip">DEMO VO: BROWSER SPEECH · PRODUCED VOICEOVER IN THE PRODUCTION BUILD · TRANSCRIPT SHOWN</span></div></div></div>`; }
+    case 'recall': {
+      const v = S.recall[b.id]||'';
+      return `<div class="block"><div class="ix"><div class="prompt">${b.prompt}</div><textarea style="width:100%;border:1px solid var(--line);padding:12px;font-family:var(--body);font-size:14px;min-height:70px" oninput="S.recall['${b.id}']=this.value;save()" placeholder="Type it here. It stays on your device.">${v}</textarea></div></div>`; }
+    case 'download': return `<div class="block"><h3>${b.h}</h3><div class="dl">${b.items.map(x=>`<a href="${x.href}" ${x.ext?'':'download'}>${x.label}</a>`).join('')}</div></div>`;
+    case 'decide': return decideHTML(b);
+    case 'buckets': return bucketsHTML(b);
+    case 'steps': return stepsHTML(b);
+    case 'predictpair': return predictPairHTML(b);
+    case 'hotspot': return hotspotHTML(b);
+    case 'twoup': return `<div class="block"><div class="two">${[b.left,b.right].map(c=>`<div class="cell"><img src="${c.img}" alt="${c.h}"><div class="m"><h4>${c.h}</h4><div class="s">${c.sub.toUpperCase()}</div><p>${c.p}</p></div></div>`).join('')}</div></div>`;
+    case 'accordion': return `<div class="block"><h3>${b.h}</h3><div class="acc">${b.items.map(it=>`<div class="it"><button class="h" onclick="this.parentNode.classList.toggle('open');this.querySelector('span').textContent=this.parentNode.classList.contains('open')?'−':'+'">${it.h}<span>+</span></button><div class="bd">${it.body}</div></div>`).join('')}</div></div>`;
+    case 'badges': return `<div class="block"><div style="background:var(--white);border:1px solid var(--line);padding:26px;text-align:center"><img src="${b.img}" alt="Illustrative certification marks" style="max-width:680px;margin:0 auto;mix-blend-mode:multiply"><p style="font-size:11.5px;color:var(--muted);margin:14px auto 0;max-width:64ch">${b.caption}</p></div></div>`;
+    case 'branch': return branchHTML();
+    case 'assess': return assessHTML();
+    case 'commit': return commitHTML();
+  }
+  return '';
+}
+
+/* decide (single-select w/ coaching) */
+function decideHTML(b){
+  const gid = gateId();
+  const opts = b.opts.map((o,i)=>`<button class="opt" id="${gid}o${i}" onclick="answer('${gid}',${i},${o.ok?1:0},this)">${o.o}</button>`).join('');
+  const fbs = b.opts.map((o,i)=>`<div class="fb" id="${gid}f${i}">${o.fb}</div>`).join('');
+  window['_fb_'+gid] = b.opts;
+  return `<div class="block"><div class="ix" id="${gid}"><div class="prompt">${b.stem}</div>${opts}${fbs}</div></div>`;
+}
+function answer(gid, i, ok, btn){
+  document.querySelectorAll(`#${gid} .fb`).forEach(f=>f.className='fb');
+  document.querySelectorAll(`#${gid} .opt`).forEach(o=>o.classList.remove('sel-ok','sel-bad'));
+  btn.classList.add(ok?'sel-ok':'sel-bad');
+  const f = document.getElementById(gid+'f'+i); f.classList.add(ok?'ok':'bad');
+  if(ok){ gates[gid]=true; document.querySelectorAll(`#${gid} .opt`).forEach(o=>o.disabled=true); btn.disabled=true; updateGate(); }
+}
+
+/* buckets (click chip, click bucket, check) */
+const BK = {};
+function bucketsHTML(b){
+  const gid = gateId(); BK[gid] = {b, sel:null, placed:{}};
+  const chips = b.items.map((it,i)=>`<button class="chipbtn" id="${gid}c${i}" onclick="pick('${gid}',${i})">${it.txt}</button>`).join('');
+  const bks = b.buckets.map((name,bi)=>`<div class="bk" id="${gid}b${bi}" onclick="drop('${gid}',${bi})"><h5>${name}</h5><div class="drop" id="${gid}d${bi}"></div></div>`).join('');
+  return `<div class="block"><div class="ix"><div class="prompt">${b.prompt}</div><div class="tray" id="${gid}tray">${chips}</div><div class="bks">${bks}</div><div style="margin-top:18px"><button class="btn" onclick="checkBk('${gid}')">CHECK</button></div><div class="fb" id="${gid}fb">${b.fb}</div></div></div>`;
+}
+function pick(gid,i){ const st=BK[gid]; st.sel=i; document.querySelectorAll(`[id^="${gid}c"]`).forEach(c=>c.classList.remove('sel')); document.getElementById(gid+'c'+i).classList.add('sel'); document.querySelectorAll(`[id^="${gid}b"]`).forEach(b=>b.classList.add('armed')); }
+function drop(gid,bi){ const st=BK[gid]; if(st.sel===null) return; st.placed[st.sel]=bi; document.getElementById(gid+'c'+st.sel).classList.add('hide'); const d=document.getElementById(gid+'d'+bi); d.insertAdjacentHTML('beforeend',`<div class="placed" id="${gid}p${st.sel}" data-i="${st.sel}">${st.b.items[st.sel].txt}</div>`); st.sel=null; document.querySelectorAll(`[id^="${gid}c"]`).forEach(c=>c.classList.remove('sel')); document.querySelectorAll(`[id^="${gid}b"]`).forEach(b=>b.classList.remove('armed')); }
+function checkBk(gid){ const st=BK[gid]; const items=st.b.items; let all= Object.keys(st.placed).length===items.length; let right=true;
+  items.forEach((it,i)=>{ const p=document.getElementById(gid+'p'+i); if(!p) return; const ok = st.placed[i]===it.b; p.classList.remove('ok','bad'); p.classList.add(ok?'ok':'bad');
+    if(!ok){ right=false; setTimeout(()=>{ p.remove(); delete st.placed[i]; const c=document.getElementById(gid+'c'+i); c.classList.remove('hide'); },900); } });
+  if(all && right){ document.getElementById(gid+'fb').classList.add('ok'); gates[gid]=true; updateGate(); }
+}
+
+/* steps (predict then reveal) */
+function stepsHTML(b){
+  const gid = gateId(); let n = b.items.length; window['_st_'+gid]={n, open:0};
+  const items = b.items.map((it,i)=>`<div class="step" id="${gid}s${i}"><div class="q">${it.prompt}</div><button class="btn ghost" onclick="reveal('${gid}',${i})">REVEAL OUR ANSWER</button><div class="rv">${it.reveal}</div></div>`).join('');
+  return `<div class="block"><div class="ix"><div class="prompt">${b.intro}</div>${items}</div></div>`;
+}
+function reveal(gid,i){ const el=document.getElementById(gid+'s'+i); if(el.classList.contains('open'))return; el.classList.add('open'); const st=window['_st_'+gid]; st.open++; if(st.open>=st.n){ gates[gid]=true; updateGate(); } }
+
+/* predictpair */
+function predictPairHTML(b){
+  const gid = gateId();
+  const opts = b.opts.map((o,i)=>`<button class="opt" onclick="answerPP('${gid}',${i},${o.ok?1:0},this)">${o.o}</button>`).join('');
+  const fbs = b.opts.map((o,i)=>`<div class="fb" id="${gid}f${i}">${o.fb}</div>`).join('');
+  return `<div class="block"><div class="ix" id="${gid}"><div class="prompt">${b.prompt}</div>
+    <div class="two" style="margin-bottom:16px"><div class="cell"><div class="m"><h4>${b.left.h}</h4><p style="font-family:var(--serif);font-style:italic;font-size:17px">${b.left.lines}</p></div></div>
+    <div class="cell"><div class="m"><h4>THE FIELD</h4><p style="color:var(--muted);font-size:13px" id="${gid}mirror">Choose the true mirror below.</p></div></div></div>
+    ${opts}${fbs}</div></div>`;
+}
+function answerPP(gid,i,ok,btn){
+  document.querySelectorAll(`#${gid} .fb`).forEach(f=>f.className='fb');
+  document.querySelectorAll(`#${gid} .opt`).forEach(o=>o.classList.remove('sel-ok','sel-bad'));
+  btn.classList.add(ok?'sel-ok':'sel-bad');
+  document.getElementById(gid+'f'+i).classList.add(ok?'ok':'bad');
+  if(ok){ document.getElementById(gid+'mirror').innerHTML='<span style="font-family:var(--serif);font-style:italic;font-size:17px;color:var(--ink)">'+btn.textContent+'</span>'; gates[gid]=true; document.querySelectorAll(`#${gid} .opt`).forEach(o=>o.disabled=true); updateGate(); }
+}
+
+/* hotspot (story/taste locked sell-it) */
+function hotspotHTML(b){
+  const gid = gateId(); window['_hs_'+gid] = {b, unlocked:false, seen:false};
+  const opts = b.predict.opts.map((o,i)=>`<button class="opt" onclick="hsPredict('${gid}',${i},${o.ok?1:0},this)">${o.o}</button>`).join('');
+  const fbs = b.predict.opts.map((o,i)=>`<div class="fb" id="${gid}pf${i}">${o.fb}</div>`).join('');
+  return `<div class="block"><div class="hs"><div class="ph"><img src="${b.img}" alt="${b.wine}"></div><div class="bodyc">
+    <div class="wname">${b.wine}</div><div class="grape">${b.grape.toUpperCase()}</div>
+    <div class="tabs"><button class="tab on" onclick="hsTab('${gid}','story',this)">STORY</button><button class="tab" onclick="hsTab('${gid}','taste',this)">TASTE</button><button class="tab lock" id="${gid}selltab" onclick="hsTab('${gid}','sell',this)">SELL-IT</button></div>
+    <div class="pane" id="${gid}pane">${b.story}</div>
+    <div class="mini" id="${gid}mini"><div class="prompt">${b.predict.stem}</div>${opts}${fbs}</div>
+  </div></div></div>`;
+}
+function hsTab(gid, which, btn){
+  const st = window['_hs_'+gid];
+  if(which==='sell' && !st.unlocked) return;
+  document.querySelectorAll(`#${gid}selltab`).forEach(()=>{});
+  btn.parentNode.querySelectorAll('.tab').forEach(t=>t.classList.remove('on')); btn.classList.add('on');
+  document.getElementById(gid+'pane').textContent = st.b[which];
+  if(which==='sell'){ st.seen=true; gates[gid]=true; updateGate(); }
+}
+function hsPredict(gid,i,ok,btn){
+  const st = window['_hs_'+gid];
+  btn.parentNode.querySelectorAll('.fb').forEach(f=>f.className='fb');
+  btn.parentNode.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel-ok','sel-bad'));
+  btn.classList.add(ok?'sel-ok':'sel-bad');
+  document.getElementById(gid+'pf'+i).classList.add(ok?'ok':'bad');
+  if(ok){ st.unlocked=true; const t=document.getElementById(gid+'selltab'); t.classList.remove('lock'); btn.parentNode.querySelectorAll('.opt').forEach(o=>o.disabled=true); }
+}
+
+/* ---------- branching scenario ---------- */
+let BR = null;
+function branchHTML(){
+  const gid = gateId(); BR = {gid, path:null, node:null, meter:50};
+  const cards = BRANCH.paths.map((p,i)=>`<button class="pathc" onclick="brStart(${i})"><img src="${p.img}" alt=""><div class="m"><h4>${p.name}</h4><p>${p.desc}</p></div></button>`).join('');
+  return `<div class="block"><div class="ix" id="brx"><div class="prompt">${BRANCH.intro}</div><div class="paths">${cards}</div></div></div>`;
+}
+function brStart(i){ BR.path = BRANCH.paths[i]; BR.meter = 50; brNode('start'); }
+function brNode(key){
+  BR.node = key;
+  if(key==='close'){ return brClose(); }
+  const n = BR.path.nodes[key];
+  const opts = n.opts.map((o,j)=>`<button class="opt" onclick="brPick(${j})">${o.o}</button>`).join('');
+  document.getElementById('brx').innerHTML = `
+    <div class="kicker" style="color:var(--loam)">${BR.path.name}</div>
+    <div class="meter"><span class="lab">BUYER CONFIDENCE</span><div class="bar"><i style="width:${BR.meter}%"></i></div><span class="lab">${BR.meter}</span></div>
+    <div class="buyer">${n.text}</div>${opts}<div class="fb" id="brfb"></div>`;
+  window['_brn'] = n;
+}
+function brPick(j){
+  const n = window['_brn']; const o = n.opts[j];
+  BR.meter = Math.max(0, Math.min(100, BR.meter + o.d));
+  const fb = document.getElementById('brfb');
+  fb.className = 'fb ' + (o.d>0?'ok':'bad');
+  fb.innerHTML = `${o.fb} <span style="display:block;margin-top:8px;font-family:var(--sans);letter-spacing:.14em;font-size:11px">BUYER CONFIDENCE ${o.d>0?'+':''}${o.d}</span><div style="margin-top:14px"><button class="btn" onclick="brNode('${o.next}')">CONTINUE THE VISIT →</button></div>`;
+  document.querySelectorAll('#brx .opt').forEach(b=>b.disabled=true);
+  document.querySelector('#brx .meter .bar i').style.width = BR.meter+'%';
+  document.querySelectorAll('#brx .meter .lab')[1].textContent = BR.meter;
+}
+function brClose(){
+  const tier = BRANCH.closes.find(c=>BR.meter>=c.min);
+  gates[BR.gid]=true; updateGate();
+  document.getElementById('brx').innerHTML = `
+    <div class="kicker" style="color:var(--loam)">${BR.path.name} · VISIT COMPLETE</div>
+    <div class="meter"><span class="lab">FINAL CONFIDENCE</span><div class="bar"><i style="width:${BR.meter}%"></i></div><span class="lab">${BR.meter}</span></div>
+    <div class="close-h">${tier.h}</div><p style="max-width:64ch">${tier.text}</p>
+    <div class="note" style="margin:18px 0">${BRANCH.debrief}</div>
+    <button class="btn ghost" onclick="renderJustBranch()">RUN IT AGAIN</button>`;
+}
+function renderJustBranch(){ render(); window.scrollTo({top:document.getElementById('brx').offsetTop-80}); }
+
+/* ---------- assessment ---------- */
+let AS = null;
+function assessHTML(){
+  const gid = gateId();
+  if(S.done['I2']) gates[gid]=true;
+  AS = {gid, i:0, right:0, answered:false};
+  return `<div class="block"><div class="ix" id="asx">
+    <h3 style="font-family:var(--sans);letter-spacing:.14em">THE ASSESSMENT</h3>
+    <p>${ASSESS.passNote}</p>
+    <button class="btn" onclick="asQ(0,0)">BEGIN →</button></div></div>`;
+}
+function asQ(i, right){
+  AS.i=i; AS.right=right; AS.answered=false;
+  if(i>=ASSESS.items.length) return asDone();
+  const q = ASSESS.items[i];
+  let inner = `<div class="qnum">QUESTION ${i+1} OF ${ASSESS.items.length}</div><div class="prompt">${q.stem}</div>`;
+  if(q.kind==='mc'){
+    inner += q.opts.map((o,j)=>`<button class="opt" onclick="asMC(${j},${o.ok?1:0},this)">${o.o}</button>`).join('');
+    inner += q.opts.map((o,j)=>`<div class="fb" id="asf${j}">${o.fb}</div>`).join('');
+  } else if(q.kind==='multi'){
+    inner += q.opts.map((o,j)=>`<label style="display:flex;gap:10px;align-items:flex-start;background:var(--bone);border:1px solid var(--line);padding:12px 16px;margin-bottom:8px;font-size:14px"><input type="checkbox" id="ms${j}" style="margin-top:4px">${o.o}</label>`).join('');
+    inner += `<div style="margin-top:14px"><button class="btn" onclick="asMulti()">SUBMIT</button></div><div class="fb" id="asmf">${q.fb}</div>`;
+  } else if(q.kind==='cloze'){
+    inner += `<div class="clz">` + q.parts.map((p,j)=>`<div class="row">${p.pre}<input id="cz${j}" autocomplete="off">${p.post}</div>`).join('') + `</div><div style="margin-top:12px"><button class="btn" onclick="asCloze()">SUBMIT</button></div><div class="fb" id="asczf">${q.fb}</div>`;
+  }
+  inner += `<div style="margin-top:18px;display:none" id="asnext"><button class="btn" onclick="asQ(${i+1}, AS.right)">NEXT →</button></div>`;
+  document.getElementById('asx').innerHTML = inner;
+  window['_asq'] = q;
+}
+function asMC(j, ok, btn){
+  if(AS.answered) return; AS.answered=true;
+  document.querySelectorAll('#asx .opt').forEach(o=>o.disabled=true);
+  btn.classList.add(ok?'sel-ok':'sel-bad');
+  document.getElementById('asf'+j).classList.add(ok?'ok':'bad');
+  if(ok) AS.right++;
+  document.getElementById('asnext').style.display='block';
+}
+function asMulti(){
+  if(AS.answered) return; AS.answered=true;
+  const q = window['_asq'];
+  let ok = q.opts.every((o,j)=>document.getElementById('ms'+j).checked === !!o.ok);
+  if(ok) AS.right++;
+  const f = document.getElementById('asmf'); f.classList.add(ok?'ok':'bad');
+  f.insertAdjacentHTML('afterbegin', `<b>${ok?'Correct set. ':'Not the full set. '}</b>`);
+  document.getElementById('asnext').style.display='block';
+}
+function asCloze(){
+  if(AS.answered) return; AS.answered=true;
+  const q = window['_asq'];
+  const norm = s => s.toLowerCase().replace(/[.,'"!?]/g,'').trim();
+  let ok = q.parts.every((p,j)=> p.answers.some(a=>norm(a)===norm(document.getElementById('cz'+j).value)));
+  if(ok) AS.right++;
+  const f = document.getElementById('asczf'); f.classList.add(ok?'ok':'bad');
+  f.insertAdjacentHTML('afterbegin', `<b>${ok?'Word for word. ':'Not quite. '}</b>`);
+  document.getElementById('asnext').style.display='block';
+}
+function asDone(){
+  const n = ASSESS.items.length, pct = Math.round(AS.right/n*100), pass = pct>=80;
+  if(pass){ gates[AS.gid]=true; S.done['I2']=true; save(); }
+  const C = 2*Math.PI*88;
+  document.getElementById('asx').innerHTML = `
+    <div class="gauge">
+      <svg viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="88" fill="none" stroke="#E8E0CF" stroke-width="10"/>
+        <circle id="garc" cx="100" cy="100" r="88" fill="none" stroke="${pass?'#2E7D5B':'#A8433B'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" transform="rotate(-90 100 100)"/>
+        <circle cx="100" cy="12" r="4" fill="#C7A345" transform="rotate(${.8*360-90+90} 100 100)"/>
+        <text x="100" y="94" text-anchor="middle" style="font-family:Jost;font-size:34px;letter-spacing:2px" fill="#131B2C">${pct}%</text>
+        <text x="100" y="120" text-anchor="middle" style="font-family:Jost;font-size:11px;letter-spacing:3px" fill="#8A6F55">${pass?'PASSED':'PASSING IS 80'}</text>
+      </svg>
+      <div class="score">${AS.right} OF ${n} · ${pass?'YOU SELL THIS LIKE YOU MEAN IT':'CLOSE. RUN IT AGAIN'}</div>
+      <div style="margin-top:20px;display:flex;gap:12px"><button class="btn ghost" onclick="asQ(0,0)">TAKE AGAIN</button>${pass?'':''}</div>
+    </div>
+    <div class="ix" style="margin-top:26px"><div class="prompt">${ASSESS.freeItem.stem}</div>
+      <textarea style="width:100%;border:1px solid var(--line);padding:12px;font-family:var(--body);font-size:14px;min-height:80px" placeholder="Two sentences."></textarea>
+      <div style="margin-top:12px"><button class="btn ghost" onclick="this.parentNode.nextElementSibling.style.display='block'">CHECK AGAINST THE RUBRIC</button></div>
+      <div class="fb" style="background:var(--bone2);border-left:3px solid var(--gold);color:#4A5468" >${ASSESS.freeItem.rubric}</div></div>`;
+  requestAnimationFrame(()=>{ setTimeout(()=>{ document.getElementById('garc').style.transition='stroke-dashoffset 1.4s cubic-bezier(.2,.6,.2,1)'; document.getElementById('garc').style.strokeDashoffset = C*(1-pct/100); },60); });
+  updateGate();
+}
+
+/* ---------- commit ---------- */
+function commitHTML(){
+  const gid = gateId();
+  if(S.commit.account) gates[gid]=true;
+  const base = S.recall.baseline ? `<div class="echo" style="margin-top:16px"><b>Where you started</b> · your line before the course: “${S.recall.baseline}”<br><b>Where you landed</b> · you now carry the 30-second pitch, eight roles, and five rebuttals. Read your old line once more, then say the new pitch out loud.</div>` : '';
+  const wines = ['Deep Field (the flagship)','Pinot Noir','Syrah','Chardonnay','Duskfall','Daybreak','Afterglow','Long Exposure'];
+  return `<div class="block"><div class="ix">
+    <div class="prompt">${COMMIT.prompt}</div>
+    <div class="cform">
+      <label>THE ACCOUNT</label><input id="cmA" placeholder="Name the account" value="${esc(S.commit.account||'')}">
+      <label>YOU WILL LEAD WITH</label><select id="cmW">${wines.map(w=>`<option ${S.commit.wine===w?'selected':''}>${w}</option>`).join('')}</select>
+      <button class="btn" onclick="saveCommit()">SAVE MY COMMITMENT</button>
+    </div>
+    <div id="cmEcho">${S.commit.account?commitEcho():''}</div>${base}
+  </div></div>
+  <div class="block"><h3>Practice lines to carry</h3><div class="statement small">“Look deeper.” · “${SIGLINE}”</div></div>
+  <div class="block"><h3>Your boosters are scheduled</h3><div class="boost">${COMMIT.boosters.map(b=>`<div class="bo"><div class="d">${b.day}</div><h5>${b.what}</h5><p>${b.how}</p></div>`).join('')}</div><div class="note" style="margin-top:14px">${COMMIT.boosterNote}</div></div>`;
+}
+function commitEcho(){ return `<div class="echo" style="margin-top:16px">Committed: <b>${S.commit.wine}</b> at <b>${S.commit.account}</b> this week. Saved. Your Day 2 booster will ask how it went.</div>`; }
+function saveCommit(){
+  const a = document.getElementById('cmA').value.trim();
+  if(!a) return alert('Name the account. Small is fine; real is the point.');
+  S.commit.account = a; S.commit.wine = document.getElementById('cmW').value; save();
+  document.getElementById('cmEcho').innerHTML = commitEcho();
+  gates[Object.keys(gates)[0]] = true;
+  Object.keys(gates).forEach(k=>gates[k]=true);
+  updateGate();
+}
+
+/* ---------- audio ---------- */
+let speaking = null;
+function speak(id, text){
+  const btn = document.getElementById(id);
+  if(speaking){ speechSynthesis.cancel(); if(speaking===id){ speaking=null; btn.textContent='▶'; return; } document.getElementById(speaking).textContent='▶'; }
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = .92; u.pitch = .95;
+  const v = speechSynthesis.getVoices().filter(v=>/en[-_]US/i.test(v.lang));
+  if(v.length) u.voice = v.find(x=>/female|samantha|aria|jenny/i.test(x.name)) || v[0];
+  u.onend = ()=>{ btn.textContent='▶'; speaking=null; };
+  speaking = id; btn.textContent='❚❚';
+  speechSynthesis.speak(u);
+}
+
+/* ---------- nav / gating ---------- */
+function footNav(l){
+  const req = Object.keys(gates).length;
+  return `<div class="footnav">
+    <button class="btn ghost" ${cur===0?'disabled':''} onclick="go(${cur-1})">← BACK</button>
+    <span class="gatehint" id="gatehint"></span>
+    <button class="btn" id="contbtn" onclick="finishLesson()">${cur===LESSONS.length-1?'FINISH THE COURSE':'CONTINUE →'}</button>
+  </div>`;
+}
+function updateGate(){
+  const open = Object.values(gates).every(v=>v);
+  const btn = document.getElementById('contbtn'); const hint = document.getElementById('gatehint');
+  if(!btn) return;
+  btn.disabled = !open;
+  hint.textContent = open ? '' : 'Complete the activities above to continue.';
+}
+function finishLesson(){
+  S.done[LESSONS[cur].id] = true; save();
+  if(cur === LESSONS.length-1) return celebrate();
+  go(cur+1);
+}
+function go(i){ speechSynthesis.cancel(); speaking=null; cur = i; render(); }
+function celebrate(){
+  sidebar();
+  document.getElementById('stage').innerHTML = `
+    <div class="donewrap">
+      <div class="bigring"></div>
+      <div class="kicker" style="color:var(--loam)">COURSE COMPLETE</div>
+      <h2 style="font-family:var(--sans);font-weight:300;letter-spacing:.12em;font-size:38px;margin:10px 0 18px">You sell the depth now.</h2>
+      <p style="max-width:52ch;margin:0 auto 8px;color:#2A3347">The pitch, the roles, the farming as a lever, five rebuttals, and one committed account${S.commit.account?` (<b>${S.commit.account}</b>)`:''}. Your boosters arrive on Day 2, 7, and 21.</p>
+      <p style="font-family:var(--serif);font-style:italic;font-size:24px;color:var(--loam);margin:24px 0 34px">“${SIGLINE}”</p>
+      <div class="dl" style="justify-content:center">
+        <a href="../downloads/deep-field-sell-sheet.pdf" download>SELL SHEET (PDF)</a>
+        <a href="../index.html">THE BRAND SITE</a>
+        <a href="#" onclick="localStorage.removeItem('df_course_v2');location.hash='A1';location.reload();return false">RESET THE COURSE</a>
+      </div>
+      <p style="margin-top:56px;font-size:11.5px;color:var(--muted)">A fictional brand education showcase, designed and built by Small Circle.</p>
+    </div>`;
+  window.scrollTo({top:0});
+}
+
+speechSynthesis.getVoices();
+render();
+</script>
+</body>
+</html>

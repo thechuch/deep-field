@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deep Field | One field, fully in focus</title>
+<meta name="description" content="Deep Field is one biodynamic field on a high, cool ridge above the Northern California fog. A fictional brand education showcase by Small Circle.">
+<meta property="og:title" content="Deep Field | Look deeper.">
+<meta property="og:description" content="One biodynamic field on a high, cool ridge above the fog. Eight grape-forward wines. A fictional brand education showcase by Small Circle.">
+<meta property="og:image" content="https://thechuch.github.io/deep-field/assets/img/field_hero_fog.jpg">
+<meta property="og:url" content="https://thechuch.github.io/deep-field/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#131B2C; --ink2:#1B2438; --bone:#F5EFE4; --bone2:#EFE7D8; --gold:#C7A345; --gold2:#E7C876;
+    --loam:#8A6F55; --fog:#AEB6BE; --muted:#6E7787; --line:rgba(19,27,44,.14);
+    --sans:'Jost',sans-serif; --body:'Inter',sans-serif; --serif:'Cormorant Garamond',serif;
+    --ease:cubic-bezier(.22,.61,.21,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bone);color:var(--ink);font-family:var(--body);line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 6vw;position:relative;z-index:2}
+  ::selection{background:var(--gold);color:var(--ink)}
+
+  /* ---------- the exposure line (scroll-drawn star trail) ---------- */
+  #exposure{position:absolute;top:0;left:0;width:100%;pointer-events:none;z-index:1;overflow:visible}
+  #expPath{fill:none;stroke:var(--gold);stroke-width:1.4;opacity:.55}
+  #expGhost{fill:none;stroke:var(--ink);stroke-width:1;opacity:.08}
+  .wpring{fill:var(--bone);stroke:var(--ink);stroke-width:1.3;opacity:.35;transition:all .6s var(--ease)}
+  .wpring.lit{stroke:var(--gold);opacity:1;filter:drop-shadow(0 0 6px rgba(199,163,69,.8))}
+  .wpring.lit.dk{fill:var(--ink)}
+  #stardot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--gold2);box-shadow:0 0 12px 3px rgba(231,200,118,.75), 0 0 34px 10px rgba(231,200,118,.28);z-index:3;pointer-events:none;transform:translate(-50%,-50%);transition:opacity .4s}
+
+  /* ---------- ribbon + nav ---------- */
+  .ribbon{position:relative;z-index:60;background:var(--ink);color:#B9C3D6;text-align:center;font-size:11.5px;letter-spacing:.4px;padding:8px 16px}
+  .ribbon b{color:var(--gold2);font-weight:500}
+  nav{position:sticky;top:0;z-index:50;background:rgba(245,239,228,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:box-shadow .4s}
+  nav.scrolled{box-shadow:0 10px 40px -22px rgba(19,27,44,.35)}
+  .navin{max-width:1320px;margin:0 auto;padding:0 4vw;display:flex;align-items:center;justify-content:space-between;height:78px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .ring{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--ink);position:relative;flex:none;transition:all .45s var(--ease)}
+  .ring::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(199,163,69,0);transition:all .45s var(--ease)}
+  .brand:hover .ring{border-color:var(--gold)}
+  .brand:hover .ring::after{border-color:rgba(199,163,69,.6);box-shadow:0 0 14px rgba(199,163,69,.4)}
+  .wm{font-family:var(--sans);font-weight:500;letter-spacing:.42em;font-size:17px;padding-left:.42em}
+  .links{display:flex;gap:32px;align-items:center}
+  .links a{font-family:var(--sans);font-size:12.5px;letter-spacing:.22em;position:relative;padding:6px 0;color:var(--ink);transition:color .3s}
+  .links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease)}
+  .links a:hover::after,.links a.active::after{transform:scaleX(1);transform-origin:left}
+  .links a.active{color:var(--loam)}
+  .cta{font-family:var(--sans);font-size:12px;letter-spacing:.18em;border:1px solid var(--ink);padding:12px 24px;white-space:nowrap;position:relative;overflow:hidden;isolation:isolate;transition:color .35s var(--ease), border-color .35s var(--ease)}
+  .cta::before{content:"";position:absolute;inset:0;background:var(--ink);transform:scaleX(0);transform-origin:right;transition:transform .45s var(--ease);z-index:-1}
+  .cta:hover{color:var(--bone)}
+  .cta:hover::before{transform:scaleX(1);transform-origin:left}
+  .cta.gold{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+  .cta.gold::before{background:var(--ink)}
+  .cta.gold:hover{color:var(--bone);border-color:var(--ink)}
+  /* burger */
+  .burger{display:none;width:40px;height:40px;background:none;border:none;cursor:pointer;position:relative;z-index:70}
+  .burger span{position:absolute;left:8px;right:8px;height:1.6px;background:var(--ink);transition:all .4s var(--ease)}
+  .burger span:nth-child(1){top:14px}
+  .burger span:nth-child(2){top:20px}
+  .burger span:nth-child(3){top:26px}
+  body.menuopen .burger span{background:var(--bone)}
+  body.menuopen .burger span:nth-child(1){top:20px;transform:rotate(45deg)}
+  body.menuopen .burger span:nth-child(2){opacity:0;transform:translateX(8px)}
+  body.menuopen .burger span:nth-child(3){top:20px;transform:rotate(-45deg)}
+  .mmenu{position:fixed;inset:0;background:var(--ink);z-index:65;display:flex;flex-direction:column;justify-content:center;padding:0 10vw;clip-path:circle(0% at calc(100% - 52px) 60px);transition:clip-path .65s var(--ease);visibility:hidden}
+  body.menuopen .mmenu{clip-path:circle(150% at calc(100% - 52px) 60px);visibility:visible}
+  .mmenu a{font-family:var(--sans);font-weight:300;letter-spacing:.24em;font-size:26px;color:var(--bone);padding:14px 0;opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+  .mmenu a small{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--gold2);letter-spacing:0;margin-left:14px}
+  body.menuopen .mmenu a{opacity:1;transform:none}
+  .mmenu .mfoot{position:absolute;bottom:6vh;left:10vw;right:10vw;color:#8F99AD;font-size:11px;letter-spacing:.1em}
+  @media(max-width:1020px){.links,.navin .cta{display:none}.burger{display:block}}
+
+  /* ---------- hero ---------- */
+  header.hero{position:relative;min-height:96vh;display:flex;align-items:flex-end;color:var(--bone);isolation:isolate;overflow:hidden}
+  .hero .plxwrap{position:absolute;inset:-12% 0;z-index:-2}
+  .hero img.bg{width:100%;height:100%;object-fit:cover}
+  .hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,27,44,.2) 0%,rgba(19,27,44,.05) 42%,rgba(19,27,44,.66) 100%);z-index:-1}
+  .heroin{width:100%;max-width:1320px;margin:0 auto;padding:0 4vw 10vh;position:relative;z-index:2}
+  .hero .ring{width:54px;height:54px;border-color:var(--bone);margin-bottom:36px}
+  .hero h1{font-family:var(--sans);font-weight:300;letter-spacing:.34em;font-size:clamp(40px,6.5vw,86px);line-height:1.04;padding-left:.34em}
+  .hero .tag{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(23px,2.6vw,35px);color:var(--gold2);margin:20px 0 12px}
+  .hero .sub{max-width:530px;font-size:15.5px;color:rgba(245,239,228,.85);margin-bottom:38px}
+  .hero .row{display:flex;gap:16px;flex-wrap:wrap}
+  .hero .cta{border-color:var(--bone);color:var(--bone)}
+  .hero .cta::before{background:var(--bone)}
+  .hero .cta:hover{color:var(--ink)}
+  .scrollcue{position:absolute;right:5vw;bottom:6vh;display:flex;flex-direction:column;align-items:center;gap:12px;color:rgba(245,239,228,.75);font-family:var(--sans);font-size:10px;letter-spacing:.34em;writing-mode:vertical-rl;transition:opacity .6s}
+  .scrollcue .tick{width:1px;height:56px;background:linear-gradient(180deg,var(--gold2),transparent);animation:drip 2.2s var(--ease) infinite}
+  @keyframes drip{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+  body.scrolled .scrollcue{opacity:0}
+
+  /* ---------- sections ---------- */
+  section{padding:150px 0;position:relative}
+  .eyebrow{font-family:var(--sans);font-size:12px;letter-spacing:.34em;color:var(--loam);margin-bottom:20px}
+  h2{font-family:var(--sans);font-weight:300;letter-spacing:.14em;font-size:clamp(30px,3.6vw,48px);line-height:1.14;margin-bottom:28px}
+  .lede{font-size:17.5px;max-width:60ch;color:#2A3347}
+  .rule{width:64px;height:2px;background:var(--gold);margin:28px 0;transform:scaleX(0);transform-origin:left;transition:transform 1.1s var(--ease) .15s}
+  .in .rule{transform:scaleX(1)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+  @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+  /* reveals */
+  .rv{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  .stag>*{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .stag.in>*{opacity:1;transform:none}
+  .mask{overflow:hidden}
+  .mask img{transform:scale(1.08);transition:transform 1.4s var(--ease)}
+  .mask.in img{transform:scale(1)}
+  /* parallax util */
+  [data-plx]{will-change:transform}
+
+  /* statement */
+  .statement{background:var(--ink);color:var(--bone);text-align:center;overflow:hidden}
+  .starfield,.starfield2{position:absolute;inset:0;pointer-events:none;opacity:.65}
+  .starfield{background-image:radial-gradient(1.2px 1.2px at 12% 30%,rgba(231,200,118,.9),transparent),radial-gradient(1px 1px at 34% 68%,rgba(245,239,228,.7),transparent),radial-gradient(1.4px 1.4px at 58% 22%,rgba(245,239,228,.8),transparent),radial-gradient(1px 1px at 76% 55%,rgba(231,200,118,.75),transparent),radial-gradient(1.2px 1.2px at 90% 34%,rgba(245,239,228,.65),transparent)}
+  .starfield2{background-image:radial-gradient(1px 1px at 22% 45%,rgba(245,239,228,.5),transparent),radial-gradient(1.3px 1.3px at 48% 80%,rgba(231,200,118,.6),transparent),radial-gradient(1px 1px at 66% 38%,rgba(245,239,228,.55),transparent),radial-gradient(1.2px 1.2px at 84% 72%,rgba(245,239,228,.5),transparent)}
+  .totality{width:74px;height:74px;border-radius:50%;border:1.5px solid var(--bone);margin:0 auto 46px;position:relative}
+  .totality::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(231,200,118,.0);transition:all 1.2s var(--ease)}
+  .statement.in .totality::after{border-color:rgba(231,200,118,.7);box-shadow:0 0 30px rgba(231,200,118,.35), inset 0 0 20px rgba(231,200,118,.12)}
+  .statement p.big{font-family:var(--sans);font-weight:300;letter-spacing:.06em;font-size:clamp(22px,3vw,34px);line-height:1.55;max-width:21em;margin:0 auto;position:relative;z-index:2}
+  .statement p.big em{font-family:var(--serif);font-style:italic;color:var(--gold2);letter-spacing:0}
+
+  /* field */
+  .factcards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+  @media(max-width:900px){.factcards{grid-template-columns:1fr}}
+  .fact{border:1px solid var(--line);padding:30px 28px;background:rgba(255,255,255,.5);position:relative;overflow:hidden;transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+  .fact::before{content:"";position:absolute;left:0;top:0;width:100%;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .6s var(--ease)}
+  .fact:hover{transform:translateY(-6px);box-shadow:0 26px 50px -38px rgba(19,27,44,.5)}
+  .fact:hover::before{transform:scaleX(1)}
+  .fact h4{font-family:var(--sans);font-weight:500;letter-spacing:.12em;font-size:14px;margin-bottom:10px}
+  .fact p{font-size:14px;color:#39435a}
+  .flag{font-size:11px;letter-spacing:.08em;color:var(--muted);margin-top:18px}
+  .imgtall{height:74vh;object-fit:cover;width:100%}
+
+  /* farming */
+  .practices{margin-top:56px;display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+  @media(max-width:1000px){.practices{grid-template-columns:repeat(2,1fr)}}
+  .practice{border-top:2px solid var(--line);padding-top:18px;transition:border-color .5s var(--ease)}
+  .practice:hover{border-top-color:var(--gold)}
+  .practice h4{font-family:var(--sans);font-weight:500;letter-spacing:.1em;font-size:13.5px;margin-bottom:8px}
+  .practice p{font-size:13px;color:#39435a}
+  .certrow{margin-top:80px;text-align:center}
+  .certrow img{max-width:740px;margin:0 auto;mix-blend-mode:multiply}
+  .caption{font-size:11.5px;color:var(--muted);letter-spacing:.05em;max-width:70ch;margin:16px auto 0;text-align:center}
+  .mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:64px}
+  @media(max-width:900px){.mosaic{grid-template-columns:1fr}}
+  .mosaic .mask{height:350px}
+  .mosaic img{width:100%;height:100%;object-fit:cover}
+
+  /* winemaker */
+  .marne{background:var(--ink);color:var(--bone);padding:0;overflow:hidden}
+  .marne .lede{color:#C7CFDD}
+  .marne .mask{height:88vh}
+  .marne img{width:100%;height:100%;object-fit:cover}
+  .sig{font-family:var(--serif);font-style:italic;font-size:27px;color:var(--gold2);margin-top:28px}
+
+  /* wines */
+  .winegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:64px}
+  @media(max-width:1100px){.winegrid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.winegrid{grid-template-columns:1fr}}
+  .wine{background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;position:relative;transition:transform .55s var(--ease),box-shadow .55s var(--ease)}
+  .wine:hover{transform:translateY(-8px);box-shadow:0 36px 64px -44px rgba(19,27,44,.55)}
+  .wine .ph{aspect-ratio:2/3;overflow:hidden;background:var(--bone2);position:relative}
+  .wine .ph img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+  .wine:hover .ph img{transform:scale(1.05)}
+  .wine .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 65%,rgba(19,27,44,.28));opacity:0;transition:opacity .5s}
+  .wine:hover .ph::after{opacity:1}
+  .wine .meta{padding:22px 24px 26px;position:relative}
+  .wine .role{font-family:var(--sans);font-size:10.5px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;display:inline-block;transition:transform .45s var(--ease)}
+  .wine:hover .role{transform:translateX(6px)}
+  .wine h3{font-family:var(--sans);font-weight:500;letter-spacing:.16em;font-size:17px;margin:8px 0 2px}
+  .wine .grape{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+  .wine p{font-size:13.5px;color:#39435a}
+
+  /* table */
+  .plategrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:60px}
+  @media(max-width:900px){.plategrid{grid-template-columns:1fr}}
+  .plate .mask{aspect-ratio:1/1}
+  .plate img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+  .plate:hover img{transform:scale(1.05)}
+  .plate h4{font-family:var(--sans);letter-spacing:.14em;font-weight:500;font-size:14px;margin:18px 0 6px}
+  .plate p{font-size:13.5px;color:#39435a}
+
+  /* visit */
+  .visit{background:var(--ink);color:var(--bone);overflow:hidden}
+  .visit .lede{color:#C7CFDD}
+  .visit .mask.wide{height:70vh;margin-bottom:90px}
+  .visit img{width:100%;height:100%;object-fit:cover}
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:26px}
+  @media(max-width:900px){.pillars{grid-template-columns:1fr}}
+  .pillar{border:1px solid rgba(245,239,228,.2);padding:34px 32px;transition:border-color .5s var(--ease),background .5s var(--ease),transform .5s var(--ease)}
+  .pillar:hover{border-color:rgba(231,200,118,.55);background:rgba(231,200,118,.05);transform:translateY(-6px)}
+  .pillar .eyebrow{color:var(--gold2)}
+  .pillar h4{font-family:var(--sans);font-weight:400;letter-spacing:.14em;font-size:18px;margin-bottom:12px}
+  .pillar p{font-size:14px;color:#C7CFDD}
+
+  /* trade + footer */
+  .trade{text-align:center}
+  .trade .row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:40px}
+  .note{font-size:12px;color:var(--muted);max-width:74ch;margin:64px auto 0}
+  footer{background:var(--ink);color:#8F99AD;padding:76px 0 54px;font-size:12.5px;position:relative;z-index:2}
+  .fin{max-width:1320px;margin:0 auto;padding:0 4vw;display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:center}
+  footer .wm{color:var(--bone);font-size:14px}
+  footer a{color:#C7CFDD;transition:color .3s}
+  footer a:hover{color:var(--gold2)}
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important;animation-iteration-count:1 !important;scroll-behavior:auto !important}
+    #exposure,#stardot{display:none !important}
+    .rv,.stag>*{opacity:1 !important;transform:none !important}
+    .mask img{transform:none !important}
+    .rule{transform:scaleX(1) !important}
+  }
+</style>
+</head>
+<body>
+
+<div class="ribbon"><b>Fictional brand education showcase by Small Circle.</b> Deep Field, its people, place, and wines are invented to demonstrate our sales-training and creative work.</div>
+
+<nav id="nav">
+  <div class="navin">
+    <a class="brand" href="#top" aria-label="Deep Field home"><span class="ring"></span><span class="wm">DEEP FIELD</span></a>
+    <div class="links" id="navlinks">
+      <a href="#field">THE FIELD</a>
+      <a href="#farming">FARMING</a>
+      <a href="#winemaker">THE WINEMAKER</a>
+      <a href="#wines">THE WINES</a>
+      <a href="#table">THE TABLE</a>
+      <a href="#visit">VISIT</a>
+      <a href="#trade">TRADE</a>
+    </div>
+    <a class="cta gold" href="course/">TRADE EDUCATION ↗</a>
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mmenu" id="mmenu" aria-hidden="true">
+  <a href="#field" style="transition-delay:.12s">THE FIELD</a>
+  <a href="#farming" style="transition-delay:.17s">FARMING</a>
+  <a href="#winemaker" style="transition-delay:.22s">THE WINEMAKER</a>
+  <a href="#wines" style="transition-delay:.27s">THE WINES</a>
+  <a href="#table" style="transition-delay:.32s">THE TABLE</a>
+  <a href="#visit" style="transition-delay:.37s">VISIT</a>
+  <a href="course/" style="transition-delay:.42s">TRADE EDUCATION<small>the course ↗</small></a>
+  <div class="mfoot">A FICTIONAL SHOWCASE BY SMALL CIRCLE · LOOK DEEPER.</div>
+</div>
+
+<svg id="exposure" aria-hidden="true"></svg>
+<div id="stardot" style="opacity:0"></div>
+
+<header class="hero" id="top">
+  <div class="plxwrap" data-plx="0.18"><img class="bg" src="assets/img/field_hero_fog.jpg" alt="Halden Rise vineyard above a sea of fog at first light"></div>
+  <div class="scrim"></div>
+  <div class="heroin">
+    <div class="ring rv"></div>
+    <h1 class="rv">DEEP FIELD</h1>
+    <p class="tag rv">Look deeper.</p>
+    <p class="sub rv">One biodynamic field on a high, cool ridge above the Northern California fog. Eight grape-forward wines. Nothing rushed and nothing hidden.</p>
+    <div class="row rv">
+      <a class="cta" href="#wines">EXPLORE THE WINES</a>
+      <a class="cta" href="course/">FOR THE TRADE</a>
+    </div>
+  </div>
+  <div class="scrollcue"><span>THE EXPOSURE BEGINS</span><span class="tick"></span></div>
+</header>
+
+<section class="statement rv" id="statement">
+  <div class="starfield" data-plx="0.06"></div>
+  <div class="starfield2" data-plx="-0.05"></div>
+  <div class="wrap">
+    <div class="totality"></div>
+    <p class="big">Most wine competes on volume. Louder labels, bigger extraction, more adjectives. Deep Field competes on <em>attention</em>. One field, farmed slowly and read honestly, that holds up under a long stare.</p>
+  </div>
+</section>
+
+<section id="field">
+  <div class="wrap">
+    <div class="grid2">
+      <div class="rv">
+        <div class="eyebrow">THE FIELD</div>
+        <h2>HALDEN RISE</h2>
+        <div class="rule"></div>
+        <p class="lede">Deep Field is grown on Halden Rise, a high, cool ridge on the Northern California coast. It sits above the marine fog by morning and under genuinely dark sky by night. Cool bright days, long cold nights, an unhurried season.</p>
+        <p class="lede" style="margin-top:18px">That is the point: slow ripening, retained acidity, length rather than weight. The soils are deep, the vines dry-farmed and deep-rooted, and the whole site is farmed as one living field.</p>
+        <p class="flag">Halden Rise is an invented placeholder site, coined for this showcase. Illustrative, not verified data.</p>
+      </div>
+      <div class="mask rv"><img class="imgtall" src="assets/img/field_night_stars.jpg" alt="The field under a brilliant night sky" loading="lazy" data-plx="0.05"></div>
+    </div>
+    <div class="factcards stag">
+      <div class="fact" style="transition-delay:.05s"><h4>ABOVE THE FOG, DARK COLD NIGHTS</h4><p>Retained acidity and length. The wine keeps its nerve because the site keeps its cool.</p></div>
+      <div class="fact" style="transition-delay:.16s"><h4>DEEP SOILS, DRY-FARMED ROOTS</h4><p>Concentration without irrigation. The vines draw on depth, not surface. The literal deep field.</p></div>
+      <div class="fact" style="transition-delay:.27s"><h4>COOL BRIGHT DAYS</h4><p>Slow ripening, freshness over weight. An unhurried season you can taste.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="farming" style="padding-top:60px">
+  <div class="wrap">
+    <div class="rv">
+      <div class="eyebrow">FARMED BY THE SKY</div>
+      <h2>THE FARMING IS THE PRODUCT</h2>
+      <div class="rule"></div>
+      <p class="lede">Biodynamic and regenerative, native yeast, low intervention. This is not a values badge on the back label. It is how the field stays alive, and it is why the wine reads the site instead of a recipe. The work follows the moon and the stars, the direct throughline from Marne's old practice to her new one.</p>
+    </div>
+    <div class="practices stag">
+      <div class="practice" style="transition-delay:.04s"><h4>COVER CROPS + COMPOST</h4><p>Living soil, so the wine reads the site.</p></div>
+      <div class="practice" style="transition-delay:.12s"><h4>GRAZING SHEEP</h4><p>A living system, a real farm-to-glass story.</p></div>
+      <div class="practice" style="transition-delay:.2s"><h4>DRY-FARMING</h4><p>Deep roots. Concentration. The literal deep field.</p></div>
+      <div class="practice" style="transition-delay:.28s"><h4>FARMING BY THE CALENDAR</h4><p>The founder story made operational, by moon and stars.</p></div>
+      <div class="practice" style="transition-delay:.36s"><h4>NATIVE YEAST</h4><p>The site, not a recipe. Nothing added to fake it.</p></div>
+    </div>
+    <div class="mosaic stag">
+      <div class="mask" style="transition-delay:.05s"><img src="assets/img/sheep_vines.jpg" alt="Sheep grazing between vine rows in morning fog" loading="lazy"></div>
+      <div class="mask" style="transition-delay:.15s"><img src="assets/img/biodynamic_stir.jpg" alt="Stirring a biodynamic preparation at dawn" loading="lazy"></div>
+      <div class="mask" style="transition-delay:.25s"><img src="assets/img/soil_hands.jpg" alt="Hands holding dark living soil" loading="lazy"></div>
+    </div>
+    <div class="certrow rv">
+      <img src="assets/img/badges_sheet.jpg" alt="Illustrative certification marks: biodynamic farmed, regenerative organic, organic farmed" loading="lazy">
+      <p class="caption">Illustrative certification marks, shown to demonstrate presentation. A real client's actual certification logos would be used in production.</p>
+    </div>
+  </div>
+</section>
+
+<section class="marne" id="winemaker">
+  <div class="grid2" style="gap:0;align-items:stretch">
+    <div class="mask rv"><img src="assets/img/marne_portrait.jpg" alt="Marne Okafor at blue hour on the ridge" loading="lazy"></div>
+    <div style="padding:12vh 7vw" class="rv">
+      <div class="eyebrow" style="color:var(--gold2)">THE WINEMAKER</div>
+      <h2>MARNE OKAFOR</h2>
+      <div class="rule"></div>
+      <p class="lede">Marne Okafor came to wine through the sky. For years she was an astrophotographer, pointing an instrument at one dark patch and holding a long exposure open long enough for faint, far things to arrive. It is a practice of patience.</p>
+      <p class="lede" style="margin-top:18px">She kept returning to one ridge above the fog because the nights were dark, until the ground under her tripod started to matter as much as the sky above it. So she began to farm it, by the same sky. Biodynamics is farming by the cosmos.</p>
+      <p class="sig">"The longer you look, the more there is."</p>
+    </div>
+  </div>
+</section>
+
+<section id="wines">
+  <div class="wrap">
+    <div class="rv" style="text-align:center">
+      <div class="eyebrow">THE WINES</div>
+      <h2>EIGHT WINES, EIGHT ROLES</h2>
+      <p class="lede" style="margin:0 auto">Each wine has one job, so there is always one right answer for the moment in front of you.</p>
+    </div>
+    <div class="mask rv" style="margin-top:64px"><img src="assets/img/lineup_group.jpg" alt="The full Deep Field range" loading="lazy"></div>
+    <div class="winegrid stag">
+      <a class="wine" style="transition-delay:.03s"><div class="ph"><img src="assets/img/bottle_deepfield.jpg" alt="Deep Field field blend" loading="lazy"></div><div class="meta"><div class="role">Define</div><h3>DEEP FIELD</h3><div class="grape">Field Blend · Halden Rise</div><p>The whole living field, co-planted and co-fermented, in one bottle.</p></div></a>
+      <a class="wine" style="transition-delay:.09s"><div class="ph"><img src="assets/img/bottle_pinot.jpg" alt="Deep Field Pinot Noir" loading="lazy"></div><div class="meta"><div class="role">Serious</div><h3>PINOT NOIR</h3><div class="grape">Estate · Halden Rise</div><p>The noble cool-climate red. Transparency and site, nothing hidden.</p></div></a>
+      <a class="wine" style="transition-delay:.15s"><div class="ph"><img src="assets/img/bottle_syrah.jpg" alt="Deep Field Syrah" loading="lazy"></div><div class="meta"><div class="role">Broaden</div><h3>SYRAH</h3><div class="grape">Estate, cool-climate</div><p>Savory and peppery, not a warm-climate blockbuster.</p></div></a>
+      <a class="wine" style="transition-delay:.21s"><div class="ph"><img src="assets/img/bottle_chardonnay.jpg" alt="Deep Field Chardonnay" loading="lazy"></div><div class="meta"><div class="role">Anchor</div><h3>CHARDONNAY</h3><div class="grape">Estate · no new oak</div><p>Taut and mineral. The white that anchors the list.</p></div></a>
+      <a class="wine" style="transition-delay:.03s"><div class="ph"><img src="assets/img/bottle_duskfall.jpg" alt="Duskfall skin-contact Chenin Blanc" loading="lazy"></div><div class="meta"><div class="role">Curiosity</div><h3>DUSKFALL</h3><div class="grape">Skin-contact Chenin Blanc</div><p>The textural amber discovery, the somm's find on the list.</p></div></a>
+      <a class="wine" style="transition-delay:.09s"><div class="ph"><img src="assets/img/bottle_daybreak.jpg" alt="Daybreak chilled Gamay" loading="lazy"></div><div class="meta"><div class="role">Recruit</div><h3>DAYBREAK</h3><div class="grape">Chilled Gamay</div><p>The first wine off the field each year, made to pour by the glass.</p></div></a>
+      <a class="wine" style="transition-delay:.15s"><div class="ph"><img src="assets/img/bottle_afterglow.jpg" alt="Afterglow Pinot Noir rosé" loading="lazy"></div><div class="meta"><div class="role">Twilight</div><h3>AFTERGLOW</h3><div class="grape">Pinot Noir rosé</div><p>A pale, dry rosé. The last light of day in a glass.</p></div></a>
+      <a class="wine" style="transition-delay:.21s"><div class="ph"><img src="assets/img/bottle_longexposure.jpg" alt="Long Exposure reserve Pinot Noir" loading="lazy"></div><div class="meta"><div class="role">Depth</div><h3>LONG EXPOSURE</h3><div class="grape">Reserve single-block Pinot Noir</div><p>The flagship grape given more time. Depth, made literal.</p></div></a>
+    </div>
+    <p class="caption" style="margin-top:38px">All Deep Field names are unscreened placeholders shown to demonstrate presentation. Final names are subject to trademark, TTB, and web clearance.</p>
+  </div>
+</section>
+
+<section id="table" style="padding-top:50px">
+  <div class="wrap">
+    <div class="rv">
+      <div class="eyebrow">THE TABLE</div>
+      <h2>PAIRED WITH PATIENCE</h2>
+      <div class="rule"></div>
+      <p class="lede">Farm-to-glass is not a slogan here. It is the same soil, read twice: once by the vine, once by the kitchen.</p>
+    </div>
+    <div class="plategrid stag">
+      <div class="plate" style="transition-delay:.05s"><div class="mask"><img src="assets/img/pairing_flagship.jpg" alt="Seared duck with maitake and Deep Field" loading="lazy"></div><h4>DEEP FIELD · SEARED DUCK + MAITAKE</h4><p>Savory depth meets savory depth. The field blend's dark fruit carries the jus.</p></div>
+      <div class="plate" style="transition-delay:.15s"><div class="mask"><img src="assets/img/pairing_understory.jpg" alt="Roast squash with Duskfall" loading="lazy"></div><h4>DUSKFALL · SPICED HONEY SQUASH</h4><p>Skin-contact grip loves sweet-spiced roast. Texture with texture.</p></div>
+      <div class="plate" style="transition-delay:.25s"><div class="mask"><img src="assets/img/pairing_bluehour.jpg" alt="Oysters with Afterglow rosé" loading="lazy"></div><h4>AFTERGLOW · OYSTERS + MIGNONETTE</h4><p>Dusk-pale rosé, cold brine, lemon. The easiest yes of the summer.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="visit" id="visit">
+  <div class="starfield" data-plx="0.05"></div>
+  <div class="wrap" style="max-width:1320px">
+    <div class="mask wide rv"><img src="assets/img/tasting_field.jpg" alt="A field session tasting at dusk" loading="lazy" data-plx="0.04"></div>
+  </div>
+  <div class="wrap">
+    <div class="rv">
+      <div class="eyebrow" style="color:var(--gold2)">THE WORLD</div>
+      <h2>STAY FOR THE DARK</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="pillars stag">
+      <div class="pillar" style="transition-delay:.05s"><div class="eyebrow">VISIT</div><h4>THE FIELD SESSIONS</h4><p>A seated tasting at the edge of the field, from the last light into true night. Certain sessions follow the sky: a meteor shower, a dark-moon night. You taste the range in the place it comes from, as the stars come out.</p></div>
+      <div class="pillar" style="transition-delay:.15s"><div class="eyebrow">READ</div><h4>THE FIELD ALMANAC</h4><p>The farming year, told by the celestial calendar that schedules it, alongside the sky over the field. A single leaf on one page, the season and the stars on the next.</p></div>
+      <div class="pillar" style="transition-delay:.25s"><div class="eyebrow">JOIN</div><h4>THE DEEP FIELD CIRCLE</h4><p>A quiet membership. First access to Long Exposure, the single-block years, and each spring's Daybreak. Patience, rewarded. No hype, no drops.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="trade" id="trade">
+  <div class="wrap rv">
+    <div class="eyebrow">FOR THE TRADE</div>
+    <h2>SELL THE DEPTH</h2>
+    <p class="lede" style="margin:0 auto">Distributor and trade partners: the brand education course teaches the pitch, the roles, the farming as a selling lever, and the buyer conversation. The sell sheet puts it on one page.</p>
+    <div class="row">
+      <a class="cta gold" href="course/">TAKE THE TRADE COURSE ↗</a>
+      <a class="cta" href="downloads/deep-field-sell-sheet.pdf" download>DOWNLOAD THE SELL SHEET</a>
+      <a class="cta" href="downloads/deep-field-brand-book.pdf" download>THE BRAND BOOK</a>
+    </div>
+    <p class="note">Production note: Deep Field is a fictional demonstration brand created by Small Circle to showcase brand, e-learning, and sales-enablement work for beverage-alcohol clients. Every name is an unscreened placeholder and every figure is illustrative. In production, this becomes your brand, your place, and your data, told exactly this richly.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="fin">
+    <div style="display:flex;align-items:center;gap:14px"><span class="ring" style="border-color:#8F99AD"></span><span class="wm">DEEP FIELD</span></div>
+    <div>A fictional brand education showcase, designed and built by <a href="https://circlesmall.com" target="_blank" rel="noopener">Small Circle</a>.</div>
+    <div><a href="course/">Trade education</a> · <a href="downloads/deep-field-sell-sheet.pdf">Sell sheet</a> · <a href="downloads/deep-field-brand-book.pdf">Brand book</a></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* reveals */
+  const io = new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.13,rootMargin:'0px 0px -7% 0px'});
+  document.querySelectorAll('.rv,.stag,.mask,section.statement').forEach(el=>io.observe(el));
+  requestAnimationFrame(()=>{document.querySelectorAll('header .rv').forEach(el=>el.classList.add('in'))});
+
+  /* scrollspy */
+  const spy = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){
+      document.querySelectorAll('#navlinks a').forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+e.target.id));
+    }});
+  },{rootMargin:'-40% 0px -55% 0px'});
+  document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
+
+  /* burger */
+  const burger = document.getElementById('burger'), mmenu = document.getElementById('mmenu');
+  burger.addEventListener('click',()=>{
+    const open = document.body.classList.toggle('menuopen');
+    burger.setAttribute('aria-expanded', open);
+    mmenu.setAttribute('aria-hidden', !open);
+  });
+  mmenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{document.body.classList.remove('menuopen')}));
+
+  if(reduced) return;
+
+  /* ---------- the exposure line ---------- */
+  const svg = document.getElementById('exposure');
+  const star = document.getElementById('stardot');
+  const NS = 'http://www.w3.org/2000/svg';
+  let path, ghost, rings = [], plen = 0, ringMarks = [];
+
+  function buildLine(){
+    const doc = document.documentElement;
+    const H = doc.scrollHeight, W = doc.clientWidth;
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', W); svg.setAttribute('height', H);
+    svg.style.height = H+'px';
+    svg.innerHTML = '';
+    // waypoints: weave through section anchors, alternating sides
+    const secs = ['statement','field','farming','winemaker','wines','table','visit','trade'].map(id=>document.getElementById(id));
+    const pts = [[W*.5, innerHeight*.86]];
+    secs.forEach((s,i)=>{
+      const y = s.offsetTop + Math.min(s.offsetHeight*.24, 340);
+      const x = (i%2===0) ? W*.062 : W*.938;
+      pts.push([x,y]);
+    });
+    pts.push([W*.5, H - 150]);
+    // smooth cubic path through points
+    let d = `M ${pts[0][0]},${pts[0][1]}`;
+    for(let i=1;i<pts.length;i++){
+      const [x0,y0]=pts[i-1],[x1,y1]=pts[i];
+      const dy=(y1-y0)*.5;
+      d += ` C ${x0},${y0+dy} ${x1},${y1-dy} ${x1},${y1}`;
+    }
+    ghost = document.createElementNS(NS,'path');
+    ghost.setAttribute('d', d); ghost.id='expGhost';
+    svg.appendChild(ghost);
+    path = document.createElementNS(NS,'path');
+    path.setAttribute('d', d); path.id='expPath';
+    svg.appendChild(path);
+    plen = path.getTotalLength();
+    path.style.strokeDasharray = plen;
+    path.style.strokeDashoffset = plen;
+    // ring nodes at waypoints (skip first + last)
+    rings = []; ringMarks = [];
+    const dark = {winemaker:1, visit:1, statement:1};
+    for(let i=1;i<pts.length-1;i++){
+      const c = document.createElementNS(NS,'circle');
+      c.setAttribute('cx',pts[i][0]); c.setAttribute('cy',pts[i][1]); c.setAttribute('r',7);
+      c.setAttribute('class','wpring'+(dark[secs[i-1].id]?' dk':''));
+      svg.appendChild(c);
+      rings.push(c);
+      // fraction of path length at this waypoint (approx: sample search)
+      ringMarks.push(fracAt(pts[i][1]));
+    }
+    function fracAt(y){
+      let lo=0, hi=plen;
+      for(let k=0;k<18;k++){ const m=(lo+hi)/2; (path.getPointAtLength(m).y < y) ? lo=m : hi=m; }
+      return lo/plen;
+    }
+    star.style.opacity = 1;
+    tick(true);
+  }
+
+  /* parallax registry */
+  const plx = [...document.querySelectorAll('[data-plx]')];
+
+  let lastY=-1, lastH=-1;
+  function loop(){
+    const h=document.documentElement.scrollHeight;
+    if(scrollY!==lastY || h!==lastH){ lastY=scrollY; lastH=h; tick(); }
+    requestAnimationFrame(loop);
+  }
+  function tick(force){
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - innerHeight;
+    const f = Math.min(1, Math.max(0, scrollY / max));
+    document.body.classList.toggle('scrolled', scrollY>40);
+    document.getElementById('nav').classList.toggle('scrolled', scrollY>10);
+    if(path){
+      // head of the line tracks just below viewport center
+      const targetY = scrollY + innerHeight*.62;
+      let lo=0, hi=plen;
+      for(let k=0;k<18;k++){ const m=(lo+hi)/2; (path.getPointAtLength(m).y < targetY) ? lo=m : hi=m; }
+      const drawn = Math.min(plen, Math.max(120, lo));
+      path.style.strokeDashoffset = plen - drawn;
+      const p = path.getPointAtLength(drawn);
+      star.style.left = p.x+'px'; star.style.top = p.y+'px';
+      const df = drawn/plen;
+      rings.forEach((r,i)=> r.classList.toggle('lit', df >= ringMarks[i]-.002));
+    }
+    plx.forEach(el=>{
+      const r = el.getBoundingClientRect();
+      const mid = r.top + r.height/2 - innerHeight/2;
+      el.style.transform = `translateY(${(-mid*parseFloat(el.dataset.plx)).toFixed(1)}px)`;
+    });
+  }
+  requestAnimationFrame(loop);
+  addEventListener('scroll', ()=>tick(), {passive:true});
+  let rto; addEventListener('resize', ()=>{ clearTimeout(rto); rto=setTimeout(buildLine, 180); });
+  // build after images/layout settle
+  if(document.readyState==='complete') buildLine();
+  else addEventListener('load', buildLine);
+  setTimeout(buildLine, 1800);
+})();
+</script>
+</body>
+</html>

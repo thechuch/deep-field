@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  @page{size:11in 8.5in;margin:0}
+  :root{--ink:#131B2C;--ink2:#1B2438;--bone:#F5EFE4;--bone2:#EFE7D8;--gold:#C7A345;--gold2:#E7C876;--loam:#8A6F55;--body:#2A3347;--muted:#6E7787;--oxblood:#5E2431;--fog:#AEB6BE;--line:rgba(19,27,44,.14)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  img{display:block;max-width:100%}
+  h1,h2,h4,h5{text-wrap:balance} p{text-wrap:pretty}
+  body{font-family:'Inter',sans-serif;color:var(--body);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .pg{width:11in;height:8.5in;background:var(--bone);position:relative;overflow:hidden;padding:.7in .8in;page-break-after:always}
+  .pg.dark{background:var(--ink);color:var(--bone)}
+  .kick{font-family:'Jost';letter-spacing:.3em;font-size:8.5pt;color:var(--loam)}
+  .pg.dark .kick{color:var(--gold2)}
+  h2{font-family:'Jost';font-weight:300;letter-spacing:.1em;font-size:26pt;margin:8px 0 14px}
+  .rule{width:54px;height:2px;background:var(--gold);margin:14px 0}
+  .b{font-size:10.5pt;line-height:1.6;max-width:5.7in}
+  .serif{font-family:'Cormorant Garamond';font-style:italic}
+  .folio{position:absolute;bottom:.42in;left:.8in;right:.8in;display:flex;justify-content:space-between;font-family:'Jost';letter-spacing:.18em;font-size:7pt;color:var(--muted)}
+  .pg.dark .folio{color:#8F99AD}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:.5in;height:100%;align-items:center}
+  .full{position:absolute;inset:0;object-fit:cover;width:100%;height:100%}
+  .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:.4in;margin-top:.3in}
+  .cols3 h4{font-family:'Jost';letter-spacing:.16em;font-size:9pt;color:var(--ink);margin-bottom:8px}
+  .cols3 p{font-size:9.5pt;line-height:1.55}
+  /* eclipse ring mark (CSS) */
+  .ecl{border-radius:50%;background:var(--ink);position:relative;flex:none}
+  .ecl::after{content:"";position:absolute;inset:-16%;border-radius:50%;border:1.5px solid var(--gold);box-shadow:0 0 22px 3px rgba(199,163,69,.45), inset 0 0 10px rgba(231,200,118,.15)}
+  .lk-wm{font-family:'Jost';font-weight:300;letter-spacing:.3em;color:var(--ink)}
+  .lk-tag{font-family:'Cormorant Garamond';font-style:italic;color:var(--loam)}
+  .lk-sub{font-family:'Jost';letter-spacing:.24em;color:var(--gold);font-size:6pt}
+  /* cover */
+  .cover{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%}
+  .cring{width:120px;height:120px;border-radius:50%;background:var(--ink2);border:1.5px solid var(--gold2);box-shadow:0 0 44px 7px rgba(231,200,118,.28), inset 0 0 22px rgba(231,200,118,.12);margin-bottom:34px}
+  .cwm{font-family:'Jost';font-weight:300;letter-spacing:.42em;font-size:34pt;padding-left:.42em}
+  .ctag{font-family:'Cormorant Garamond';font-style:italic;font-size:19pt;color:var(--gold2);margin-top:14px}
+  .csub{font-family:'Jost';letter-spacing:.3em;font-size:8.5pt;color:#8F99AD;margin-top:28px}
+  /* swatches */
+  .sw{display:grid;grid-template-columns:repeat(6,1fr);gap:.18in;margin-top:.4in}
+  .chip{height:2.2in;border-radius:3px;position:relative;border:1px solid var(--line)}
+  .chip span{position:absolute;bottom:10px;left:11px;right:11px;font-family:'Jost';letter-spacing:.1em;font-size:7pt}
+  .chip small{position:absolute;top:10px;left:11px;font-family:'Jost';font-size:6.4pt;letter-spacing:.08em;opacity:.72}
+  .spec{border-top:1px solid var(--line);padding:.22in 0}
+  .lab{font-family:'Jost';letter-spacing:.2em;font-size:7.5pt;color:var(--loam);margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;font-size:9.5pt;margin-top:.2in}
+  th,td{text-align:left;border-bottom:1px solid var(--line);padding:11px 10px;vertical-align:top}
+  th{font-family:'Jost';letter-spacing:.14em;font-size:7.5pt;color:var(--loam);font-weight:500}
+  td .role{font-family:'Jost';letter-spacing:.12em;font-size:7pt;color:var(--gold)}
+  td b{font-family:'Jost';letter-spacing:.06em}
+  .cap{font-size:7.5pt;color:var(--muted);margin-top:8px;max-width:8in}
+  .lbls{display:grid;grid-template-columns:repeat(4,1fr);gap:.16in;margin-top:.24in}
+  .lbls img{width:100%;object-fit:cover;aspect-ratio:3/4;background:var(--bone2)}
+  .pk{display:grid;grid-template-columns:repeat(3,1fr);gap:.3in;margin-top:.24in}
+  .pk img{height:2.3in;width:100%;object-fit:cover}
+  .pk p{font-size:8.5pt;color:var(--body);margin-top:8px}
+  .badges3{display:grid;grid-template-columns:repeat(3,1fr);gap:.5in;margin-top:.3in;max-width:6in;margin-left:auto;margin-right:auto}
+  .badges3 img{height:1.5in;object-fit:contain;margin:0 auto}
+  .voice{display:grid;grid-template-columns:1fr 1fr;gap:.5in;margin-top:.3in}
+  .vbox h5{font-family:'Jost';letter-spacing:.16em;font-size:8pt;margin-bottom:10px}
+  .vbox .yes{font-family:'Cormorant Garamond';font-style:italic;font-size:14pt;color:var(--ink)}
+  .vbox .no{font-family:'Cormorant Garamond';font-style:italic;font-size:14pt;color:var(--muted)}
+  .vbox p{font-size:8.5pt;color:var(--body);margin-top:10px}
+</style></head><body>
+
+<!-- 1 COVER -->
+<div class="pg dark"><div class="cover">
+  <div class="cring"></div>
+  <div class="cwm">DEEP FIELDS</div>
+  <div class="ctag">Look deeper.</div>
+  <div class="csub">BRAND BOOK · FIRST EDITION</div>
+</div><div class="folio"><span>DEEP FIELDS</span><span>HALDEN RISE · NORTHERN CALIFORNIA</span></div></div>
+
+<!-- 2 THE IDEA -->
+<div class="pg"><div class="grid2">
+  <div>
+    <div class="kick">01 · THE IDEA</div>
+    <h2>Depth over noise.</h2>
+    <div class="rule"></div>
+    <p class="b">Most wine competes on volume: louder labels, bigger extraction, more adjectives. Deep Fields competes on attention. A few small fields, farmed slowly and read honestly, that hold up under a long stare. The promise, to the buyer and the drinker alike: the more attention you give this wine, the more it gives back.</p>
+    <div class="cols3">
+      <div><h4>THE FIELD</h4><p>A single piece of ground. Soil, roots, place. Lead here.</p></div>
+      <div><h4>DEPTH</h4><p>Of flavor, of roots, of patience. The felt quality in the glass.</p></div>
+      <div><h4>THE COSMOS</h4><p>Earned, never decorated: the field is farmed by the sky.</p></div>
+    </div>
+  </div>
+  <div style="text-align:center"><div class="serif" style="font-size:21pt;color:var(--loam);max-width:4in;margin:0 auto">“The longer you look, the more there is.”</div></div>
+</div><div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>02</span></div></div>
+
+<!-- 3 THE MARK -->
+<div class="pg"><div class="grid2">
+  <div style="display:flex;align-items:center;justify-content:center"><div class="ecl" style="width:2.6in;height:2.6in"></div></div>
+  <div>
+    <div class="kick">02 · THE MARK</div>
+    <h2>The Deep Fields ring.</h2>
+    <div class="rule"></div>
+    <p class="b">One clean circle that reads as an eclipse and a deep-sky aperture at once. Drawn with a fine, confident line, never thick or loud. It is deliberately a single small circle: a quiet nod to the studio that made it.</p>
+    <p class="b" style="margin-top:12px">The mark's meaning is the eclipse and the deep sky: a circle of night and far light. Clear space equals one ring-width on all sides. Never redraw, outline, or fill the mark.</p>
+  </div>
+</div><div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>03</span></div></div>
+
+<!-- 4 LOCKUPS -->
+<div class="pg">
+  <div class="kick">02 · THE MARK</div>
+  <h2>Lockups and usage.</h2>
+  <div class="rule"></div>
+  <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:.1in">
+    <div style="font-family:'Jost';letter-spacing:.24em;font-size:11pt;color:var(--ink)">LOGO</div>
+    <div class="serif" style="font-size:10pt;color:var(--loam);text-align:right">Our logo is the signature of Deep Fields.<br>Use it with care and consistency.</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4in;margin-top:.34in">
+    <!-- stacked -->
+    <div style="border:1px solid var(--line);padding:.34in;display:flex;flex-direction:column;align-items:center;justify-content:center;height:2.5in">
+      <div class="ecl" style="width:46px;height:46px;margin-bottom:16px"></div>
+      <div class="lk-wm" style="font-size:19pt">DEEP FIELDS</div>
+      <div class="lk-tag" style="font-size:11pt;margin-top:4px">Look deeper.</div>
+      <div class="lk-sub" style="margin-top:6px">BIODYNAMIC WINE</div>
+      <div style="font-family:'Jost';letter-spacing:.2em;font-size:6.5pt;color:var(--muted);margin-top:20px">PRIMARY STACKED LOCKUP</div>
+    </div>
+    <!-- horizontal -->
+    <div style="border:1px solid var(--line);padding:.34in;display:flex;flex-direction:column;align-items:center;justify-content:center;height:2.5in">
+      <div style="display:flex;align-items:center;gap:18px">
+        <div class="ecl" style="width:40px;height:40px"></div>
+        <div style="text-align:left"><div class="lk-wm" style="font-size:17pt">DEEP FIELDS</div><div class="lk-tag" style="font-size:10pt">Look deeper.</div><div class="lk-sub" style="margin-top:3px">BIODYNAMIC WINE</div></div>
+      </div>
+      <div style="font-family:'Jost';letter-spacing:.2em;font-size:6.5pt;color:var(--muted);margin-top:20px">HORIZONTAL LOCKUP</div>
+    </div>
+    <!-- mark only -->
+    <div style="border:1px solid var(--line);padding:.34in;display:flex;flex-direction:column;align-items:center;justify-content:center;height:2.2in">
+      <div class="ecl" style="width:52px;height:52px"></div>
+      <div style="font-family:'Jost';letter-spacing:.2em;font-size:6.5pt;color:var(--muted);margin-top:24px">MARK ONLY</div>
+    </div>
+    <!-- reversed on ink -->
+    <div style="background:var(--ink);padding:.34in;display:flex;flex-direction:column;align-items:center;justify-content:center;height:2.2in">
+      <div class="ecl" style="width:40px;height:40px;background:var(--ink2);margin-bottom:14px"></div>
+      <div class="lk-wm" style="font-size:16pt;color:var(--bone)">DEEP FIELDS</div>
+      <div class="lk-tag" style="font-size:10pt;color:var(--gold2)">Look deeper.</div>
+      <div style="font-family:'Jost';letter-spacing:.2em;font-size:6.5pt;color:#8F99AD;margin-top:16px">REVERSED LOCKUP</div>
+    </div>
+  </div>
+  <p class="cap" style="margin-top:.2in">Primary stacked lockup, horizontal lockup, the ring alone, and the reversed setting on ink. The tagline is always “Look deeper.” with the period, never restyled.</p>
+  <div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>04</span></div>
+</div>
+
+<!-- 5 COLOR -->
+<div class="pg">
+  <div class="kick">03 · COLOR</div>
+  <h2>Night, bone, and starlight.</h2>
+  <div class="rule"></div>
+  <div class="sw">
+    <div class="chip" style="background:#131B2C;color:#F5EFE4"><small>#131B2C</small><span>INK INDIGO · night, depth</span></div>
+    <div class="chip" style="background:#F5EFE4;color:#131B2C"><small>#F5EFE4</small><span>BONE · paper, light</span></div>
+    <div class="chip" style="background:#8A6F55;color:#F5EFE4"><small>#8A6F55</small><span>LOAM · soil, warmth</span></div>
+    <div class="chip" style="background:#C7A345;color:#131B2C"><small>#C7A345</small><span>STARLIGHT GOLD · the accent</span></div>
+    <div class="chip" style="background:#AEB6BE;color:#131B2C"><small>#AEB6BE</small><span>FOG GREY · marine layer</span></div>
+    <div class="chip" style="background:#5E2431;color:#F5EFE4"><small>#5E2431</small><span>OXBLOOD · the reds</span></div>
+  </div>
+  <p class="cap" style="margin-top:.3in">Ink and bone carry every composition. Gold is starlight: an accent, never a field. One wine-tied tone may join per layout. If a page feels loud, it is not Deep Fields.</p>
+  <div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>05</span></div>
+</div>
+
+<!-- 6 TYPOGRAPHY -->
+<div class="pg">
+  <div class="kick">04 · TYPOGRAPHY</div>
+  <h2>Quiet, letterspaced, exact.</h2>
+  <div class="rule"></div>
+  <div class="spec"><div class="lab">DISPLAY · a light geometric grotesk, all caps, generously letterspaced</div><div style="font-family:'Jost';font-weight:300;letter-spacing:.28em;font-size:24pt;color:var(--ink)">DEEP FIELDS</div></div>
+  <div class="spec"><div class="lab">ACCENT · an italic serif, reserved for the tagline, signatures, and pull lines</div><div class="serif" style="font-size:17pt;color:var(--ink)">Look deeper. The longer you look, the more there is.</div></div>
+  <div class="spec"><div class="lab">BODY · plain, warm, precise</div><div style="font-size:10pt;max-width:6in;color:var(--body)">Body text is a clean humanist sans, set small and unhurried, with one idea per paragraph and generous margins.</div></div>
+  <div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>06</span></div>
+</div>
+
+<!-- 7 PHOTOGRAPHY -->
+<div class="pg">
+  <div class="kick">05 · PHOTOGRAPHY</div>
+  <h2>Long exposures, deep focus.</h2>
+  <div class="rule"></div>
+  <div class="pk">
+    <div><img src="../assets/img/field_night_stars.jpg"><h4 style="font-family:'Jost';letter-spacing:.16em;font-size:9pt;color:var(--ink);margin-top:10px">EDGES OF THE DAY</h4><p>Shoot at dawn, dusk, and true night. The fog below, the stars above.</p></div>
+    <div><img src="../assets/img/vine_deepfocus.jpg"><h4 style="font-family:'Jost';letter-spacing:.16em;font-size:9pt;color:var(--ink);margin-top:10px">NEAR AND FAR, BOTH SHARP</h4><p>Deep depth of field: a leaf and the horizon in one focused frame.</p></div>
+    <div><img src="../assets/img/soil_hands.jpg"><h4 style="font-family:'Jost';letter-spacing:.16em;font-size:9pt;color:var(--ink);margin-top:10px">HONEST WORK</h4><p>Real hands, real soil, documentary light. Nothing staged glossy.</p></div>
+  </div>
+  <div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>07</span></div>
+</div>
+
+<!-- 8 FOUNDER -->
+<div class="pg" style="padding:0">
+  <div class="grid2" style="gap:0">
+    <div style="position:relative;height:100%"><img class="full" src="../assets/img/marne_portrait.jpg"></div>
+    <div style="padding:.9in .8in">
+      <div class="kick">06 · THE FOUNDER</div>
+      <h2>Marne Okafor.</h2>
+      <div class="rule"></div>
+      <p class="b">Marne came to wine through the sky. For years she was an astrophotographer, holding long exposures open long enough for faint, far things to arrive. She kept returning to one ridge above the fog because the nights were dark, until the ground under her tripod mattered as much as the sky above it.</p>
+      <p class="b" style="margin-top:12px">So she began to farm it, by the same sky. Biodynamics is farming by the cosmos: the same moon and stars now schedule the work. Long exposures, deep focus, nothing rushed.</p>
+      <p class="serif" style="font-size:15pt;color:var(--loam);margin-top:16px">“The longer you look, the more there is.”</p>
+    </div>
+  </div>
+  <div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>08</span></div>
+</div>
+
+<!-- 9 LABELS -->
+<div class="pg">
+  <div class="kick">07 · THE LABELS</div>
+  <h2>One system, two nights.</h2>
+  <div class="rule"></div>
+  <div class="lbls">
+    <img src="../assets/img/label_deepfield.jpg">
+    <img src="../assets/img/label_longexposure.jpg">
+    <img src="../assets/img/label_pinot.jpg">
+    <img src="../assets/img/label_syrah.jpg">
+    <img src="../assets/img/label_chardonnay.jpg">
+    <img src="../assets/img/label_duskfall.jpg">
+    <img src="../assets/img/label_daybreak.jpg">
+    <img src="../assets/img/label_afterglow.jpg">
+  </div>
+  <div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>09</span></div>
+</div>
+
+<!-- 10 RANGE -->
+<div class="pg">
+  <div class="kick">08 · THE RANGE</div>
+  <h2>Eight wines, eight roles.</h2>
+  <div class="rule"></div>
+  <table>
+    <tr><th style="width:22%">Wine</th><th style="width:24%">Grape</th><th style="width:20%">Role</th><th>The line a rep tells</th></tr>
+    <tr><td><b>Field Blend</b></td><td>Co-planted, co-fermented</td><td><span class="role">DEFINE</span></td><td>The one co-planted field in a single bottle.</td></tr>
+    <tr><td><b>Pinot Noir · Syrah · Chardonnay</b></td><td>Estate varietals</td><td><span class="role">SERIOUS · BROADEN · ANCHOR</span></td><td>Site-true cool-climate classics, nothing hidden.</td></tr>
+    <tr><td><b>Duskfall · Daybreak · Afterglow</b></td><td>Skin-contact Chenin · Gamay · Pinot rosé</td><td><span class="role">CURIOSITY · RECRUIT · TWILIGHT</span></td><td>The discovery, the by-the-glass recruit, and dusk in a glass.</td></tr>
+    <tr><td><b>Long Exposure</b></td><td>Reserve single-block Pinot Noir</td><td><span class="role">DEPTH</span></td><td>The flagship grape given more time. Depth, made literal.</td></tr>
+  </table>
+  <div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>10</span></div>
+</div>
+
+<!-- 11 PACKAGING -->
+<div class="pg">
+  <div class="kick">09 · PACKAGING AND PROOF</div>
+  <h2>Detail is the luxury.</h2>
+  <div class="rule"></div>
+  <div class="pk">
+    <div><img src="../assets/img/capsule_macro.jpg"><p>The capsule: ink foil, one gold ring.</p></div>
+    <div><img src="../assets/img/cork_macro.jpg"><p>The cork: fire-stamped ring, field and site.</p></div>
+    <div><img src="../assets/img/flatlay_presskit.jpg"><p>The press kit: one page, one bottle, one lens.</p></div>
+  </div>
+  <div class="badges3">
+    <img src="../assets/img/badge_biodynamic.jpg">
+    <img src="../assets/img/badge_regenerative.jpg">
+    <img src="../assets/img/badge_organic.jpg">
+  </div>
+  <p class="cap" style="text-align:center;margin:.16in auto 0">Farmed and certified: biodynamic, regenerative organic, and organic. The biodynamic mark wins the natural list, the regenerative mark wins the sustainability-minded chain, and the organic mark reassures the cautious first-timer.</p>
+  <div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>11</span></div>
+</div>
+
+<!-- 12 VOICE + BACK -->
+<div class="pg">
+  <div class="kick">10 · VOICE</div>
+  <h2>Say less, mean it.</h2>
+  <div class="rule"></div>
+  <div class="voice">
+    <div class="vbox"><h5>SAY THIS</h5><p class="yes">“The fields, farmed by the sky. Nothing rushed and nothing hidden.”</p><p>Short sentences. Concrete nouns. Dry warmth. It states the true thing plainly and stops.</p></div>
+    <div class="vbox"><h5>NOT THIS</h5><p class="no">“An award-worthy, ultra-premium, handcrafted luxury wine experience!”</p><p>No hype, no exclamation points, no adjectives doing the work the wine should do.</p></div>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:1.1in">
+    <div><div class="lk-wm" style="font-size:15pt">DEEP FIELDS</div><div class="lk-tag" style="font-size:11pt">Look deeper.</div></div>
+    <div style="text-align:right;font-size:7.5pt;color:var(--muted);max-width:4.4in">Deep Fields is a demonstration brand, crafted end to end by Small Circle.<br>CIRCLESMALL.COM</div>
+  </div>
+  <div class="folio"><span>DEEP FIELDS BRAND BOOK</span><span>12</span></div>
+</div>
+
+</body></html>

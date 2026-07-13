@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  @page{size:letter;margin:0}
+  :root{--ink:#131B2C;--bone:#F5EFE4;--bone2:#EFE7D8;--gold:#C7A345;--gold2:#E7C876;--loam:#8A6F55;--body:#2A3347;--muted:#6E7787;--line:rgba(19,27,44,.14)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;color:var(--body);font-size:9.5pt;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  h1,h2,h3,h4{text-wrap:balance} p{text-wrap:pretty}
+  .page{width:8.5in;height:11in;background:var(--bone);position:relative;overflow:hidden;page-break-after:always}
+  .mast{background:var(--ink);color:var(--bone);padding:.34in .5in;display:flex;justify-content:space-between;align-items:center}
+  .mbrand{display:flex;align-items:center;gap:14px}
+  .ring{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--bone);position:relative;display:inline-block;flex:none}
+  .ring::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:1px solid rgba(231,200,118,.55)}
+  .wm{font-family:'Jost';font-weight:500;font-size:15pt;letter-spacing:.4em;padding-left:.4em}
+  .mast .r{text-align:right;max-width:3.2in}
+  .mast .r b{font-family:'Jost';letter-spacing:.24em;font-size:9.5pt;color:var(--gold2);display:block;margin-bottom:3px}
+  .mast .r span{font-size:8pt;color:#B9C3D6}
+  .hero{height:2.5in;position:relative;overflow:hidden}
+  .hero img{width:100%;height:100%;object-fit:cover;object-position:center 60%}
+  .hero .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,27,44,.15),rgba(19,27,44,.65));display:flex;align-items:flex-end;padding:.4in .5in}
+  .hero .t{font-family:'Cormorant Garamond';font-style:italic;font-size:22pt;color:var(--bone)}
+  .body{padding:.34in .5in}
+  .pitch{display:grid;grid-template-columns:1.7fr 1fr;gap:.4in;align-items:start;margin-bottom:.3in}
+  .q{font-family:'Cormorant Garamond';font-style:italic;font-size:15pt;line-height:1.5;color:var(--ink)}
+  .kv{border-left:2px solid var(--gold);padding-left:.18in}
+  .kv .k{font-family:'Jost';letter-spacing:.22em;font-size:8pt;color:var(--loam);margin-bottom:6px}
+  .kv p{font-size:9pt}
+  .secl{font-family:'Jost';letter-spacing:.26em;font-size:9pt;color:var(--loam);border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:.2in}
+  .lineup{display:grid;grid-template-columns:repeat(8,1fr);gap:.12in}
+  .lu img{aspect-ratio:2/3;width:100%;object-fit:cover;object-position:center;background:var(--ink)}
+  .lu .n{font-family:'Jost';letter-spacing:.06em;font-size:7pt;font-weight:500;margin-top:7px}
+  .lu .r{font-family:'Jost';letter-spacing:.12em;font-size:5.6pt;color:var(--gold);margin:2px 0 3px}
+  .lu p{font-size:6pt;color:#39435a;line-height:1.35}
+  .band{background:var(--ink);color:var(--bone);text-align:center;padding:.3in .5in;margin-top:.3in}
+  .band .bq{font-family:'Cormorant Garamond';font-style:italic;font-size:17pt;color:var(--gold2)}
+  .band .by{font-family:'Jost';letter-spacing:.22em;font-size:7.5pt;color:#B9C3D6;margin-top:8px}
+  .foot{position:absolute;bottom:0;left:0;right:0;background:var(--ink);color:#8F99AD;padding:.16in .5in;display:flex;justify-content:space-between;font-family:'Jost';letter-spacing:.14em;font-size:6.6pt}
+  /* page 2 */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:.5in}
+  .num{display:flex;gap:12px;margin-bottom:11px;font-size:9pt}
+  .num b{font-family:'Jost';color:var(--gold);font-size:12pt;font-weight:400;line-height:1;flex:none;width:14px}
+  .breath{font-size:9.5pt;line-height:1.6;margin-bottom:.06in}
+  .badges{width:100%;margin-top:.06in;mix-blend-mode:multiply}
+  .cap{font-size:7pt;color:var(--muted);text-align:center;margin-top:8px}
+  .obj{margin-bottom:15px}
+  .obj .they{font-family:'Cormorant Garamond';font-style:italic;font-size:11pt;color:var(--ink)}
+  .obj .ysl{font-family:'Jost';letter-spacing:.18em;font-size:6.6pt;color:var(--loam);margin:4px 0 3px}
+  .obj .you{font-size:8.5pt;color:#39435a}
+  .cheat{display:grid;grid-template-columns:1fr 1fr;gap:.18in;margin-top:.06in}
+  .cbox{border:1px solid var(--line);padding:13px 15px}
+  .cbox h5{font-family:'Jost';letter-spacing:.14em;font-size:7.5pt;margin-bottom:9px}
+  .cbox ul{margin:0;padding-left:14px}
+  .cbox li{font-size:8pt;color:#39435a;margin-bottom:6px}
+  .start{border:1px solid var(--line);display:flex;gap:.18in;padding:14px;margin-top:.14in;align-items:center}
+  .start img{width:1.1in;height:1.1in;object-fit:cover;flex:none}
+  .start p{font-size:8.5pt;color:#39435a}
+  .start b{color:var(--ink)}
+</style></head><body>
+
+<div class="page">
+  <div class="mast">
+    <div class="mbrand"><span class="ring"></span><span class="wm">DEEP FIELDS</span></div>
+    <div class="r"><b>SELL THE DEPTH</b><span>The trade guide to Deep Fields: the pitch, the range, and the conversation.</span></div>
+  </div>
+  <div class="hero"><img src="../assets/img/field_hero_fog.jpg"><div class="ov"><div class="t">Every field, fully in focus. Look deeper.</div></div></div>
+  <div class="body">
+    <div class="pitch">
+      <div class="q">“Deep Fields is a handful of deep-soiled fields on a high, cool ridge above the Northern California fog. It is made by a former astrophotographer who now farms by the same sky she used to watch. A few small fields, farmed slowly and read honestly, in eight grape-forward wines. Nothing is rushed and nothing is hidden.”</div>
+      <div class="kv"><div class="k">THE 30-SECOND PITCH</div><p>Say it slowly. It lands at thirty seconds, and it is the whole brand: a few small fields, one farmer, the sky, and patience you can taste.</p></div>
+    </div>
+    <div class="secl">THE RANGE · EIGHT WINES, EIGHT ROLES</div>
+    <div class="lineup">
+      <div class="lu"><img src="../assets/img/bottle_deepfield.jpg"><div class="n">FIELD BLEND</div><div class="r">DEFINE</div><p>The one co-planted field, co-fermented into a single bottle.</p></div>
+      <div class="lu"><img src="../assets/img/bottle_pinot.jpg"><div class="n">PINOT NOIR</div><div class="r">SERIOUS</div><p>The noble cool-climate red. Nothing hidden.</p></div>
+      <div class="lu"><img src="../assets/img/bottle_syrah.jpg"><div class="n">SYRAH</div><div class="r">BROADEN</div><p>Savory, peppery, cool-climate.</p></div>
+      <div class="lu"><img src="../assets/img/bottle_chardonnay.jpg"><div class="n">CHARDONNAY</div><div class="r">ANCHOR</div><p>Taut, mineral, no new oak.</p></div>
+      <div class="lu"><img src="../assets/img/bottle_duskfall.jpg"><div class="n">DUSKFALL</div><div class="r">CURIOSITY</div><p>Skin-contact Chenin. The somm's find.</p></div>
+      <div class="lu"><img src="../assets/img/bottle_daybreak.jpg"><div class="n">DAYBREAK</div><div class="r">RECRUIT</div><p>Chilled Gamay, born to pour by the glass.</p></div>
+      <div class="lu"><img src="../assets/img/bottle_afterglow.jpg"><div class="n">AFTERGLOW</div><div class="r">TWILIGHT</div><p>Pale dry Pinot rosé. Dusk in a glass.</p></div>
+      <div class="lu"><img src="../assets/img/bottle_longexposure.jpg"><div class="n">LONG EXPOSURE</div><div class="r">DEPTH</div><p>Reserve single-block Pinot. Depth, literal.</p></div>
+    </div>
+    <div class="band">
+      <div class="bq">“The longer you look, the more there is.”</div>
+      <div class="by">MARNE OKAFOR · FOUNDER AND WINEMAKER, ASTROPHOTOGRAPHER FIRST</div>
+    </div>
+  </div>
+  <div class="foot"><span>DEEP FIELDS · HALDEN RISE · NORTHERN CALIFORNIA COAST</span><span>TRADE EDUCATION: CIRCLESMALL.COM/DEEP-FIELDS</span></div>
+</div>
+
+<div class="page">
+  <div class="mast">
+    <div class="mbrand"><span class="ring"></span><span class="wm" style="font-size:12pt">DEEP FIELDS</span></div>
+    <div class="r"><b>WHY IT SELLS</b></div>
+  </div>
+  <div class="body">
+    <div class="two">
+      <div>
+        <div class="secl">THE FIVE TAKEAWAYS</div>
+        <div class="num"><b>1</b><span>A handful of deep-soiled fields on one ridge, each read on its own.</span></div>
+        <div class="num"><b>2</b><span>A founder story that sells itself: astrophotographer to farmer, farming by the sky.</span></div>
+        <div class="num"><b>3</b><span>Farming is the product, not a badge: biodynamic, regenerative, low-intervention, and buyers ask for it.</span></div>
+        <div class="num"><b>4</b><span>Eight wines, eight clear roles: one right wine for every account.</span></div>
+        <div class="num"><b>5</b><span>Sell the depth: patience, place, and restraint, made literal from soil to glass.</span></div>
+        <div class="secl" style="margin-top:.22in">THE PLACE, IN ONE BREATH</div>
+        <p class="breath">High, cool, and above the fog: dark cold nights keep the acidity, deep dry-farmed soils give concentration without irrigation, and an unhurried season trades weight for length. Two clean facts beat ten data points.</p>
+        <div class="secl" style="margin-top:.22in">FARMED BY THE SKY</div>
+        <img class="badges" src="../assets/img/badges_sheet.jpg">
+        <p class="cap">Farmed and certified: biodynamic, regenerative organic, and organic.</p>
+      </div>
+      <div>
+        <div class="secl">THEY SAY / YOU SAY · THE FIVE OBJECTIONS</div>
+        <div class="obj"><div class="they">“It is too expensive for my list.”</div><div class="ysl">YOU SAY</div><div class="you">“It is priced for what it is: hand-farmed, dry-farmed, biodynamic fields. Start with Daybreak by the glass, where the margin makes the case for you.”</div></div>
+        <div class="obj"><div class="they">“Natural wines are unstable.”</div><div class="ysl">YOU SAY</div><div class="you">“Low intervention, not no intervention. Clean, stable, and I stand behind every bottle.”</div></div>
+        <div class="obj"><div class="they">“Nobody is asking for it.”</div><div class="ysl">YOU SAY</div><div class="you">“Your guests are asking for exactly this: biodynamic, single-site, a story your staff can tell. Pour one glass for your team and let them ask the questions.”</div></div>
+        <div class="obj"><div class="they">“I have never heard of this ridge.”</div><div class="ysl">YOU SAY</div><div class="you">“A single site you can taste beats a famous name you cannot. Your list gets there first.”</div></div>
+        <div class="obj"><div class="they">“Allocated? I cannot build on that.”</div><div class="ysl">YOU SAY</div><div class="you">“The allocation is the reason to commit now. First in line beats waiting.”</div></div>
+        <div class="secl" style="margin-top:.1in">THE CHANNEL CHEAT</div>
+        <div class="cheat">
+          <div class="cbox"><h5>ON-PREMISE · WHY POUR</h5><ul><li>By-the-glass velocity, staff story</li><li>Natural-list credibility</li><li>Farm-to-glass dinners, chef collabs</li></ul></div>
+          <div class="cbox"><h5>OFF-PREMISE · WHY STOCK</h5><ul><li>Premium set that trades up</li><li>A label that sells unattended</li><li>Daybreak case stacks in season</li></ul></div>
+        </div>
+        <div class="secl" style="margin-top:.16in">START HERE</div>
+        <div class="start"><img src="../assets/img/pairing_bluehour.jpg"><p>Lead the summer list with <b>Daybreak</b> and <b>Afterglow</b> by the glass, anchor with <b>Chardonnay</b>, and let the <b>Field Blend</b> define the bottle list. The reserve rewards the relationship.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>DEEP FIELDS IS A DEMONSTRATION BRAND BY SMALL CIRCLE · CIRCLESMALL.COM</span><span>HALDEN RISE · NORTHERN CALIFORNIA COAST</span></div>
+</div>
+
+</body></html>

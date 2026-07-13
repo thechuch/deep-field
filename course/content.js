@@ -214,8 +214,8 @@ const COURSE = {
       { t:"hero", img:"../assets/img/pairing_flagship.jpg", kicker:"THE TABLE", title:"The same soil, read twice." },
       { t:"text", p:["Pairing here is a sell, not a garnish: farm-to-glass dinners and chef collaborations are how on-premise accounts turn this brand into events. Learn three confident pairings and the one-line reason each works."] },
       { t:"dragmatch", prompt:"Drag each dish to its wine. Every correct drop tells you why it works, and that why is your tableside line.", zones:[
-        { name:"FIELD BLEND", why:"Savory depth meets savory depth: the field blend's dark fruit carries duck and jus." },
-        { name:"DUSKFALL", why:"Skin-contact grip loves sweet-spiced roast. Texture with texture." },
+        { name:"FIELD BLEND", why:"The field blend's dark, savory fruit carries the duck and jus." },
+        { name:"DUSKFALL", why:"The skin-contact grip cuts the sweet, spiced roast." },
         { name:"AFTERGLOW", why:"Dusk-pale salinity, built for cold brine and citrus. The easiest yes of the summer." } ], items:[
         { txt:"Seared duck, maitake, dark jus", z:0, hint:"Dark, savory, structured. Which wine matches that weight?" },
         { txt:"Roast squash, spiced honey, toasted seeds", z:1, hint:"Sweet spice and texture want grip." },

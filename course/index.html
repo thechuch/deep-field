@@ -64,6 +64,40 @@
   .kicker{font-family:var(--sans);font-size:11px;letter-spacing:.32em;color:var(--gold2);margin-bottom:12px}
   .hero h2{font-family:var(--sans);font-weight:300;letter-spacing:.1em;font-size:clamp(28px,4vw,44px)}
   .block{margin-top:44px}
+  /* lesson header + objective chips */
+  .lhead{padding-bottom:18px;margin-bottom:26px;border-bottom:1px solid var(--line)}
+  .lmeta{font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px}
+  .lmeta .lsec{color:var(--loam)}
+  .lmeta span+span::before{content:"· ";color:var(--line)}
+  .ltitle{font-family:var(--sans);font-weight:300;letter-spacing:.06em;font-size:clamp(25px,3.4vw,36px);margin-top:12px;line-height:1.15}
+  .objrow{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .objlab{font-family:var(--sans);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+  .ochip{font-size:12.5px;line-height:1.35;background:var(--white);border:1px solid var(--line);border-left:3px solid var(--gold);
+    padding:5px 11px;border-radius:3px;color:var(--ink);cursor:help}
+  .ochip b{font-family:var(--sans);letter-spacing:.1em;color:var(--loam);margin-right:7px;font-weight:500}
+  /* design notes: the educator layer */
+  .dnote{margin-top:16px;background:#101828;color:#DFE5EE;border-radius:5px;padding:18px 20px;border-left:3px solid var(--gold)}
+  .block+.dnote{margin-top:18px}
+  .dnk{font-family:var(--sans);font-size:10px;letter-spacing:.2em;color:var(--gold2);display:flex;flex-wrap:wrap;gap:10px;align-items:baseline}
+  .dno{color:#7C879B;letter-spacing:.14em}
+  .dnote h4{font-family:var(--sans);font-weight:400;letter-spacing:.04em;font-size:17px;margin:8px 0 8px;color:#FFF}
+  .dnote p{font-size:14px;line-height:1.65;color:#C2CBD8}
+  .dnote .dnm{margin-top:9px;font-size:12.5px;color:#95A1B4}
+  .dnote .dns{margin-top:9px;font-size:12px;color:#8290A6;font-style:italic}
+  .dnote .dns a{color:#9FB0C9}
+  .ntoggle{background:none;border:1px solid rgba(245,239,228,.22);color:#C7CFDD;font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;padding:7px 10px;border-radius:100px;display:flex;align-items:center;gap:9px;width:100%}
+  .ntoggle:hover{border-color:var(--gold2);color:var(--gold2)}
+  .ntoggle .nsw{width:22px;height:12px;border-radius:100px;background:rgba(245,239,228,.2);position:relative;flex:0 0 auto;transition:background .18s}
+  .ntoggle .nsw::after{content:"";position:absolute;top:2px;left:2px;width:8px;height:8px;border-radius:50%;background:#C7CFDD;transition:transform .18s,background .18s}
+  .ntoggle.on{border-color:var(--gold);color:var(--gold2)}
+  .ntoggle.on .nsw{background:rgba(199,163,69,.45)}
+  .ntoggle.on .nsw::after{transform:translateX(10px);background:var(--gold2)}
+  @media print{ .dnote{background:#fff;color:#000;border-left:3px solid #999;break-inside:avoid} .dnote h4,.dnote p{color:#000} .ntoggle{display:none} }
+  @media (prefers-reduced-motion:reduce){ .ntoggle .nsw,.ntoggle .nsw::after{transition:none} }
+  .trbtn{background:none;border:0;padding:4px 0;color:var(--loam);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    font-family:var(--sans);text-decoration:underline;text-underline-offset:3px}
+  .trbtn:hover{color:var(--ink)}
   h2,h3,h4{text-wrap:balance}
   p{text-wrap:pretty}
   .block h3{font-family:var(--sans);font-weight:500;letter-spacing:.1em;font-size:19px;margin-bottom:14px}
@@ -275,12 +309,21 @@ const save = () => localStorage.setItem('df_course_v2', JSON.stringify(S));
 const LESSONS = COURSE.sections.flatMap(s=>s.lessons.map(l=>({...l, sec:s.name, secId:s.id})));
 let cur = Math.max(0, LESSONS.findIndex(l=>l.id===(location.hash||'').slice(1)));
 let gates = {}; // per-render gate map id->bool
+const TOTAL_MIN = LESSONS.reduce((n,l)=>n+(parseInt(l.time,10)||0),0);
+
+/* ---------- design notes (educator layer) ---------- */
+/* Off by default. ?notes=1 opens with it on, so a link can carry it. */
+const NOTES_ON = (()=>{
+  const p = new URLSearchParams(location.search).get('notes');
+  if(p==='1'||p==='0'){ S.notes = (p==='1'); save(); }
+  return !!S.notes;
+})();
 
 /* ---------- sidebar ---------- */
 function sidebar(){
-  const done = Object.keys(S.done).filter(k=>S.done[k]).length;
+  const done = Object.keys(S.done).filter(k=>S.done[k] && LESSONS.some(l=>l.id===k)).length;
   const pct = Math.round(done/LESSONS.length*100);
-  let h = `<div class="sidehero"><div class="ringw"></div><div class="wm">DEEP FIELDS</div><h1>Sell the Depth</h1><div class="sub">The trade education course · 19 lessons · about 35 minutes</div></div>
+  let h = `<div class="sidehero"><div class="ringw"></div><div class="wm">DEEP FIELDS</div><h1>Sell the Depth</h1><div class="sub">The trade education course · ${LESSONS.length} lessons · about ${TOTAL_MIN} minutes</div></div>
   <div class="pwrap"><div class="pbar"><i style="width:${pct}%"></i></div><div class="ptxt">${pct}% COMPLETE</div></div><div class="navsec">`;
   COURSE.sections.forEach(sec=>{
     h += `<div class="sec">${sec.id} · ${sec.name.toUpperCase()}</div>`;
@@ -292,7 +335,9 @@ function sidebar(){
   h += `</div><div class="sidefoot">
     <a href="../downloads/deep-fields-sell-sheet.pdf" download>↓ Sell sheet (PDF)</a>
     <a href="../downloads/deep-fields-brand-book.pdf" download>↓ Brand book (PDF)</a>
-    <a href="../index.html">← deepfield wine · brand site</a>
+    <a href="../index.html">← Deep Fields · brand site</a>
+    <button type="button" class="ntoggle ${NOTES_ON?'on':''}" onclick="toggleNotes()" aria-pressed="${NOTES_ON}">
+      <span class="nsw" aria-hidden="true"></span>Design notes</button>
     <span style="color:#58637C">Built by Small Circle</span></div>`;
   document.getElementById('side').innerHTML = h;
   const mt=document.getElementById('mbtitle'), mp=document.getElementById('mbpct');
@@ -302,12 +347,58 @@ function sidebar(){
 /* ---------- block renderers ---------- */
 let uid = 0;
 const esc = s => (s||'').replace(/"/g,'&quot;');
+/* Full escape for anything a learner typed, before it is reprinted as HTML. */
+const escH = s => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* Lesson header. Every lesson gets a meta strip and its objective chips; the title
+   prints here only when no hero block is carrying it. Nine of nineteen lessons
+   rendered with no title at all before this existed. */
+function lessonHeadHTML(l){
+  const i = LESSONS.findIndex(x=>x.id===l.id);
+  const hasHero = (l.blocks||[]).some(b=>b.t==='hero');
+  const chips = (l.obj||[]).map(k=>{
+    const o = (typeof OBJ!=='undefined' && OBJ[k]) || null;
+    return o ? `<span class="ochip" title="${esc(o.full)}"><b>${k}</b> ${escH(o.short)}</span>` : '';
+  }).join('');
+  return `<header class="lhead">
+    <div class="lmeta"><span class="lsec">${escH(l.sec)}</span><span>Lesson ${i+1} of ${LESSONS.length}</span><span>${escH(l.time)}</span></div>
+    ${hasHero?'':`<h2 class="ltitle">${escH(l.title)}</h2>`}
+    ${chips?`<div class="objrow"><span class="objlab">Objective</span>${chips}</div>`:''}
+  </header>`;
+}
+
+/* Design notes: the educator layer. Off by default, on via ?notes=1 or the sidebar
+   toggle. A note never contains an answer, so turning it on cannot make the course easier. */
+const NOTE_KINDS = { technique:"THE TECHNIQUE", evidence:"THE EVIDENCE", decision:"THE DECISION, AND WHAT IT COSTS", notthis:"WHAT WE DID NOT DO", measured:"HOW THIS IS MEASURED" };
+function noteHTML(note, obj){
+  if(!NOTES_ON || !note) return '';
+  const list = Array.isArray(note) ? note : [note];
+  return list.map(n=>{
+    const src = (n.src||[]).map(s=> s.u ? `<a href="${esc(s.u)}" target="_blank" rel="noopener">${escH(s.t)}</a>` : escH(s.t)).join(' · ');
+    const tags = (obj||[]).join(', ');
+    /* A div, not an aside: the stylesheet styles bare `aside` as the nav rail. */
+    return `<div class="dnote" role="note">
+      <div class="dnk">${NOTE_KINDS[n.k]||'DESIGN NOTE'}${tags?`<span class="dno">${tags}</span>`:''}</div>
+      <h4>${escH(n.h)}</h4>
+      <p>${escH(n.b)}</p>
+      ${n.m?`<p class="dnm"><b>Emits:</b> ${escH(n.m)}</p>`:''}
+      ${src?`<p class="dns">${src}</p>`:''}
+    </div>`;
+  }).join('');
+}
+function toggleNotes(){
+  S.notes = !S.notes; save();
+  const u = new URL(location.href); u.searchParams.delete('notes');
+  history.replaceState(null,'',u); location.reload();
+}
 function render(){
   uid = 0; gates = {};
   const l = LESSONS[cur];
   location.hash = l.id;
-  let h = '';
-  l.blocks.forEach(b=>{ h += renderBlock(b, l); });
+  let h = lessonHeadHTML(l);
+  if(cur===0) h += noteHTML(COURSE.note);
+  h += noteHTML(l.note, l.obj);
+  l.blocks.forEach(b=>{ h += renderBlock(b, l) + noteHTML(b.note, b.obj || l.obj); });
   h += footNav(l);
   document.getElementById('stage').innerHTML = h;
   document.querySelector('main').scrollIntoView?.();
@@ -329,7 +420,10 @@ function renderBlock(b, l){
     case 'cards': return `<div class="block"><h3>${b.h}</h3><div class="cardrow">${b.items.map((x,i)=>`<div class="tcard"><b>${i+1}</b>${x}</div>`).join('')}</div></div>`;
     case 'audio': {
       const id='au'+(uid++);
-      return `<div class="block"><div class="audio"><button class="play" id="${id}" onclick="playVO('${id}','${b.file||''}')">▶</button><audio id="${id}x" src="../assets/audio/${b.file}.mp3" preload="none"></audio><div><div class="lab">${b.label.toUpperCase()}</div><div class="script">“${b.script}”</div></div></div></div>`; }
+      /* The script used to print in full beside the play button, so a learner read and
+         heard the same words at once. It now sits behind a toggle: available for
+         accessibility, not competing with the audio. */
+      return `<div class="block"><div class="audio"><button class="play" id="${id}" onclick="playVO('${id}','${b.file||''}')">▶</button><audio id="${id}x" src="../assets/audio/${b.file}.mp3" preload="none"></audio><div><div class="lab">${b.label.toUpperCase()}</div><button type="button" class="trbtn" aria-expanded="false" aria-controls="${id}t" onclick="const p=document.getElementById('${id}t'),o=p.hidden;p.hidden=!o;this.setAttribute('aria-expanded',o);this.textContent=o?'Hide transcript':'Show transcript'">Show transcript</button><div class="script" id="${id}t" hidden>“${b.script}”</div></div></div></div>`; }
     case 'recall': {
       const v = S.recall[b.id]||'';
       return `<div class="block"><div class="ix"><div class="prompt">${b.prompt}</div><textarea style="width:100%;border:1px solid var(--line);padding:12px;font-family:var(--body);font-size:16px;min-height:70px" oninput="S.recall['${b.id}']=this.value;save()" placeholder="Type it here. It stays on your device.">${v}</textarea></div></div>`; }
@@ -387,9 +481,17 @@ function flipCard(gid,i){
 
 /* dragmatch: drag or tap, immediate feedback per drop */
 const DM = {};
+const shuffled = a => { const c=a.slice(); for(let i=c.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [c[i],c[j]]=[c[j],c[i]]; } return c; };
 function dragmatchHTML(b){
   const gid = gateId();
-  DM[gid] = {b, placed:0, sel:null};
+  /* Shuffle items AND zones into a display copy, remapping z, so screen position
+     never encodes the answer. Authoring order in content.js stays readable. */
+  const zOrder = shuffled(b.zones.map((_,i)=>i));
+  const zMap = {}; zOrder.forEach((orig,disp)=>{ zMap[orig]=disp; });
+  const dz = zOrder.map(orig=>b.zones[orig]);
+  const di = shuffled(b.items.map(it=>({...it, z: zMap[it.z]})));
+  b = {...b, zones:dz, items:di};
+  DM[gid] = {b, placed:0, sel:null, miss:{}};
   const chips = b.items.map((it,i)=>`<button class="dchip" id="${gid}i${i}" data-i="${i}">${it.txt}</button>`).join('');
   const zones = b.zones.map((z,zi)=>`<div class="dz" id="${gid}z${zi}" data-z="${zi}"><h5>${z.name}</h5><div id="${gid}zd${zi}"></div></div>`).join('');
   return `<div class="block"><div class="ix dmwrap" id="${gid}" data-gid="${gid}">
@@ -425,7 +527,12 @@ function dmEval(gid, idx, zi){
   } else {
     zone.classList.add('wrongflash');
     setTimeout(()=>zone.classList.remove('wrongflash'), 500);
-    hint.textContent = 'Not quite. ' + (it.hint || 'Try another home.');
+    /* Withhold the specific hint until the second miss on the same card, so the
+       first attempt is a real retrieval attempt and not a prompted one. */
+    st.miss[idx] = (st.miss[idx]||0) + 1;
+    hint.textContent = st.miss[idx] < 2
+      ? 'Not quite. Read the card again and try another home.'
+      : 'Not quite. ' + (it.hint || 'Try another home.');
     hint.classList.add('show');
     return false;
   }
@@ -600,8 +707,8 @@ function renderJustBranch(){ render(); window.scrollTo({top:document.getElementB
 let AS = null;
 function assessHTML(){
   const gid = gateId();
-  if(S.done['I2']) gates[gid]=true;
-  AS = {gid, i:0, right:0, answered:false};
+  if(S.done[LESSONS[cur].id]) gates[gid]=true;
+  AS = {gid, i:0, right:0, answered:false, lid:LESSONS[cur].id};
   return `<div class="block"><div class="ix" id="asx">
     <h3 style="font-family:var(--sans);letter-spacing:.14em">THE ASSESSMENT</h3>
     <p>${ASSESS.passNote}</p>
@@ -654,7 +761,7 @@ function asCloze(){
 }
 function asDone(){
   const n = ASSESS.items.length, pct = Math.round(AS.right/n*100), pass = pct>=80;
-  if(pass){ gates[AS.gid]=true; S.done['I2']=true; save(); }
+  if(pass){ gates[AS.gid]=true; S.done[AS.lid]=true; save(); }
   const C = 2*Math.PI*88;
   document.getElementById('asx').innerHTML = `
     <div class="gauge">
@@ -681,7 +788,8 @@ function commitHTML(){
   const gid = gateId();
   if(S.commit.account) gates[gid]=true;
   const base = S.recall.baseline ? `<div class="echo" style="margin-top:16px"><b>Where you started</b> · your line before the course: “${S.recall.baseline}”<br><b>Where you landed</b> · you now carry the 30-second pitch, eight roles, and five rebuttals. Read your old line once more, then say the new pitch out loud.</div>` : '';
-  const wines = ['Deep Fields (the flagship)','Pinot Noir','Syrah','Chardonnay','Duskfall','Daybreak','Afterglow','Long Exposure'];
+  const wines = (typeof WINES!=='undefined' && WINES.length) ? WINES
+    : ['Field Blend (the flagship)','Pinot Noir','Syrah','Chardonnay','Duskfall','Daybreak','Afterglow','Long Exposure'];
   return `<div class="block"><div class="ix">
     <div class="prompt">${COMMIT.prompt}</div>
     <div class="cform">

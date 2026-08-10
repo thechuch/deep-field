@@ -95,6 +95,23 @@
   .ntoggle.on .nsw::after{transform:translateX(10px);background:var(--gold2)}
   @media print{ .dnote{background:#fff;color:#000;border-left:3px solid #999;break-inside:avoid} .dnote h4,.dnote p{color:#000} .ntoggle{display:none} }
   @media (prefers-reduced-motion:reduce){ .ntoggle .nsw,.ntoggle .nsw::after{transition:none} }
+  .pred{display:block;width:100%;margin:10px 0 12px;border:1px solid var(--line);background:var(--white);
+    padding:10px 12px;font-family:var(--body);font-size:16px;line-height:1.5;border-radius:3px;resize:vertical}
+  .pred:focus{outline:2px solid var(--gold);outline-offset:1px}
+  .pred:disabled{background:var(--bone2);color:var(--muted)}
+  .mine{background:var(--bone2);border-left:3px solid var(--loam);padding:10px 13px;margin-bottom:12px;font-size:14px}
+  .mine:empty{display:none}
+  .ylab{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.2em;color:var(--loam);margin-bottom:4px}
+  .pp{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .pp .ppr{grid-column:1/-1}
+  @media(max-width:760px){ .pp{grid-template-columns:1fr} }
+  .ppc{background:var(--white);border:1px solid var(--line);border-left:3px solid var(--loam);padding:14px 16px}
+  .ppc.now{border-left-color:var(--gold)}
+  .ppc p{font-size:15px;line-height:1.6}
+  .pplab{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .ppr{background:var(--bone2);padding:14px 16px}
+  .ppr ul{margin:0 0 10px 18px;font-size:14px;line-height:1.7}
+  .ppnote{display:block;font-size:12.5px;color:var(--muted);font-style:italic}
   .trbtn{background:none;border:0;padding:4px 0;color:var(--loam);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
     font-family:var(--sans);text-decoration:underline;text-underline-offset:3px}
   .trbtn:hover{color:var(--ink)}
@@ -303,9 +320,16 @@
 <script src="content.js"></script>
 <script>
 /* ---------- state ---------- */
-const S = JSON.parse(localStorage.getItem('df_course_v2')||'{}');
+/* v3: the lesson map changed from 19 to 15, so progress keys from v2 no longer
+   mean anything. We bump rather than migrate: a migration table is a set of
+   judgment calls nobody verifies, and it leaves exactly the stale-key class that
+   produced the over-100-percent bar. The design-notes preference lives on its own
+   key so it survives both the bump and RESET. */
+const CKEY = 'df_course_v3', NKEY = 'df_notes';
+const HAD_V2 = !!localStorage.getItem('df_course_v2');
+const S = JSON.parse(localStorage.getItem(CKEY)||'{}');
 S.done = S.done||{}; S.recall = S.recall||{}; S.commit = S.commit||{};
-const save = () => localStorage.setItem('df_course_v2', JSON.stringify(S));
+const save = () => localStorage.setItem(CKEY, JSON.stringify(S));
 const LESSONS = COURSE.sections.flatMap(s=>s.lessons.map(l=>({...l, sec:s.name, secId:s.id})));
 let cur = Math.max(0, LESSONS.findIndex(l=>l.id===(location.hash||'').slice(1)));
 let gates = {}; // per-render gate map id->bool
@@ -333,6 +357,7 @@ function sidebar(){
     });
   });
   h += `</div><div class="sidefoot">
+    <a href="lineup.html">→ The lineup (job aid)</a>
     <a href="../downloads/deep-fields-sell-sheet.pdf" download>↓ Sell sheet (PDF)</a>
     <a href="../downloads/deep-fields-brand-book.pdf" download>↓ Brand book (PDF)</a>
     <a href="../index.html">← Deep Fields · brand site</a>
@@ -437,7 +462,7 @@ function renderBlock(b, l){
     case 'twoup': return `<div class="block"><div class="two">${[b.left,b.right].map(c=>`<div class="cell"><img src="${c.img}" alt="${c.h}"><div class="m"><h4>${c.h}</h4><div class="s">${c.sub.toUpperCase()}</div><p>${c.p}</p></div></div>`).join('')}</div></div>`;
     case 'accordion': return `<div class="block"><h3>${b.h}</h3><div class="acc">${b.items.map(it=>`<div class="it"><button class="h" onclick="this.parentNode.classList.toggle('open');this.querySelector('span').textContent=this.parentNode.classList.contains('open')?'−':'+'">${it.h}<span>+</span></button><div class="bd">${it.body}</div></div>`).join('')}</div></div>`;
     case 'badges': return `<div class="block"><div style="background:var(--white);border:1px solid var(--line);padding:26px;text-align:center"><img src="${b.img}" alt="Illustrative certification marks" style="max-width:680px;margin:0 auto;mix-blend-mode:multiply"><p style="font-size:11.5px;color:var(--muted);margin:14px auto 0;max-width:64ch">${b.caption}</p></div></div>`;
-    case 'branch': return branchHTML();
+    case 'branch': return branchHTML(b);
     case 'assess': return assessHTML();
     case 'commit': return commitHTML();
   }
@@ -610,10 +635,28 @@ function playVO(id, file){
 /* steps (predict then reveal) */
 function stepsHTML(b){
   const gid = gateId(); let n = b.items.length; window['_st_'+gid]={n, open:0};
-  const items = b.items.map((it,i)=>`<div class="step" id="${gid}s${i}"><div class="q">${it.prompt}</div><button class="btn ghost" onclick="reveal('${gid}',${i})">REVEAL OUR ANSWER</button><div class="rv">${it.reveal}</div></div>`).join('');
+  /* The reveal used to be available immediately, so nobody actually predicted and
+     eight prompts were satisfiable in seconds. REVEAL now stays disabled until the
+     rep commits words, and their words sit beside ours. That is the generation
+     effect: the attempt is what does the work, not the reading. */
+  const items = b.items.map((it,i)=>`<div class="step" id="${gid}s${i}"><div class="q">${it.prompt}</div>
+    <textarea class="pred" id="${gid}p${i}" rows="2" placeholder="Your answer first." aria-label="Your answer, before ours" oninput="predOn('${gid}',${i})"></textarea>
+    <button class="btn ghost" id="${gid}b${i}" disabled onclick="reveal('${gid}',${i})">REVEAL OUR ANSWER</button>
+    <div class="rv"><div class="mine" id="${gid}m${i}"></div>${it.reveal}</div></div>`).join('');
   return `<div class="block"><div class="ix"><div class="prompt">${b.intro}</div>${items}</div></div>`;
 }
-function reveal(gid,i){ const el=document.getElementById(gid+'s'+i); if(el.classList.contains('open'))return; el.classList.add('open'); const st=window['_st_'+gid]; st.open++; if(st.open>=st.n){ gates[gid]=true; updateGate(); } }
+function predOn(gid,i){
+  const t=document.getElementById(gid+'p'+i), b=document.getElementById(gid+'b'+i);
+  if(t&&b) b.disabled = t.value.trim().length < 3;
+}
+function reveal(gid,i){
+  const el=document.getElementById(gid+'s'+i); if(el.classList.contains('open'))return;
+  const t=document.getElementById(gid+'p'+i), m=document.getElementById(gid+'m'+i);
+  if(t && t.value.trim()){ m.innerHTML = '<span class="ylab">YOU SAID</span>'+escH(t.value.trim()); t.disabled=true; }
+  el.classList.add('open');
+  const st=window['_st_'+gid]; st.open++;
+  if(st.open>=st.n){ gates[gid]=true; updateGate(); }
+}
 
 /* predictpair */
 function predictPairHTML(b){
@@ -664,12 +707,17 @@ function hsPredict(gid,i,ok,btn){
 
 /* ---------- branching scenario ---------- */
 let BR = null;
-function branchHTML(){
-  const gid = gateId(); BR = {gid, path:null, node:null, meter:50};
-  const cards = BRANCH.paths.map((p,i)=>`<button class="pathc" onclick="brStart(${i})"><img src="${p.img}" alt=""><div class="m"><h4>${p.name}</h4><p>${p.desc}</p></div></button>`).join('');
-  return `<div class="block"><div class="ix" id="brx"><div class="prompt">${BRANCH.intro}</div><div class="paths">${cards}</div></div></div>`;
+/* Two scenarios now exist: a scaffolded one in B2 and an unscaffolded one in F2.
+   A block declares which via { t:"branch", set:"curious" }. BRANCH.sets holds them;
+   a bare BRANCH still works as the default set. */
+function brSet(name){ return (BRANCH.sets && BRANCH.sets[name]) || BRANCH.sets?.curious || BRANCH; }
+function branchHTML(b){
+  const gid = gateId(); const set = brSet(b && b.set);
+  BR = {gid, set, path:null, node:null, meter:50};
+  const cards = set.paths.map((p,i)=>`<button class="pathc" onclick="brStart(${i})"><img src="${p.img}" alt=""><div class="m"><h4>${p.name}</h4><p>${p.desc}</p></div></button>`).join('');
+  return `<div class="block"><div class="ix" id="brx"><div class="prompt">${set.intro}</div><div class="paths">${cards}</div></div></div>`;
 }
-function brStart(i){ BR.path = BRANCH.paths[i]; BR.meter = 50; brNode('start'); }
+function brStart(i){ BR.path = BR.set.paths[i]; BR.meter = 50; brNode('start'); }
 function brNode(key){
   BR.node = key;
   if(key==='close'){ return brClose(); }
@@ -692,23 +740,34 @@ function brPick(j){
   document.querySelectorAll('#brx .meter .lab')[1].textContent = BR.meter;
 }
 function brClose(){
-  const tier = BRANCH.closes.find(c=>BR.meter>=c.min);
+  const tier = BR.set.closes.find(c=>BR.meter>=c.min);
   gates[BR.gid]=true; updateGate();
   document.getElementById('brx').innerHTML = `
     <div class="kicker" style="color:var(--loam)">${BR.path.name} · VISIT COMPLETE</div>
     <div class="meter"><span class="lab">FINAL CONFIDENCE</span><div class="bar"><i style="width:${BR.meter}%"></i></div><span class="lab">${BR.meter}</span></div>
     <div class="close-h">${tier.h}</div><p style="max-width:64ch">${tier.text}</p>
-    <div class="note" style="margin:18px 0">${BRANCH.debrief}</div>
+    <div class="note" style="margin:18px 0">${BR.set.debrief}</div>
     <button class="btn ghost" onclick="renderJustBranch()">RUN IT AGAIN</button>`;
 }
 function renderJustBranch(){ render(); window.scrollTo({top:document.getElementById('brx').offsetTop-80}); }
 
 /* ---------- assessment ---------- */
 let AS = null;
+/* Draw a fresh set each attempt from the bank, always including the must-pass
+   items, and shuffle the options inside each item. A fixed 12-item form measures
+   memory of the form; a draw measures the objective. */
+function asDraw(){
+  const bank = ASSESS.bank || ASSESS.items || [];
+  const n = ASSESS.draw || 12;
+  const must = bank.filter(q=>q.must);
+  const rest = shuffled(bank.filter(q=>!q.must));
+  const set  = shuffled(must.concat(rest.slice(0, Math.max(0, n - must.length))));
+  return set.map(q => q.opts ? Object.assign({}, q, {opts: shuffled(q.opts)}) : q);
+}
 function assessHTML(){
   const gid = gateId();
   if(S.done[LESSONS[cur].id]) gates[gid]=true;
-  AS = {gid, i:0, right:0, answered:false, lid:LESSONS[cur].id};
+  AS = {gid, i:0, right:0, answered:false, lid:LESSONS[cur].id, items:asDraw(), missedMust:[], byObj:{}};
   return `<div class="block"><div class="ix" id="asx">
     <h3 style="font-family:var(--sans);letter-spacing:.14em">THE ASSESSMENT</h3>
     <p>${ASSESS.passNote}</p>
@@ -716,17 +775,15 @@ function assessHTML(){
 }
 function asQ(i, right){
   AS.i=i; AS.right=right; AS.answered=false;
-  if(i>=ASSESS.items.length) return asDone();
-  const q = ASSESS.items[i];
-  let inner = `<div class="qnum">QUESTION ${i+1} OF ${ASSESS.items.length}</div><div class="prompt">${q.stem}</div>`;
+  if(i>=AS.items.length) return asDone();
+  const q = AS.items[i];
+  let inner = `<div class="qnum">QUESTION ${i+1} OF ${AS.items.length}</div><div class="prompt">${q.stem}</div>`;
   if(q.kind==='mc'){
     inner += q.opts.map((o,j)=>`<button class="opt" onclick="asMC(${j},${o.ok?1:0},this)">${o.o}</button>`).join('');
     inner += q.opts.map((o,j)=>`<div class="fb" id="asf${j}">${o.fb}</div>`).join('');
   } else if(q.kind==='multi'){
     inner += q.opts.map((o,j)=>`<label style="display:flex;gap:10px;align-items:flex-start;background:var(--bone);border:1px solid var(--line);padding:12px 16px;margin-bottom:8px;font-size:14px"><input type="checkbox" id="ms${j}" style="margin-top:4px">${o.o}</label>`).join('');
     inner += `<div style="margin-top:14px"><button class="btn" onclick="asMulti()">SUBMIT</button></div><div class="fb" id="asmf">${q.fb}</div>`;
-  } else if(q.kind==='cloze'){
-    inner += `<div class="clz">` + q.parts.map((p,j)=>`<div class="row">${p.pre}<input id="cz${j}" autocomplete="off">${p.post}</div>`).join('') + `</div><div style="margin-top:12px"><button class="btn" onclick="asCloze()">SUBMIT</button></div><div class="fb" id="asczf">${q.fb}</div>`;
   }
   inner += `<div style="margin-top:18px;display:none" id="asnext"><button class="btn" onclick="asQ(${i+1}, AS.right)">NEXT →</button></div>`;
   document.getElementById('asx').innerHTML = inner;
@@ -737,31 +794,49 @@ function asMC(j, ok, btn){
   document.querySelectorAll('#asx .opt').forEach(o=>o.disabled=true);
   btn.classList.add(ok?'sel-ok':'sel-bad');
   document.getElementById('asf'+j).classList.add(ok?'ok':'bad');
-  if(ok) AS.right++;
+  asRecord(window['_asq'], ok?1:0);
   document.getElementById('asnext').style.display='block';
+}
+/* score is fractional so a multi can earn partial credit */
+function asRecord(q, score){
+  AS.right += score;
+  const o = q.obj || 'x';
+  AS.byObj[o] = AS.byObj[o] || {got:0, n:0};
+  AS.byObj[o].got += score; AS.byObj[o].n += 1;
+  if(q.must && score < 1) AS.missedMust.push(q);
 }
 function asMulti(){
   if(AS.answered) return; AS.answered=true;
   const q = window['_asq'];
-  let ok = q.opts.every((o,j)=>document.getElementById('ms'+j).checked === !!o.ok);
-  if(ok) AS.right++;
+  const right = q.opts.filter((o,j)=>document.getElementById('ms'+j).checked === !!o.ok).length;
+  const score = right / q.opts.length;          /* partial credit, per decision */
+  const ok = score === 1;
+  asRecord(q, score);
   const f = document.getElementById('asmf'); f.classList.add(ok?'ok':'bad');
-  f.insertAdjacentHTML('afterbegin', `<b>${ok?'Correct set. ':'Not the full set. '}</b>`);
-  document.getElementById('asnext').style.display='block';
-}
-function asCloze(){
-  if(AS.answered) return; AS.answered=true;
-  const q = window['_asq'];
-  const norm = s => s.toLowerCase().replace(/[.,'"!?]/g,'').trim();
-  let ok = q.parts.every((p,j)=> p.answers.some(a=>norm(a)===norm(document.getElementById('cz'+j).value)));
-  if(ok) AS.right++;
-  const f = document.getElementById('asczf'); f.classList.add(ok?'ok':'bad');
-  f.insertAdjacentHTML('afterbegin', `<b>${ok?'Word for word. ':'Not quite. '}</b>`);
+  f.insertAdjacentHTML('afterbegin', `<b>${ok?'Correct set. ':`${right} of ${q.opts.length} calls right. `}</b>`);
   document.getElementById('asnext').style.display='block';
 }
 function asDone(){
-  const n = ASSESS.items.length, pct = Math.round(AS.right/n*100), pass = pct>=80;
+  /* Two conditions, not one. A raw cut score, AND every must-pass item correct.
+     A rep can score well overall and still have done the one thing that loses the
+     account, so an average cannot be allowed to hide it. */
+  const n = AS.items.length;
+  const cut = ASSESS.cut || Math.ceil(n*0.8);
+  const raw = Math.round(AS.right*10)/10;
+  const pct = Math.round(AS.right/n*100);
+  const mustOK = AS.missedMust.length === 0;
+  const pass = raw >= cut && mustOK;
   if(pass){ gates[AS.gid]=true; S.done[AS.lid]=true; save(); }
+  /* weakest objectives, for the debrief */
+  const weak = Object.keys(AS.byObj)
+    .filter(k=>AS.byObj[k].n && (AS.byObj[k].got/AS.byObj[k].n) < 0.7)
+    .map(k=>`${k} ${(typeof OBJ!=='undefined'&&OBJ[k])?OBJ[k].short:''}`);
+  const failNote = !mustOK
+    ? `<div class="fb bad" style="margin-top:16px"><b>Must-pass missed. </b>You did not clear ${AS.missedMust.length===1?'an item':'items'} we treat as non-negotiable, so this does not pass regardless of the total. ${AS.missedMust.map(q=>'<span style="display:block;margin-top:6px">'+escH(q.stem)+'</span>').join('')}</div>`
+    : '';
+  const weakNote = weak.length
+    ? `<div class="fb" style="margin-top:14px;background:var(--bone2);border-left:3px solid var(--gold);color:#4A5468"><b>Weakest here: </b>${weak.map(escH).join(' · ')}</div>`
+    : '';
   const C = 2*Math.PI*88;
   document.getElementById('asx').innerHTML = `
     <div class="gauge">
@@ -770,12 +845,13 @@ function asDone(){
         <circle id="garc" cx="100" cy="100" r="88" fill="none" stroke="${pass?'#2E7D5B':'#A8433B'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" transform="rotate(-90 100 100)"/>
         <circle cx="100" cy="12" r="4" fill="#C7A345" transform="rotate(${.8*360-90+90} 100 100)"/>
         <text x="100" y="94" text-anchor="middle" style="font-family:Jost;font-size:34px;letter-spacing:2px" fill="#131B2C">${pct}%</text>
-        <text x="100" y="120" text-anchor="middle" style="font-family:Jost;font-size:11px;letter-spacing:3px" fill="#8A6F55">${pass?'PASSED':'PASSING IS 80'}</text>
+        <text x="100" y="120" text-anchor="middle" style="font-family:Jost;font-size:11px;letter-spacing:3px" fill="#8A6F55">${pass?'PASSED':'NOT YET'}</text>
       </svg>
-      <div class="score">${AS.right} OF ${n} · ${pass?'YOU SELL THIS LIKE YOU MEAN IT':'CLOSE. RUN IT AGAIN'}</div>
-      <div style="margin-top:20px;display:flex;gap:12px"><button class="btn ghost" onclick="asQ(0,0)">TAKE AGAIN</button>${pass?'':''}</div>
+      <div class="score">${raw} OF ${n} · NEEDS ${cut} PLUS EVERY MUST-PASS · ${pass?'YOU SELL THIS LIKE YOU MEAN IT':'NOT YET. DRAW A NEW SET'}</div>
+      <div style="margin-top:20px;display:flex;gap:12px"><button class="btn ghost" onclick="AS.items=asDraw();AS.missedMust=[];AS.byObj={};asQ(0,0)">DRAW A NEW SET</button></div>
+      ${failNote}${weakNote}
     </div>
-    <div class="ix" style="margin-top:26px"><div class="prompt">${ASSESS.freeItem.stem}</div>
+    <div class="ix" style="margin-top:26px"><div class="kicker" style="color:var(--loam)">WRITTEN ITEM · REPORTED SEPARATELY, NOT PART OF THE SCORE ABOVE</div><div class="prompt">${ASSESS.freeItem.stem}</div>
       <textarea style="width:100%;border:1px solid var(--line);padding:12px;font-family:var(--body);font-size:16px;min-height:80px" placeholder="Two sentences."></textarea>
       <div style="margin-top:12px"><button class="btn ghost" onclick="this.parentNode.nextElementSibling.style.display='block'">CHECK AGAINST THE RUBRIC</button></div>
       <div class="fb" style="background:var(--bone2);border-left:3px solid var(--gold);color:#4A5468" >${ASSESS.freeItem.rubric}</div></div>`;
@@ -787,7 +863,19 @@ function asDone(){
 function commitHTML(){
   const gid = gateId();
   if(S.commit.account) gates[gid]=true;
-  const base = S.recall.baseline ? `<div class="echo" style="margin-top:16px"><b>Where you started</b> · your line before the course: “${S.recall.baseline}”<br><b>Where you landed</b> · you now carry the 30-second pitch, eight roles, and five rebuttals. Read your old line once more, then say the new pitch out loud.</div>` : '';
+  /* The pre/post loop, closed. A1 captures the rep's cold opening before any
+     teaching; H2 captures it again after. Both are printed side by side against the
+     same five criteria. The rep scores it, so we report it as self-assessment and
+     never as a grade. Ids must match the recall blocks in content.js. */
+  const pre  = S.recall.a1_baseline_pitch || S.recall.baseline || '';
+  const post = S.recall.h2_final_pitch || '';
+  const base = pre ? `<div class="pp">
+      <div class="ppc"><span class="pplab">Lesson one, before any of this</span><p>${escH(pre)}</p></div>
+      <div class="ppc now"><span class="pplab">Just now, after all of it</span><p>${post ? escH(post) : '<i style="color:var(--muted)">Write your line above, and it appears here.</i>'}</p></div>
+      <div class="ppr"><span class="pplab">Score your own, both of them, against the same five</span>
+        <ul><li>Place: one cold ridge, a handful of small fields</li><li>Person: astrophotographer turned farmer</li><li>Practice: dry-farmed, sheep not sprays, said in plain words</li><li>One wine, named, with its job</li><li>An ask they can say yes to</li></ul>
+        <span class="ppnote">This is yours to judge, not a grade. The gap between the two lines is the only learning gain this course claims.</span></div>
+    </div>` : '';
   const wines = (typeof WINES!=='undefined' && WINES.length) ? WINES
     : ['Field Blend (the flagship)','Pinot Noir','Syrah','Chardonnay','Duskfall','Daybreak','Afterglow','Long Exposure'];
   return `<div class="block"><div class="ix">
@@ -850,7 +938,7 @@ function celebrate(){
       <div class="dl" style="justify-content:center">
         <a href="../downloads/deep-fields-sell-sheet.pdf" download>SELL SHEET (PDF)</a>
         <a href="../index.html">THE BRAND SITE</a>
-        <a href="#" onclick="localStorage.removeItem('df_course_v2');location.hash='A1';location.reload();return false">RESET THE COURSE</a>
+        <a href="#" onclick="localStorage.removeItem(CKEY);location.hash=LESSONS[0].id;location.reload();return false">RESET THE COURSE</a>
       </div>
       <p style="margin-top:56px;font-size:11.5px;color:var(--muted)">Deep Fields trade education, crafted by Small Circle.</p>
     </div>`;

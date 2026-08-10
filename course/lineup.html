@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Lineup | Deep Fields</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#131B2C; --bone:#F5EFE4; --bone2:#EDE5D5; --white:#FDFBF6;
+    --gold:#C7A345; --gold2:#E7C876; --loam:#8A6F55; --muted:#6E7787; --line:rgba(19,27,44,.13);
+    --sans:'Jost',sans-serif; --body:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bone);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.7;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  .wrap{max-width:1080px;margin:0 auto;padding:clamp(26px,5vw,54px) clamp(18px,4vw,34px) 80px}
+  .top{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:baseline;justify-content:space-between;
+    padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:8px}
+  .kicker{font-family:var(--sans);font-size:11px;letter-spacing:.3em;color:var(--loam);text-transform:uppercase}
+  h1{font-family:var(--sans);font-weight:300;letter-spacing:.09em;font-size:clamp(28px,5vw,40px);margin-top:10px}
+  .lede{color:var(--muted);max-width:62ch;margin-top:10px}
+  .back{font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--loam);text-decoration:none}
+  .back:hover{color:var(--ink)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;margin-top:30px}
+  .card{background:var(--white);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+  .card .ph{background:var(--bone2);aspect-ratio:4/3;display:grid;place-items:center;padding:14px}
+  .card .ph img{max-height:100%;width:auto;object-fit:contain}
+  .card .m{padding:18px 20px 20px;display:flex;flex-direction:column;gap:9px;flex:1}
+  .card h2{font-family:var(--sans);font-weight:400;letter-spacing:.13em;font-size:18px}
+  .role{font-family:var(--sans);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--loam)}
+  .card p{font-size:14px;line-height:1.6}
+  .card .lab{font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+  .sell{background:var(--bone);border-left:3px solid var(--gold);padding:11px 13px;font-size:13.5px;margin-top:auto}
+  .price{display:flex;gap:20px;border-top:1px solid var(--line);padding-top:11px;font-variant-numeric:tabular-nums}
+  .price div{font-size:13px}
+  .price b{font-family:var(--sans);font-weight:500;font-size:17px;letter-spacing:.04em;display:block}
+  .math{margin-top:34px;background:var(--ink);color:#DFE5EE;border-radius:5px;padding:24px 26px}
+  .math h3{font-family:var(--sans);font-weight:400;letter-spacing:.1em;font-size:17px;color:#FFF;margin-bottom:12px}
+  .math p{font-size:14px;color:#C2CBD8;max-width:70ch}
+  .math table{border-collapse:collapse;margin-top:14px;font-variant-numeric:tabular-nums;font-size:14px}
+  .math td,.math th{text-align:left;padding:7px 20px 7px 0;border-bottom:1px solid rgba(255,255,255,.1);color:#C2CBD8}
+  .math th{font-family:var(--sans);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8290A6;font-weight:400}
+  .math .no{color:#E0A39B}
+  .math .yes{color:#9FD3B4}
+  @media print{ body{background:#fff} .math{background:#fff;color:#000} .math p,.math td{color:#000} .back{display:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="kicker">Deep Fields · Job aid</div>
+      <h1>The Lineup</h1>
+    </div>
+    <a class="back" href="index.html">← Back to the course</a>
+  </div>
+  <p class="lede">Eight wines, eight roles, and the numbers. This is reference, not a lesson. Open it in the car before you walk in.</p>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="math">
+    <h3>The pour-cost math, on Daybreak</h3>
+    <p>A 750ml bottle gives five pours at five ounces. At $16 wholesale, the glass price decides whether it clears her target. Know this before she asks.</p>
+    <table>
+      <tr><th>Glass price</th><th>Revenue per bottle</th><th>Pour cost</th><th>Clears 25%?</th></tr>
+      <tr><td>$16</td><td>$80</td><td>20.0%</td><td class="yes">Yes, comfortably</td></tr>
+      <tr><td>$14</td><td>$70</td><td>22.9%</td><td class="yes">Yes</td></tr>
+      <tr><td>$12</td><td>$60</td><td>26.7%</td><td class="no">No</td></tr>
+    </table>
+    <p style="margin-top:14px">So: at $16 wholesale you need $14 a glass to clear a 25 percent pour cost. If she wants to pour at $12, say so out loud and propose $14. Do not discount to make her math work.</p>
+  </div>
+</div>
+
+<script src="content.js"></script>
+<script>
+(function(){
+  var esc = function(s){ return String(s==null?'':s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+  var wines = (typeof LINEUP !== 'undefined') ? LINEUP : [];
+  document.getElementById('grid').innerHTML = wines.map(function(w){
+    return '<article class="card">'
+      + '<div class="ph"><img src="' + esc(w.img) + '" alt="' + esc(w.wine) + '"></div>'
+      + '<div class="m">'
+      +   '<h2>' + esc(w.wine) + '</h2>'
+      +   '<div class="role">' + esc(w.grape) + '</div>'
+      +   '<p>' + esc(w.story) + '</p>'
+      +   '<div><div class="lab">Tastes like</div><p>' + esc(w.taste) + '</p></div>'
+      +   '<div class="price"><div><span class="lab">Wholesale</span><b>$' + w.wholesale + '</b></div>'
+      +     '<div><span class="lab">Suggested retail</span><b>$' + w.srp + '</b></div></div>'
+      +   '<div class="sell">' + esc(w.sell) + '</div>'
+      + '</div></article>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

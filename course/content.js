@@ -56,18 +56,23 @@ const COURSE = {
   { t:"text", h:"Not what you will know. What you will do.", p:[
     "Knowing the estate does not keep a placement alive. Every line in this course is written as something you do out loud, in an account, with your phone in your pocket and a buyer looking at you.",
     "By the end of it you walk in and ask before you pitch, you put two wines on the bar instead of eight, you say the farming in one sentence a bartender can repeat, you answer a price question with arithmetic instead of an apology, and you leave with a next step that has a day attached to it. Then you come back and the wine is still on the list."] },
-  { t:"steps", id:"a2_visit", obj:["O1","O3","O8"],
-    intro:"One good visit, five moves. Predict each one before you open it. You are not being tested, you are hearing what a good visit sounds like from the inside.", items:[
-    { prompt:"01 · She has ten minutes and your bag is on the floor. What happens before you open it?",
-      reveal:"You ask two questions: what her by-the-glass list is missing, and what her regulars trade up to. Twenty seconds, and now everything you say answers a question she actually has." },
-    { prompt:"02 · She says her whites all taste the same and she needs one glass pour that works on a Tuesday. How many bottles go on the bar?",
-      reveal:"Two. The other six stay in the bag. Eight wines is a tasting. Two is a decision." },
-    { prompt:"03 · You open on Duskfall, the skin-contact Chenin, because her list looks curious. She goes quiet and folds her arms. What do you do?",
-      reveal:"You stop mid-sentence and ask: is skin contact a hard sell in your room? She says yes, her guests bounce off it. That question cost you ten seconds and saved the visit. A wrong wine caught early costs nothing. A wrong wine pitched all the way to the end costs you the meeting." },
-    { prompt:"04 · So you move to the wine she can actually pour. What do you hand her along with the bottle?",
-      reveal:"Daybreak, chilled Gamay, and one line her bartender can repeat without looking anything up: first wine off the fields each year, farmed by the moon and the stars, serve it cold. One sentence. No lecture." },
-    { prompt:"05 · She is interested. What do you ask for on the way out?",
-      reveal:"Not think about it. You ask her to pour it for her staff before Friday service, and you tell her you will be back Tuesday to hear what the bartenders said. That staff pour is the reorder, bought four weeks early." } ] },
+  { t:"transcript", id:"a2_visit", obj:["O1","O3","O8"],
+    h:"One good visit, start to finish.",
+    sub:"Ten minutes with a beverage director who has one open glass slot. The move is named in the margin. Watch what she does when it goes wrong, because that is where the skill actually is.",
+    lines:[
+      { who:"Buyer", say:"I have got about ten minutes. What have you got?" },
+      { who:"Rep", say:"Before I open anything: what is your by-the-glass list missing right now, and what do your regulars trade up to?", note:"Ask before you pitch. Twenty seconds here means everything after it answers a question she actually has." },
+      { who:"Buyer", say:"Honestly, my whites all taste the same. And I need something for a Tuesday, not a special occasion." },
+      { who:"Rep", say:"Then I am going to show you two, not eight.", note:"Two, not eight. She has one slot. Arriving having already chosen is the job." },
+      { who:"Rep", say:"Start with this one. Skin-contact Chenin, a bit of texture, nothing like the other whites on your list.", note:"Reasonable read: her list looks curious, so lead with the curiosity." },
+      { who:"Buyer", say:"(quiet, arms folded) Hm." },
+      { who:"Rep", say:"Let me stop. Is skin contact a hard sell in this room?", note:"THE MOMENT. She stopped listening, so he stopped talking. Ten seconds of asking replaced twenty minutes of guessing." },
+      { who:"Buyer", say:"My guests bounce off it. I have tried twice." },
+      { who:"Rep", say:"Good to know. Then this is your Tuesday wine. Chilled Gamay, first wine off the fields each year, farmed by the moon and the stars. Serve it cold.", note:"A wrong wine caught early costs nothing. A wrong wine pitched to the end costs the meeting." },
+      { who:"Rep", say:"And that is the line for your bartender. One sentence, nothing to look up.", note:"The floor sells it when you are not there. Leave them words, not a fact sheet." },
+      { who:"Buyer", say:"That is easy enough. Let me think about it." },
+      { who:"Rep", say:"Pour it for your staff before Friday service. I will come back Tuesday and hear what they said.", note:"Not think about it. A small dated step. That staff pour is the reorder, bought four weeks early." }
+    ] },
   { t:"decide", id:"a2_notice", obj:["O7"], stem:"Go back to step three. The moment she went quiet and folded her arms, what did the rep actually do?", opts:[
     { o:"Kept going and finished the Duskfall story, because a half-told pitch is worse than none.", fb:"This is the common instinct and it is expensive. Finishing a pitch the buyer has already left costs you the rest of the meeting, and you still walk out not knowing why she checked out. The pitch was never the skill in that moment." },
     { o:"Dropped the price on Duskfall to get past the hesitation.", fb:"Nothing about folded arms said price. She was reacting to the style, not the number, so a discount answers a question she did not ask and reprices a wine that was never the problem. Find out what the silence is before you spend money on it." },
@@ -314,8 +319,12 @@ const COURSE = {
   { t:"decide", id:"e2_q8", obj:["O6"], stem:"The GM of a three-unit local group loved the Syrah and promised to “get it on the list.” Six weeks later, nothing. What went wrong?", opts:[
     { o:"The wine was wrong for that account", fb:"The wine was fine. The pen was somewhere else. In any multi-unit group the first question is who writes the list and when it prints, and it is worth asking before you pour anything." },
     { o:"He never held the pen. One beverage director writes all three lists, and nobody asked her", ok:1, fb:"Right. A GM can be your best advocate and still not be your buyer. Spend the enthusiasm rather than the six weeks: ask him to introduce you to the person who signs, and walk in carrying his endorsement." },
-    { o:"You should have followed up faster", fb:"Following up faster with the person who cannot say yes is still the person who cannot say yes. Speed does not fix an org chart. Find the pen, then move quickly." } ] }
-]}
+    { o:"You should have followed up faster", fb:"Following up faster with the person who cannot say yes is still the person who cannot say yes. Speed does not fix an org chart. Find the pen, then move quickly." } ] },
+      { t:"readiness", h:"Where you stand, on first answers",
+        note:{ k:"measured", h:"First answers, and only those",
+          b:"Every tagged block logs whether the rep was right the first time. Retries teach, but they do not repair the number, so a rep cannot click their way to a clean panel. No pilot has run yet, so there is no cohort data behind this and we are not going to invent any.",
+          m:"Per objective: first-attempt correct, attempts, item ids. Held on the device, never sent anywhere." } }
+    ]}
   ]},
 
   { id:"F", name:"The Hard Room", lessons:[

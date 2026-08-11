@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design evidence | Sell the Depth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#131B2C; --bone:#F5EFE4; --bone2:#EDE5D5; --white:#FDFBF6;
+    --gold:#C7A345; --gold2:#E7C876; --loam:#8A6F55; --muted:#6E7787; --line:rgba(19,27,44,.13);
+    --good:#2E7D5B; --bad:#A8433B;
+    --sans:'Jost',sans-serif; --body:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bone);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.7}
+  .wrap{max-width:1000px;margin:0 auto;padding:clamp(26px,5vw,54px) clamp(18px,4vw,34px) 90px}
+  .kicker{font-family:var(--sans);font-size:11px;letter-spacing:.3em;color:var(--loam);text-transform:uppercase}
+  h1{font-family:var(--sans);font-weight:300;letter-spacing:.08em;font-size:clamp(28px,5vw,40px);margin-top:10px}
+  .lede{color:var(--muted);max-width:70ch;margin-top:12px}
+  .top{padding-bottom:22px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:16px 26px;justify-content:space-between;align-items:baseline}
+  .back{font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--loam);text-decoration:none}
+  .back:hover{color:var(--ink)}
+  h2{font-family:var(--sans);font-weight:400;letter-spacing:.12em;font-size:15px;text-transform:uppercase;
+     margin:44px 0 6px;color:var(--loam)}
+  h2+p{color:var(--muted);max-width:72ch;margin-bottom:16px;font-size:14.5px}
+  .tw{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--white)}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:var(--sans);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:400;white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td.o{font-family:var(--sans);letter-spacing:.08em;color:var(--loam);white-space:nowrap}
+  td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .chip{display:inline-block;font-family:var(--sans);font-size:10.5px;letter-spacing:.1em;
+    padding:2px 8px;border:1px solid var(--line);border-radius:100px;margin:2px 3px 2px 0;white-space:nowrap}
+  .gap{color:var(--bad);font-weight:600}
+  .ok{color:var(--good)}
+  .flag{background:var(--white);border:1px solid var(--line);border-left:3px solid var(--bad);padding:14px 16px;margin-top:10px;font-size:14.5px}
+  .flag.clean{border-left-color:var(--good)}
+  .note{background:var(--ink);color:#DFE5EE;border-radius:5px;padding:22px 24px;margin-top:16px}
+  .note h3{font-family:var(--sans);font-weight:400;letter-spacing:.1em;font-size:16px;color:#FFF;margin-bottom:9px}
+  .note p{font-size:14px;color:#C2CBD8;max-width:74ch}
+  .note p+p{margin-top:10px}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+  @media print{ body{background:#fff} .note{background:#fff;color:#000} .note p,.note h3{color:#000} .back{display:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div>
+      <div class="kicker">Sell the Depth · Design evidence</div>
+      <h1>What this course claims, and what it does not</h1>
+    </div>
+    <a class="back" href="index.html?notes=1">← The course, with design notes on</a>
+  </div>
+  <p class="lede">This page is generated from the course data, not written alongside it. If an objective is taught but never assessed, or assessed but never taught, it shows up here as a gap rather than being smoothed over in prose.</p>
+
+  <h2>Alignment map</h2>
+  <p>Every objective, where it is taught, where it is practiced, and where it is assessed. Counts come straight from the course file and the item bank.</p>
+  <div class="tw"><table id="align"></table></div>
+  <div id="gaps"></div>
+
+  <h2>Course shape</h2>
+  <div class="tw"><table id="shape"></table></div>
+
+  <h2>What the module measures</h2>
+  <p>Three numbers come out of this course. Each one is reported for what it is.</p>
+  <div class="tw"><table id="measures"></table></div>
+
+  <div class="note">
+    <h3>What we are not claiming</h3>
+    <p><b>This is not a certification.</b> A scored exam measures decisions made in a chair, one step short of decisions made in a doorway. A pass says the rep can choose the right move when the options are in front of them. It does not say the placement will survive its first menu cycle.</p>
+    <p><b>The pitch comparison is self-assessment.</b> The rep scores their own opening line against the same five criteria before and after. We report it as self-assessment and never as a grade, because nobody independently rated it.</p>
+    <p><b>No pilot has been run.</b> This course has not yet been through a group of reps in the field, so there is no first-attempt data, no reorder data, and no control group. Any figure on this page describes the design, not its effect. When a pilot runs, the result belongs here, including the part that does not flatter us.</p>
+    <p><b>Training is not the whole gap.</b> The failure this course targets, a placement that dies between the yes and the first reorder, is only partly a knowledge and procedure problem. The rest sits in compensation design, route and CRM logic, and whether a manager ever asks about a reorder. We are not claiming to fix those.</p>
+  </div>
+
+  <footer>Generated from <code>content.js</code> at page load. Deep Fields is a demonstration brand built by Small Circle.</footer>
+</div>
+
+<script src="content.js"></script>
+<script>
+(function(){
+  var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
+  var L=COURSE.sections.reduce(function(a,s){return a.concat(s.lessons.map(function(l){
+    l._sec=s.name; return l;}));},[]);
+  var KINDS=['dragmatch','decide','steps','predictpair','recall','flip','hotspot'];
+
+  // taught: lessons carrying the objective. practiced: interactive blocks tagged with it.
+  var taught={}, practiced={}, assessed={};
+  L.forEach(function(l){
+    (l.obj||[]).forEach(function(o){ (taught[o]=taught[o]||[]).push(l.id); });
+    (l.blocks||[]).forEach(function(b){
+      if(KINDS.indexOf(b.t)<0) return;
+      (b.obj||[]).forEach(function(o){ (practiced[o]=practiced[o]||[]).push(l.id+'/'+(b.id||b.t)); });
+    });
+  });
+  (ASSESS.bank||[]).forEach(function(q){ if(q.obj) (assessed[q.obj]=assessed[q.obj]||[]).push(q); });
+
+  var keys=Object.keys(OBJ);
+  var rows=keys.map(function(k){
+    var t=taught[k]||[], p=practiced[k]||[], a=assessed[k]||[];
+    var must=a.filter(function(q){return q.must;}).length;
+    var gap=(!t.length||!a.length);
+    return '<tr>'
+      +'<td class="o">'+k+'</td>'
+      +'<td>'+esc(OBJ[k].full)+'</td>'
+      +'<td>'+(t.length?t.map(function(x){return '<span class="chip">'+x+'</span>';}).join(''):'<span class="gap">none</span>')+'</td>'
+      +'<td class="n">'+p.length+'</td>'
+      +'<td class="n">'+(a.length?a.length+(must?' <span class="chip">'+must+' must-pass</span>':''):'<span class="gap">0</span>')+'</td>'
+      +'<td>'+(gap?'<span class="gap">GAP</span>':'<span class="ok">aligned</span>')+'</td>'
+      +'</tr>';
+  }).join('');
+  document.getElementById('align').innerHTML =
+    '<thead><tr><th></th><th>Objective, in full</th><th>Taught in</th><th>Practice blocks</th><th>Assessment items</th><th></th></tr></thead><tbody>'+rows+'</tbody>';
+
+  var gaps=keys.filter(function(k){return !(taught[k]||[]).length || !(assessed[k]||[]).length;});
+  var orphanLessons=L.filter(function(l){return !l.obj||!l.obj.length;}).map(function(l){return l.id;});
+  var g='';
+  if(gaps.length) g+='<div class="flag"><b>Coverage gap.</b> '+gaps.join(', ')+' is taught or assessed but not both. Either the lesson earns its place or the item does.</div>';
+  if(orphanLessons.length) g+='<div class="flag"><b>Lessons tracing to no objective:</b> '+orphanLessons.join(', ')+'. A lesson that serves no objective is a candidate for cutting.</div>';
+  if(!g) g='<div class="flag clean"><b>No gaps.</b> Every objective is taught, practiced and assessed, and every lesson traces to at least one objective.</div>';
+  document.getElementById('gaps').innerHTML=g;
+
+  var mins=L.reduce(function(n,l){return n+parseInt(l.time,10);},0);
+  var inter=L.reduce(function(n,l){return n+(l.blocks||[]).filter(function(b){return KINDS.indexOf(b.t)>=0;}).length;},0);
+  var notes=L.reduce(function(n,l){return n+(l.note?1:0)+(l.blocks||[]).filter(function(b){return b.note;}).length;},0)+(COURSE.note?1:0);
+  document.getElementById('shape').innerHTML='<tbody>'
+    +'<tr><td>Sections</td><td class="n">'+COURSE.sections.length+'</td></tr>'
+    +'<tr><td>Lessons</td><td class="n">'+L.length+'</td></tr>'
+    +'<tr><td>Authored minutes</td><td class="n">'+mins+'</td></tr>'
+    +'<tr><td>Interactive blocks</td><td class="n">'+inter+'</td></tr>'
+    +'<tr><td>Assessment bank</td><td class="n">'+(ASSESS.bank||[]).length+' items, '+ASSESS.draw+' drawn per attempt</td></tr>'
+    +'<tr><td>Cut score</td><td class="n">'+ASSESS.cut+' of '+ASSESS.draw+', plus every must-pass item</td></tr>'
+    +'<tr><td>Design notes published</td><td class="n">'+notes+'</td></tr>'
+    +'</tbody>';
+
+  document.getElementById('measures').innerHTML='<thead><tr><th>Number</th><th>What it is</th><th>What it is not</th></tr></thead><tbody>'
+    +'<tr><td>First-attempt accuracy by objective</td><td>The rep\'s first answer on each tagged block, before any retry. Shown to the rep in Mixed Retrieval.</td><td>Not a score they can repair by trying again, and not a field measure.</td></tr>'
+    +'<tr><td>Assessment result</td><td>'+ASSESS.cut+' of '+ASSESS.draw+' drawn from '+(ASSESS.bank||[]).length+', plus all must-pass items, options shuffled each attempt.</td><td>Not a certification, and not a prediction that a placement survives.</td></tr>'
+    +'<tr><td>Pitch criteria gained</td><td>The rep\'s own count against five criteria, on their lesson-one line and their final line.</td><td>Self-assessment. Nobody independently rated either line.</td></tr>'
+    +'</tbody>';
+})();
+</script>
+</body>
+</html>

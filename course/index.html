@@ -111,7 +111,41 @@
   .pplab{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
   .ppr{background:var(--bone2);padding:14px 16px}
   .ppr ul{margin:0 0 10px 18px;font-size:14px;line-height:1.7}
+  .cks{margin-top:12px;display:flex;flex-direction:column;gap:7px;border-top:1px solid var(--line);padding-top:11px}
+  .ck{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:var(--muted);cursor:pointer}
+  .ck input{margin-top:2px;flex:0 0 auto}
+  .ck:hover{color:var(--ink)}
+  .ppscore{margin-bottom:10px}
+  .ppnums{display:flex;flex-wrap:wrap;gap:8px 22px;align-items:baseline;margin-top:6px;font-size:13.5px}
+  .ppnums b{font-family:var(--sans);font-size:17px;letter-spacing:.04em;margin-left:5px}
+  .ppd{font-family:var(--sans);letter-spacing:.1em;font-size:12px;text-transform:uppercase;padding:3px 10px;border-radius:100px;background:var(--bone)}
+  .ppd.up{background:var(--goodbg);color:var(--good)} .ppd.down{background:var(--badbg);color:var(--bad)}
   .ppnote{display:block;font-size:12.5px;color:var(--muted);font-style:italic}
+  .tsc .tsub{font-size:13.5px;color:var(--muted);margin-bottom:18px;max-width:70ch}
+  .tlist{display:flex;flex-direction:column}
+  .tl{display:grid;grid-template-columns:1fr 210px;gap:24px;padding:14px 0;border-top:1px solid var(--line)}
+  .tl:first-child{border-top:0}
+  .tl .who{font-family:var(--sans);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--loam);margin-bottom:5px}
+  .tl .say{font-size:15.5px;line-height:1.65}
+  .tl .move{font-size:12.5px;line-height:1.55;color:var(--muted);border-left:2px solid var(--gold);padding-left:11px;align-self:start}
+  .tl .move:empty{border-left-color:transparent}
+  @media(max-width:800px){ .tl{grid-template-columns:1fr;gap:9px} .tl .move{border-left:2px solid var(--gold)} }
+  .rdy .rdsub{font-size:13.5px;color:var(--muted);margin-bottom:14px;max-width:70ch}
+  .rdy .rdnone{font-size:14px;color:var(--muted);max-width:66ch}
+  .rdwrap{overflow-x:auto}
+  .rdt{width:100%;border-collapse:collapse;font-size:14px}
+  .rdt td{padding:9px 12px 9px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+  .rdt td:first-child{font-family:var(--sans);letter-spacing:.08em;color:var(--loam);width:38px}
+  .rdt tr.dim td{color:var(--muted)}
+  .rdt .num{font-variant-numeric:tabular-nums;font-family:var(--sans);width:66px;text-align:right}
+  .rdt .num.good{color:var(--good)} .rdt .num.weak{color:var(--bad)}
+  .rbar{height:6px;background:var(--bone2);border-radius:100px;overflow:hidden;min-width:120px}
+  .rbar i{display:block;height:100%;background:var(--good)}
+  .rbar i.weak{background:var(--bad)}
+  .rn{font-size:11.5px;color:var(--muted);letter-spacing:.04em}
+  .rdv{margin-top:16px;padding:12px 15px;font-size:14px;border-left:3px solid var(--gold);background:var(--bone2)}
+  .rdv.weak{border-left-color:var(--bad)}
+  .rdv.good{border-left-color:var(--good)}
   .trbtn{background:none;border:0;padding:4px 0;color:var(--loam);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
     font-family:var(--sans);text-decoration:underline;text-underline-offset:3px}
   .trbtn:hover{color:var(--ink)}
@@ -358,6 +392,7 @@ function sidebar(){
   });
   h += `</div><div class="sidefoot">
     <a href="lineup.html">→ The lineup (job aid)</a>
+    <a href="evidence.html">→ Design evidence</a>
     <a href="../downloads/deep-fields-sell-sheet.pdf" download>↓ Sell sheet (PDF)</a>
     <a href="../downloads/deep-fields-brand-book.pdf" download>↓ Brand book (PDF)</a>
     <a href="../index.html">← Deep Fields · brand site</a>
@@ -428,9 +463,39 @@ function render(){
   document.getElementById('stage').innerHTML = h;
   document.querySelector('main').scrollIntoView?.();
   window.scrollTo({top:0});
-  sidebar(); updateGate();
+  sidebar(); updateGate(); if(typeof scoreSelf==='function') scoreSelf();
 }
 function gateId(){ const id = 'g'+(uid++); gates[id]=false; return id; }
+/* Render-time registry so a handler can reach the block it belongs to, and the
+   lesson it sits in, without threading authored ids through onclick strings
+   (several authored ids contain apostrophes, which would break interpolation). */
+const REG = {};
+function regId(b){ const id = gateId(); REG[id] = {b, lid: LESSONS[cur] && LESSONS[cur].id}; return id; }
+
+/* The attempt log. First-attempt correctness is the measurement; later attempts
+   are practice. Keyed by the block's authored id, so it survives re-renders and
+   retakes without growing without bound. */
+function logAttempt(gid, correct, chosen){
+  const r = REG[gid]; if(!r || !r.b || !r.b.id) return;
+  S.att = S.att || {};
+  const k = r.b.id;
+  const rec = S.att[k] || (S.att[k] = { id:k, lid:r.lid, obj:(r.b.obj||[])[0]||null, t:r.b.t, n:0, first:null });
+  rec.n++;
+  if(rec.first === null) rec.first = correct ? 1 : 0;
+  rec.last = correct ? 1 : 0;
+  if(chosen != null) rec.chosen = chosen;
+  save();
+}
+/* First-attempt accuracy per objective, across everything the rep has touched. */
+function objStats(){
+  const out = {};
+  Object.values(S.att||{}).forEach(r=>{
+    if(!r.obj) return;
+    const o = out[r.obj] || (out[r.obj] = {n:0, first:0, items:[]});
+    o.n++; o.first += (r.first?1:0); o.items.push(r.id);
+  });
+  return out;
+}
 
 function renderBlock(b, l){
   switch(b.t){
@@ -462,6 +527,8 @@ function renderBlock(b, l){
     case 'twoup': return `<div class="block"><div class="two">${[b.left,b.right].map(c=>`<div class="cell"><img src="${c.img}" alt="${c.h}"><div class="m"><h4>${c.h}</h4><div class="s">${c.sub.toUpperCase()}</div><p>${c.p}</p></div></div>`).join('')}</div></div>`;
     case 'accordion': return `<div class="block"><h3>${b.h}</h3><div class="acc">${b.items.map(it=>`<div class="it"><button class="h" onclick="this.parentNode.classList.toggle('open');this.querySelector('span').textContent=this.parentNode.classList.contains('open')?'−':'+'">${it.h}<span>+</span></button><div class="bd">${it.body}</div></div>`).join('')}</div></div>`;
     case 'badges': return `<div class="block"><div style="background:var(--white);border:1px solid var(--line);padding:26px;text-align:center"><img src="${b.img}" alt="Illustrative certification marks" style="max-width:680px;margin:0 auto;mix-blend-mode:multiply"><p style="font-size:11.5px;color:var(--muted);margin:14px auto 0;max-width:64ch">${b.caption}</p></div></div>`;
+    case 'transcript': return transcriptHTML(b);
+    case 'readiness': return readinessHTML(b);
     case 'branch': return branchHTML(b);
     case 'assess': return assessHTML();
     case 'commit': return commitHTML();
@@ -471,7 +538,7 @@ function renderBlock(b, l){
 
 /* decide (single-select w/ coaching) */
 function decideHTML(b){
-  const gid = gateId();
+  const gid = regId(b);
   const opts = b.opts.map((o,i)=>`<button class="opt" id="${gid}o${i}" onclick="answer('${gid}',${i},${o.ok?1:0},this)">${o.o}</button>`).join('');
   const fbs = b.opts.map((o,i)=>`<div class="fb" id="${gid}f${i}">${o.fb}</div>`).join('');
   window['_fb_'+gid] = b.opts;
@@ -482,6 +549,7 @@ function answer(gid, i, ok, btn){
   document.querySelectorAll(`#${gid} .opt`).forEach(o=>o.classList.remove('sel-ok','sel-bad'));
   btn.classList.add(ok?'sel-ok':'sel-bad');
   const f = document.getElementById(gid+'f'+i); f.classList.add(ok?'ok':'bad');
+  logAttempt(gid, ok, i);
   if(ok){ gates[gid]=true; document.querySelectorAll(`#${gid} .opt`).forEach(o=>o.disabled=true); btn.disabled=true; updateGate(); }
 }
 
@@ -508,7 +576,7 @@ function flipCard(gid,i){
 const DM = {};
 const shuffled = a => { const c=a.slice(); for(let i=c.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [c[i],c[j]]=[c[j],c[i]]; } return c; };
 function dragmatchHTML(b){
-  const gid = gateId();
+  const gid = regId(b);
   /* Shuffle items AND zones into a display copy, remapping z, so screen position
      never encodes the answer. Authoring order in content.js stays readable. */
   const zOrder = shuffled(b.zones.map((_,i)=>i));
@@ -533,6 +601,7 @@ function dmEval(gid, idx, zi){
   const chip = document.getElementById(gid+'i'+idx);
   const hint = document.getElementById(gid+'hint');
   const zone = document.getElementById(gid+'z'+zi);
+  logAttempt(gid, +it.z === +zi, idx);
   if(+it.z === +zi){
     chip.classList.add('gone'); chip.disabled = true;
     const zd = document.getElementById(gid+'zd'+zi);
@@ -634,7 +703,7 @@ function playVO(id, file){
 
 /* steps (predict then reveal) */
 function stepsHTML(b){
-  const gid = gateId(); let n = b.items.length; window['_st_'+gid]={n, open:0};
+  const gid = regId(b); let n = b.items.length; window['_st_'+gid]={n, open:0};
   /* The reveal used to be available immediately, so nobody actually predicted and
      eight prompts were satisfiable in seconds. REVEAL now stays disabled until the
      rep commits words, and their words sit beside ours. That is the generation
@@ -660,7 +729,7 @@ function reveal(gid,i){
 
 /* predictpair */
 function predictPairHTML(b){
-  const gid = gateId();
+  const gid = regId(b);
   const opts = b.opts.map((o,i)=>`<button class="opt" onclick="answerPP('${gid}',${i},${o.ok?1:0},this)">${o.o}</button>`).join('');
   const fbs = b.opts.map((o,i)=>`<div class="fb" id="${gid}f${i}">${o.fb}</div>`).join('');
   return `<div class="block"><div class="ix" id="${gid}"><div class="prompt">${b.prompt}</div>
@@ -669,6 +738,7 @@ function predictPairHTML(b){
     ${opts}${fbs}</div></div>`;
 }
 function answerPP(gid,i,ok,btn){
+  logAttempt(gid, ok, i);
   document.querySelectorAll(`#${gid} .fb`).forEach(f=>f.className='fb');
   document.querySelectorAll(`#${gid} .opt`).forEach(o=>o.classList.remove('sel-ok','sel-bad'));
   btn.classList.add(ok?'sel-ok':'sel-bad');
@@ -678,7 +748,7 @@ function answerPP(gid,i,ok,btn){
 
 /* hotspot (story/taste locked sell-it) */
 function hotspotHTML(b){
-  const gid = gateId(); window['_hs_'+gid] = {b, unlocked:false, seen:false};
+  const gid = regId(b); window['_hs_'+gid] = {b, unlocked:false, seen:false};
   const opts = b.predict.opts.map((o,i)=>`<button class="opt" onclick="hsPredict('${gid}',${i},${o.ok?1:0},this)">${o.o}</button>`).join('');
   const fbs = b.predict.opts.map((o,i)=>`<div class="fb" id="${gid}pf${i}">${o.fb}</div>`).join('');
   return `<div class="block"><div class="hs"><div class="ph"><img src="${b.img}" alt="${b.wine}"></div><div class="bodyc">
@@ -697,12 +767,61 @@ function hsTab(gid, which, btn){
   if(which==='sell'){ st.seen=true; gates[gid]=true; updateGate(); }
 }
 function hsPredict(gid,i,ok,btn){
+  logAttempt(gid, ok, i);
   const st = window['_hs_'+gid];
   btn.parentNode.querySelectorAll('.fb').forEach(f=>f.className='fb');
   btn.parentNode.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel-ok','sel-bad'));
   btn.classList.add(ok?'sel-ok':'sel-bad');
   document.getElementById(gid+'pf'+i).classList.add(ok?'ok':'bad');
   if(ok){ st.unlocked=true; const t=document.getElementById(gid+'selltab'); t.classList.remove('lock'); btn.parentNode.querySelectorAll('.opt').forEach(o=>o.disabled=true); }
+}
+
+/* ---------- transcript ---------- */
+/* A worked example: the whole visit, start to finish, with the move named in the
+   margin. Modeling the complete task before asking for it is the most-cited
+   absence in the old build. No playback and no gating here; the decide block that
+   follows is both the gate and the noticing prompt. */
+function transcriptHTML(b){
+  const lines = (b.lines||[]).map(x=>`<div class="tl${x.note?' hasnote':''}">
+    <div class="tsay"><p class="who">${escH(x.who)}</p><p class="say">${escH(x.say)}</p></div>
+    ${x.note?`<p class="move">${escH(x.note)}</p>`:'<p class="move"></p>'}
+  </div>`).join('');
+  return `<div class="block"><div class="ix tsc">
+    ${b.h?`<div class="prompt">${escH(b.h)}</div>`:''}
+    ${b.sub?`<p class="tsub">${escH(b.sub)}</p>`:''}
+    <div class="tlist">${lines}</div>
+  </div></div>`;
+}
+
+/* ---------- readiness panel ---------- */
+/* Reads the attempt log and reports FIRST-attempt accuracy per objective. First
+   attempt is the measurement; everything after it is practice. The panel reports
+   what the rep has actually touched, and says so when that is nothing. */
+function readinessHTML(b){
+  const st = objStats();
+  const keys = Object.keys(typeof OBJ!=='undefined'?OBJ:{});
+  const touched = keys.filter(k=>st[k] && st[k].n);
+  if(!touched.length){
+    return `<div class="block"><div class="ix rdy"><div class="prompt">${b.h||'Where you stand'}</div>
+      <p class="rdnone">Nothing logged yet. Answer some questions and this fills in. It reads your first
+      answer on each item only, so a second try does not repair the number.</p></div></div>`;
+  }
+  const rows = keys.map(k=>{
+    const o = st[k];
+    if(!o || !o.n) return `<tr class="dim"><td>${k}</td><td>${escH(OBJ[k].short)}</td><td class="num">not yet</td><td></td></tr>`;
+    const pct = Math.round(o.first/o.n*100);
+    const cls = pct>=70 ? 'good' : 'weak';
+    return `<tr><td>${k}</td><td>${escH(OBJ[k].short)}</td>
+      <td class="num ${cls}">${pct}%</td>
+      <td><div class="rbar"><i class="${cls}" style="width:${pct}%"></i></div><span class="rn">${o.first} of ${o.n} first time</span></td></tr>`;
+  }).join('');
+  const weak = touched.filter(k=>Math.round(st[k].first/st[k].n*100) < 70);
+  const verdict = weak.length
+    ? `<p class="rdv weak">Work on these before you walk in: ${weak.map(k=>k+' '+escH(OBJ[k].short)).join(' · ')}</p>`
+    : `<p class="rdv good">Nothing under 70 percent on the objectives you have touched so far.</p>`;
+  return `<div class="block"><div class="ix rdy"><div class="prompt">${b.h||'Where you stand'}</div>
+    <p class="rdsub">First answers only, on what you have done so far. A second try teaches you something, but it does not change this number.</p>
+    <div class="rdwrap"><table class="rdt"><tbody>${rows}</tbody></table></div>${verdict}</div></div>`;
 }
 
 /* ---------- branching scenario ---------- */
@@ -860,6 +979,14 @@ function asDone(){
 }
 
 /* ---------- commit ---------- */
+function scoreSelf(){
+  const el = document.getElementById('ppscore'); if(!el) return;
+  const n = side => Object.values((S.self&&S.self[side])||{}).filter(Boolean).length;
+  const a = n('pre'), b = n('post'), d = b - a;
+  el.innerHTML = `<span class="pplab">Your own count, against the same five</span>
+    <div class="ppnums"><span>Lesson one <b>${a} of 5</b></span><span>Now <b>${b} of 5</b></span>
+    <span class="ppd ${d>0?'up':(d<0?'down':'')}">${d>0?'+':''}${d} criteria</span></div>`;
+}
 function commitHTML(){
   const gid = gateId();
   if(S.commit.account) gates[gid]=true;
@@ -869,12 +996,26 @@ function commitHTML(){
      never as a grade. Ids must match the recall blocks in content.js. */
   const pre  = S.recall.a1_baseline_pitch || S.recall.baseline || '';
   const post = S.recall.h2_final_pitch || '';
+  const CRIT = [
+    "Names the site: one cold ridge, a handful of small fields",
+    "Names the person: astrophotographer turned farmer",
+    "Says the farming in plain words, not a badge",
+    "Names one wine, and the job it does",
+    "Ends with an ask they can say yes to" ];
+  S.self = S.self || {pre:{}, post:{}};
+  const box = (side,i)=>`<label class="ck"><input type="checkbox" ${S.self[side][i]?'checked':''}
+      onchange="S.self['${side}'][${i}]=this.checked;save();scoreSelf()"><span>${CRIT[i]}</span></label>`;
+  const col = side => CRIT.map((c,i)=>box(side,i)).join('');
   const base = pre ? `<div class="pp">
-      <div class="ppc"><span class="pplab">Lesson one, before any of this</span><p>${escH(pre)}</p></div>
-      <div class="ppc now"><span class="pplab">Just now, after all of it</span><p>${post ? escH(post) : '<i style="color:var(--muted)">Write your line above, and it appears here.</i>'}</p></div>
-      <div class="ppr"><span class="pplab">Score your own, both of them, against the same five</span>
-        <ul><li>Place: one cold ridge, a handful of small fields</li><li>Person: astrophotographer turned farmer</li><li>Practice: dry-farmed, sheep not sprays, said in plain words</li><li>One wine, named, with its job</li><li>An ask they can say yes to</li></ul>
-        <span class="ppnote">This is yours to judge, not a grade. The gap between the two lines is the only learning gain this course claims.</span></div>
+      <div class="ppc"><span class="pplab">Lesson one, before any of this</span><p>${escH(pre)}</p>
+        <div class="cks">${col('pre')}</div></div>
+      <div class="ppc now"><span class="pplab">Just now, after all of it</span>
+        <p>${post ? escH(post) : '<i style="color:var(--muted)">Write your line above, and it appears here.</i>'}</p>
+        <div class="cks">${col('post')}</div></div>
+      <div class="ppr">
+        <div class="ppscore" id="ppscore"></div>
+        <span class="ppnote">You score this, not the system, so we report it as self-assessment and never as a grade. The gap between the two lines is the only learning gain this course claims.</span>
+      </div>
     </div>` : '';
   const wines = (typeof WINES!=='undefined' && WINES.length) ? WINES
     : ['Field Blend (the flagship)','Pinot Noir','Syrah','Chardonnay','Duskfall','Daybreak','Afterglow','Long Exposure'];

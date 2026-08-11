@@ -124,7 +124,10 @@ const COURSE = {
     "This one is scaffolded on purpose. The buyer is curious, the by-the-glass slot is genuinely open, and coaching fires after every choice. You are not being tested here. You are being walked through what a good visit sounds like from the inside.",
     "The job is the job: find out what the room needs before you name a wine, choose one wine, give the buyer a line she can hand her staff, and answer the pushback without conceding anything.",
     "Listen for the objection under the objection. When a buyer says she has been burned before, she is not asking about your winemaking. She is asking whether you will still be standing there in eight weeks when the wine needs help."] },
-  { t:"branch", set:"curious" },
+  { t:"branch", set:"curious", id:"b2_visit", obj:["O2","O7"],
+    note:{ k:"measured", h:"One answer can end the visit",
+      b:"Two named dimensions, trust and fit, replace one blended meter, so the debrief can say which one you lost. Those are different lessons: pushing costs the relationship even when the wine was right. The weights are our design judgment, not a validated scale, and a trainer ranking panel belongs before launch.",
+      m:"Two subscores plus the full decision path, move by move, replayed on close." } },
   { t:"text", h:"What to carry out of this visit.", p:[
     "Look at where the meter moved. It moved most when you asked before you pitched, and when you answered the objection with something specific instead of something soothing. It moved least when you talked about technique, because technique is what you say when you have not decided what the wine is for.",
     "Look at what the visit did not contain: seven other wines. You opened one slot with one wine, and the rest of the book is intact for the next conversation. That is not restraint for its own sake. That is what leaves you something to come back with.",
@@ -487,38 +490,38 @@ intro: "Choose your account. Both paths use everything you have learned; they re
     { id:"bar", name:"THE NATURAL-WINE BAR", desc:"A busy downtown natural-wine bar. The buyer is a curious somm with a tight, curated list.", img:"../assets/img/pairing_understory.jpg",
       nodes: {
         start: { text:"The somm gives you ten minutes at the end of the bar. “Alright. What have you got?”", opts:[
-          { o:"Ask first: “What is your list missing right now?”", d:+15, fb:"She relaxes. “Honestly? A by-the-glass white with a story. Everyone has the same three oranges.” You qualified before pitching.", next:"wine" },
-          { o:"Open with the full 30-second pitch immediately", d:+5, fb:"Solid pitch, slightly early. She listens politely, but you are answering a question she has not asked yet.", next:"wine" },
-          { o:"Lead with price and a first-order discount", d:-15, fb:"Her eyes glaze. Price-first reads as commodity, and this room buys stories. You will have to earn the rapport back.", next:"wine" } ]},
+          { o:"Ask first: “What is your list missing right now?”", dim:"trust", d:+15, fb:"She relaxes. “Honestly? A by-the-glass white with a story. Everyone has the same three oranges.” You qualified before pitching.", next:"wine" },
+          { o:"Open with the full 30-second pitch immediately", dim:"trust", d:+5, fb:"Solid pitch, slightly early. She listens politely, but you are answering a question she has not asked yet.", next:"wine" },
+          { o:"Lead with price and a first-order discount", dim:"trust", d:-15, fb:"Her eyes glaze. Price-first reads as commodity, and this room buys stories. You will have to earn the rapport back.", next:"wine" } ]},
         wine: { text:"“Okay. If I give you one by-the-glass slot, what is the wine?”", opts:[
-          { o:"Duskfall, the skin-contact Chenin", d:+15, fb:"Exactly the room: the Curiosity role for the curated list that wants what no one else pours.", next:"pitch" },
-          { o:"Daybreak, the chilled Gamay", d:+8, fb:"A fine recruit and very pourable, though this list already turns fresh reds. The Curiosity was the sharper fit.", next:"pitch" },
-          { o:"Long Exposure, the reserve", d:-10, fb:"A reserve Pinot by the glass at a natural bar misreads the room and the margin. Depth is for the cellar list.", next:"pitch" } ]},
+          { o:"Duskfall, the skin-contact Chenin", dim:"fit", d:+15, fb:"Exactly the room: the Curiosity role for the curated list that wants what no one else pours.", next:"pitch" },
+          { o:"Daybreak, the chilled Gamay", dim:"fit", d:+8, fb:"A fine recruit and very pourable, though this list already turns fresh reds. The Curiosity was the sharper fit.", next:"pitch" },
+          { o:"Long Exposure, the reserve", dim:"fit", d:-10, fb:"A reserve Pinot by the glass at a natural bar misreads the room and the margin. Depth is for the cellar list.", next:"pitch" } ]},
         pitch: { text:"“Give me the line I tell my staff.”", opts:[
-          { o:"“One biodynamic field above the fog, farmed by the moon and stars by a former astrophotographer. This is its skin-contact Chenin.”", d:+15, fb:"She writes it down word for word. Staff-sized story, farming as the lever, done.", next:"objection" },
-          { o:"A detailed rundown of maceration times and vessel choices", d:-10, fb:"“So... it is an orange wine.” The technique buried the story. Staff lines must fit in one breath.", next:"objection" } ]},
+          { o:"“One biodynamic field above the fog, farmed by the moon and stars by a former astrophotographer. This is its skin-contact Chenin.”", dim:"fit", d:+15, fb:"She writes it down word for word. Staff-sized story, farming as the lever, done.", next:"objection" },
+          { o:"A detailed rundown of maceration times and vessel choices", dim:"fit", d:-10, fb:"“So... it is an orange wine.” The technique buried the story. Staff lines must fit in one breath.", next:"objection" } ]},
         objection: { text:"She hesitates. “Natural wines have burned me before. Bottle variation, fizzy reds. Why is this different?”", opts:[
-          { o:"“Low intervention, not no intervention. Native yeast, careful cellar work, clean and stable, and I stand behind every bottle.”", d:+15, fb:"Calm, specific, personal. She nods; the fear had a name and you retired it.", next:"close" },
-          { o:"“All natural wine is a bit of a gamble, honestly.”", d:-20, fb:"You conceded the category. She just mentally filed your whole book under risky.", next:"close" },
-          { o:"Change the subject to the brand story", d:-8, fb:"Dodging reads as having no answer. The objection was the buying signal, and it went unanswered.", next:"close" } ]}
+          { o:"“Low intervention, not no intervention. Native yeast, careful cellar work, clean and stable, and I stand behind every bottle.”", dim:"trust", d:+15, fb:"Calm, specific, personal. She nods; the fear had a name and you retired it.", next:"close" },
+          { o:"“All natural wine is a bit of a gamble, honestly.”", dim:"trust", d:-20, fb:"You conceded the category. She just mentally filed your whole book under risky.", next:"close" },
+          { o:"Change the subject to the brand story", dim:"trust", d:-8, fb:"Dodging reads as having no answer. The objection was the buying signal, and it went unanswered.", next:"close" } ]}
       }},
     { id:"shop", name:"THE FINE-WINE SHOP", desc:"A neighborhood fine-wine retailer with a premium set and loyal regulars.", img:"../assets/img/pairing_flagship.jpg",
       nodes: {
         start: { text:"The owner is stacking cases. “Five minutes. Go.”", opts:[
-          { o:"Ask what his premium set is missing and what his regulars trade up to", d:+15, fb:"“People want a story at twenty-plus, and I am tired of the same estates.” You found the gap before pitching into it.", next:"wine" },
-          { o:"Open the bag and lead with the flagship bottle silently", d:+5, fb:"The label earns a long look, which buys you the next question. Showmanship works better with a question first, though.", next:"wine" },
-          { o:"Lead with the case discount schedule", d:-15, fb:"“Everything has a discount schedule.” You made a story brand sound like a commodity.", next:"wine" } ]},
+          { o:"Ask what his premium set is missing and what his regulars trade up to", dim:"trust", d:+15, fb:"“People want a story at twenty-plus, and I am tired of the same estates.” You found the gap before pitching into it.", next:"wine" },
+          { o:"Open the bag and lead with the flagship bottle silently", dim:"fit", d:+5, fb:"The label earns a long look, which buys you the next question. Showmanship works better with a question first, though.", next:"wine" },
+          { o:"Lead with the case discount schedule", dim:"trust", d:-15, fb:"“Everything has a discount schedule.” You made a story brand sound like a commodity.", next:"wine" } ]},
         wine: { text:"“What goes on my premium shelf, and what actually moves?”", opts:[
-          { o:"Field Blend to define the set, Chardonnay to anchor it", d:+15, fb:"Define plus Anchor is the correct retail architecture: the story bottle and the dependable one beside it.", next:"pitch" },
-          { o:"Daybreak for a seasonal case stack", d:+8, fb:"Right instinct for volume, but it skips his stated premium-set gap. Lead premium, add the stack second.", next:"pitch" },
-          { o:"Only Long Exposure, the allocated reserve", d:-10, fb:"An allocation-only pitch to a first-time account puts the trophy before the relationship.", next:"pitch" } ]},
+          { o:"Field Blend to define the set, Chardonnay to anchor it", dim:"fit", d:+15, fb:"Define plus Anchor is the correct retail architecture: the story bottle and the dependable one beside it.", next:"pitch" },
+          { o:"Daybreak for a seasonal case stack", dim:"fit", d:+8, fb:"Right instinct for volume, but it skips his stated premium-set gap. Lead premium, add the stack second.", next:"pitch" },
+          { o:"Only Long Exposure, the allocated reserve", dim:"fit", d:-10, fb:"An allocation-only pitch to a first-time account puts the trophy before the relationship.", next:"pitch" } ]},
         pitch: { text:"“Why does this sell off a shelf with nobody talking?”", opts:[
-          { o:"“The label is the story: the fields, an eclipse ring, farmed by the sky. The shelf-talker writes itself, and the marks on the bottle back it up.”", d:+15, fb:"Retail-true: the label sells unattended, the certifications close silently. He can see the shelf already.", next:"objection" },
-          { o:"“Your staff can hand-sell it at the register.”", d:-8, fb:"He has one part-timer on weekdays. Off-premise pitches cannot depend on a person.", next:"objection" } ]},
+          { o:"“The label is the story: the fields, an eclipse ring, farmed by the sky. The shelf-talker writes itself, and the marks on the bottle back it up.”", dim:"fit", d:+15, fb:"Retail-true: the label sells unattended, the certifications close silently. He can see the shelf already.", next:"objection" },
+          { o:"“Your staff can hand-sell it at the register.”", dim:"fit", d:-8, fb:"He has one part-timer on weekdays. Off-premise pitches cannot depend on a person.", next:"objection" } ]},
         objection: { text:"“Nobody walks in asking for Deep Fields.”", opts:[
-          { o:"“No, but they ask for exactly what it is: biodynamic, single-site, a story at twenty-plus. Pour one bottle for your staff and regulars this Friday and let them decide.”", d:+15, fb:"Latent demand plus the smallest possible yes. He is already picking the Friday.", next:"close" },
-          { o:"“It will be a famous name soon.”", d:-15, fb:"Futures are not stock decisions. Hollow, and he heard it as hollow.", next:"close" },
-          { o:"Offer deeper margin to offset the risk", d:-8, fb:"Margin as apology reprices the brand downward on day one.", next:"close" } ]}
+          { o:"“No, but they ask for exactly what it is: biodynamic, single-site, a story at twenty-plus. Pour one bottle for your staff and regulars this Friday and let them decide.”", dim:"trust", d:+15, fb:"Latent demand plus the smallest possible yes. He is already picking the Friday.", next:"close" },
+          { o:"“It will be a famous name soon.”", dim:"trust", d:-15, fb:"Futures are not stock decisions. Hollow, and he heard it as hollow.", next:"close" },
+          { o:"Offer deeper margin to offset the risk", dim:"trust", d:-8, fb:"Margin as apology reprices the brand downward on day one.", next:"close" } ]}
       }}
   ],
   closes: [
@@ -533,38 +536,38 @@ intro: "Choose your account. Both paths use everything you have learned; they re
         { id:"locked", name:"THE LOCKED PROGRAM", desc:"A well-run restaurant whose by-the-glass program is set for the season. The beverage director likes you and has nothing open.", img:"../assets/img/pairing_flagship.jpg",
           nodes: {
             start: { text:"“I will save you the pitch. My glass pours are locked until the fall menu. I am not moving anything before then.”", opts:[
-              { o:"Ask what is on the program now, and which pour she is least happy with.", d:+15, next:"mid", fb:"Right. You cannot win a slot you have not measured. She names a white that sells fine but that the floor finds boring, and now you know the actual opening.", },
-              { o:"Push: explain why Daybreak deserves a slot now.", d:-10, next:"mid", fb:"She has heard this from four people this month. Pushing a locked program tells her you were not listening, and it costs you the only thing you had, which was her attention." },
-              { o:"Offer a discount to get in before the reset.", d:-20, next:"mid", fb:"Now the wine is a price, not a pour. You have also taught her to wait for a deal every time you come back, and you still did not get the slot." },
-              { o:"Ask for the bottle list instead of the glass program.", d:+8, next:"mid", fb:"Reasonable, and a real lateral. It is a smaller ask on a list that moves less, so it is a fallback rather than your opener, but you kept the visit alive." } ] },
+              { o:"Ask what is on the program now, and which pour she is least happy with.", dim:"trust", d:+15, next:"mid", fb:"Right. You cannot win a slot you have not measured. She names a white that sells fine but that the floor finds boring, and now you know the actual opening.", },
+              { o:"Push: explain why Daybreak deserves a slot now.", dim:"trust", d:-10, next:"mid", fb:"She has heard this from four people this month. Pushing a locked program tells her you were not listening, and it costs you the only thing you had, which was her attention." },
+              { o:"Offer a discount to get in before the reset.", dim:"trust", d:-20, next:"mid", fb:"Now the wine is a price, not a pour. You have also taught her to wait for a deal every time you come back, and you still did not get the slot." },
+              { o:"Ask for the bottle list instead of the glass program.", dim:"fit", d:+8, next:"mid", fb:"Reasonable, and a real lateral. It is a smaller ask on a list that moves less, so it is a fallback rather than your opener, but you kept the visit alive." } ] },
             mid: { text:"“The Chenin is fine. It sells. Honestly the staff just does not have anything to say about it.”", opts:[
-              { o:"Offer a staff pour, and leave the floor one line they can say.", d:+18, next:"late", fb:"That is the whole game. You did not ask for the slot, you offered to fix the thing she just told you was broken. Staff who can say one line outsell a shelf talker." },
-              { o:"Point out that your Duskfall is a better wine.", d:-12, next:"late", fb:"You argued quality at a buyer who told you her problem was narrative. Being right about the wine does not move a program that is already selling." },
-              { o:"Ask what her fall reset date is and what she decides on.", d:+12, next:"late", fb:"Good. Now the next visit has a date and a standard, which is worth more than a maybe." } ] },
+              { o:"Offer a staff pour, and leave the floor one line they can say.", dim:"fit", d:+18, next:"late", fb:"That is the whole game. You did not ask for the slot, you offered to fix the thing she just told you was broken. Staff who can say one line outsell a shelf talker." },
+              { o:"Point out that your Duskfall is a better wine.", dim:"fit", d:-12, next:"late", fb:"You argued quality at a buyer who told you her problem was narrative. Being right about the wine does not move a program that is already selling." },
+              { o:"Ask what her fall reset date is and what she decides on.", dim:"trust", d:+12, next:"late", fb:"Good. Now the next visit has a date and a standard, which is worth more than a maybe." } ] },
             late: { text:"“Look, I appreciate you. But I am not making a change today.”", opts:[
-              { o:"Book the staff pour for the week before her reset, and leave.", d:+20, next:"close", fb:"This is the answer. You leave with a date, a job to do, and her trust intact. The slot turns on a cycle, and you are now the person standing there when it turns." },
-              { o:"Ask her to reconsider one more time.", d:-15, next:"close", fb:"She already said no twice. The third ask converts a warm buyer into a call she starts avoiding, and you spent a real relationship to hear the same answer." },
-              { o:"Leave the sell sheet and say you will check back sometime.", d:-4, next:"close", fb:"Polite and forgettable. Sometime is not a date, so nothing about her week changes and nothing about yours does either." } ] }
+              { o:"Book the staff pour for the week before her reset, and leave.", dim:"trust", d:+20, next:"close", fb:"This is the answer. You leave with a date, a job to do, and her trust intact. The slot turns on a cycle, and you are now the person standing there when it turns." },
+              { o:"Ask her to reconsider one more time.", dim:"trust", d:-15, next:"close", fb:"She already said no twice. The third ask converts a warm buyer into a call she starts avoiding, and you spent a real relationship to hear the same answer." },
+              { o:"Leave the sell sheet and say you will check back sometime.", dim:"trust", d:-4, next:"close", fb:"Polite and forgettable. Sometime is not a date, so nothing about her week changes and nothing about yours does either." } ] }
           } },
         { id:"fullset", name:"THE FULL SHELF", desc:"A premium grocery banner. The wine set is planogrammed and locked until the spring reset, and the buyer does not own the schematic.", img:"../assets/img/pairing_understory.jpg",
           nodes: {
             start: { text:"“I like it. But I do not own the set. Corporate does, and it is locked until spring.”", opts:[
-              { o:"Ask who does own the schematic, and what they decide on.", d:+15, next:"mid", fb:"Correct. You just found out the person in front of you cannot say yes, which means your real job today is intelligence, not closing." },
-              { o:"Ask him to make an exception.", d:-12, next:"mid", fb:"You asked a man to break a rule he did not write. Even if he wanted to, you have made the visit about his authority instead of your wine." },
-              { o:"Pitch harder on the farming story.", d:-8, next:"mid", fb:"A better story does not open a locked planogram. You spent your best material on someone who cannot buy it." } ] },
+              { o:"Ask who does own the schematic, and what they decide on.", dim:"fit", d:+15, next:"mid", fb:"Correct. You just found out the person in front of you cannot say yes, which means your real job today is intelligence, not closing." },
+              { o:"Ask him to make an exception.", dim:"trust", d:-12, next:"mid", fb:"You asked a man to break a rule he did not write. Even if he wanted to, you have made the visit about his authority instead of your wine." },
+              { o:"Pitch harder on the farming story.", dim:"fit", d:-8, next:"mid", fb:"A better story does not open a locked planogram. You spent your best material on someone who cannot buy it." } ] },
             mid: { text:"“Category manager decides. She looks at velocity in comparable stores, and she hates gaps.”", opts:[
-              { o:"Ask what comparable stores she trusts, and offer to build the case there first.", d:+18, next:"late", fb:"That is the play. You are not asking for the shelf, you are building the evidence the person who owns the shelf already told you she uses." },
-              { o:"Offer a display outside the set for the holiday.", d:+10, next:"late", fb:"A real lateral. Off-shelf feature does not need the planogram, and it generates exactly the velocity the category manager reads." },
-              { o:"Send the category manager a deck.", d:-6, next:"late", fb:"Cold paper to someone who has never met you, from a brand with no velocity in her stores. It is not damaging, it is just not a plan." } ] },
+              { o:"Ask what comparable stores she trusts, and offer to build the case there first.", dim:"fit", d:+18, next:"late", fb:"That is the play. You are not asking for the shelf, you are building the evidence the person who owns the shelf already told you she uses." },
+              { o:"Offer a display outside the set for the holiday.", dim:"fit", d:+10, next:"late", fb:"A real lateral. Off-shelf feature does not need the planogram, and it generates exactly the velocity the category manager reads." },
+              { o:"Send the category manager a deck.", dim:"fit", d:-6, next:"late", fb:"Cold paper to someone who has never met you, from a brand with no velocity in her stores. It is not damaging, it is just not a plan." } ] },
             late: { text:"“So realistically, spring. Anything before that is a maybe.”", opts:[
-              { o:"Agree, set the two independent accounts to build velocity, and diary the reset.", d:+20, next:"close", fb:"You took the honest answer and turned it into work. When spring comes you will arrive with numbers from stores she trusts, which is the only argument that opens a locked set." },
-              { o:"Keep working him for an early exception.", d:-15, next:"close", fb:"He has told you twice that it is not his decision. Continuing to ask is asking him to fail, and it is the fastest way to stop being welcome." },
-              { o:"Move on to another account and try again next year.", d:-6, next:"close", fb:"You gave up a warm buyer with a known date. Spring is not next year, and nobody else is going to build that case for you." } ] }
+              { o:"Agree, set the two independent accounts to build velocity, and diary the reset.", dim:"trust", d:+20, next:"close", fb:"You took the honest answer and turned it into work. When spring comes you will arrive with numbers from stores she trusts, which is the only argument that opens a locked set." },
+              { o:"Keep working him for an early exception.", dim:"trust", d:-15, next:"close", fb:"He has told you twice that it is not his decision. Continuing to ask is asking him to fail, and it is the fastest way to stop being welcome." },
+              { o:"Move on to another account and try again next year.", dim:"fit", d:-6, next:"close", fb:"You gave up a warm buyer with a known date. Spring is not next year, and nobody else is going to build that case for you." } ] }
           } }
       ],
       closes: [
-        { min:80, h:"INVITED BACK, WITH A DATE", text:"You did not get a placement today, and that was never available. You got the thing that is worth more: the actual decision criteria, a specific date, and a job to do before it. This is a win. The slot turns on a cycle, and you will be standing there when it turns." },
-        { min:55, h:"STILL WELCOME", text:"You kept the relationship and learned something real, but you left without a date. Vague good will decays. Next time, leave with something on both calendars." },
+        { min:74, h:"INVITED BACK, WITH A DATE", text:"You did not get a placement today, and that was never available. You got the thing that is worth more: the actual decision criteria, a specific date, and a job to do before it. This is a win. The slot turns on a cycle, and you will be standing there when it turns." },
+        { min:52, h:"STILL WELCOME", text:"You kept the relationship and learned something real, but you left without a date. Vague good will decays. Next time, leave with something on both calendars." },
         { min:0, h:"YOU SPENT THE RELATIONSHIP", text:"You pushed a buyer who had already told you the answer, or you led with price. Either way you did not open the slot and you made the next visit harder. In a committed room, the discipline is knowing when to stop." }
       ],
       debrief: "There was no open slot in either account, and no choice available today would have produced one. That is the lesson. A committed room rewards three moves: a trade backed by what the buyer told you, a lateral into a slot that is actually open, and a timed retreat tied to a real date. Pushing and discounting both score negative here, because both spend trust you will need at the reset."

@@ -111,6 +111,15 @@
   .pplab{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
   .ppr{background:var(--bone2);padding:14px 16px}
   .ppr ul{margin:0 0 10px 18px;font-size:14px;line-height:1.7}
+  .brwhich{max-width:66ch;margin-top:14px;padding:12px 15px;background:var(--bone2);border-left:3px solid var(--gold);font-size:14.5px}
+  .replay{margin-top:18px}
+  ol.rp{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+  ol.rp li{display:grid;grid-template-columns:26px 1fr auto;gap:12px;align-items:baseline;
+    padding:8px 12px;background:var(--white);border:1px solid var(--line);border-radius:3px;font-size:13.5px}
+  .rpn{font-family:var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+  .rpd{font-family:var(--sans);font-size:11px;letter-spacing:.1em;padding:2px 9px;border-radius:100px;white-space:nowrap}
+  .rpd.up{background:var(--goodbg);color:var(--good)} .rpd.down{background:var(--badbg);color:var(--bad)}
+  @media(max-width:620px){ ol.rp li{grid-template-columns:22px 1fr;} .rpd{grid-column:2} }
   .cks{margin-top:12px;display:flex;flex-direction:column;gap:7px;border-top:1px solid var(--line);padding-top:11px}
   .ck{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:var(--muted);cursor:pointer}
   .ck input{margin-top:2px;flex:0 0 auto}
@@ -393,6 +402,7 @@ function sidebar(){
   h += `</div><div class="sidefoot">
     <a href="lineup.html">→ The lineup (job aid)</a>
     <a href="evidence.html">→ Design evidence</a>
+    <a href="../downloads/deep-fields-field-observation.pdf" download>↓ Field observation sheet (PDF)</a>
     <a href="../downloads/deep-fields-sell-sheet.pdf" download>↓ Sell sheet (PDF)</a>
     <a href="../downloads/deep-fields-brand-book.pdf" download>↓ Brand book (PDF)</a>
     <a href="../index.html">← Deep Fields · brand site</a>
@@ -832,11 +842,11 @@ let BR = null;
 function brSet(name){ return (BRANCH.sets && BRANCH.sets[name]) || BRANCH.sets?.curious || BRANCH; }
 function branchHTML(b){
   const gid = gateId(); const set = brSet(b && b.set);
-  BR = {gid, set, path:null, node:null, meter:50};
+  BR = {gid, set, path:null, node:null, dims:{trust:50, fit:50}, log:[]};
   const cards = set.paths.map((p,i)=>`<button class="pathc" onclick="brStart(${i})"><img src="${p.img}" alt=""><div class="m"><h4>${p.name}</h4><p>${p.desc}</p></div></button>`).join('');
   return `<div class="block"><div class="ix" id="brx"><div class="prompt">${set.intro}</div><div class="paths">${cards}</div></div></div>`;
 }
-function brStart(i){ BR.path = BR.set.paths[i]; BR.meter = 50; brNode('start'); }
+function brStart(i){ BR.path = BR.set.paths[i]; BR.dims={trust:50, fit:50}; BR.log=[]; brNode('start'); }
 function brNode(key){
   BR.node = key;
   if(key==='close'){ return brClose(); }
@@ -844,27 +854,58 @@ function brNode(key){
   const opts = n.opts.map((o,j)=>`<button class="opt" onclick="brPick(${j})">${o.o}</button>`).join('');
   document.getElementById('brx').innerHTML = `
     <div class="kicker" style="color:var(--loam)">${BR.path.name}</div>
-    <div class="meter"><span class="lab">BUYER CONFIDENCE</span><div class="bar"><i style="width:${BR.meter}%"></i></div><span class="lab">${BR.meter}</span></div>
+    ${brMeters()}
     <div class="buyer">${n.text}</div>${opts}<div class="fb" id="brfb"></div>`;
   window['_brn'] = n;
 }
+const DIMLAB = {trust:'TRUST', fit:'FIT'};
+function brMeters(){
+  return ['trust','fit'].map(k=>`<div class="meter" data-d="${k}">
+    <span class="lab">${DIMLAB[k]}</span>
+    <div class="bar"><i style="width:${BR.dims[k]}%"></i></div>
+    <span class="lab">${BR.dims[k]}</span></div>`).join('');
+}
 function brPick(j){
   const n = window['_brn']; const o = n.opts[j];
-  BR.meter = Math.max(0, Math.min(100, BR.meter + o.d));
+  const k = o.dim || 'trust';
+  BR.dims[k] = Math.max(0, Math.min(100, BR.dims[k] + o.d));
+  BR.log.push({node:BR.node, pick:o.o, d:o.d, dim:k});
   const fb = document.getElementById('brfb');
   fb.className = 'fb ' + (o.d>0?'ok':'bad');
-  fb.innerHTML = `${o.fb} <span style="display:block;margin-top:8px;font-family:var(--sans);letter-spacing:.14em;font-size:11px">BUYER CONFIDENCE ${o.d>0?'+':''}${o.d}</span><div style="margin-top:14px"><button class="btn" onclick="brNode('${o.next}')">CONTINUE THE VISIT →</button></div>`;
+  fb.innerHTML = `${o.fb} <span style="display:block;margin-top:8px;font-family:var(--sans);letter-spacing:.14em;font-size:11px">${DIMLAB[k]} ${o.d>0?'+':''}${o.d}</span><div style="margin-top:14px"><button class="btn" onclick="brNode('${o.next}')">CONTINUE THE VISIT →</button></div>`;
   document.querySelectorAll('#brx .opt').forEach(b=>b.disabled=true);
-  document.querySelector('#brx .meter .bar i').style.width = BR.meter+'%';
-  document.querySelectorAll('#brx .meter .lab')[1].textContent = BR.meter;
+  document.querySelectorAll('#brx .meter').forEach(m=>{
+    const d = m.getAttribute('data-d');
+    m.querySelector('.bar i').style.width = BR.dims[d]+'%';
+    m.querySelectorAll('.lab')[1].textContent = BR.dims[d];
+  });
 }
 function brClose(){
-  const tier = BR.set.closes.find(c=>BR.meter>=c.min);
+  const avg = Math.round((BR.dims.trust + BR.dims.fit)/2);
+  const tier = BR.set.closes.find(c=>avg>=c.min);
   gates[BR.gid]=true; updateGate();
+  /* One blended meter could only say you did badly. Two say WHICH one you lost,
+     and those are different lessons: trust is how you treated her, fit is whether
+     you brought the right wine to the right room. */
+  const lo = BR.dims.trust === BR.dims.fit ? null : (BR.dims.trust < BR.dims.fit ? 'trust' : 'fit');
+  const WHICH = {
+    trust:"You lost her on trust, not on the wine. Pushing, discounting, or talking past what she told you costs the relationship even when the recommendation was right.",
+    fit:"You kept her with you and brought the wrong thing. The relationship survived; the recommendation did not match the room."
+  };
+  /* Only diagnose a dimension the rep actually lost. A 17-point spread on a winning
+     visit is not a lesson, and telling someone who just played it well that they
+     brought the wrong thing is worse than saying nothing. */
+  const diag = lo && BR.dims[lo] < 60 && Math.abs(BR.dims.trust - BR.dims.fit) >= 10
+    ? `<p class="brwhich"><b>Where it went:</b> ${WHICH[lo]}</p>` : '';
+  const replay = BR.log.map((m,i)=>`<li><span class="rpn">${i+1}</span>
+      <span class="rpo">${escH(m.pick)}</span>
+      <span class="rpd ${m.d>0?'up':'down'}">${DIMLAB[m.dim]} ${m.d>0?'+':''}${m.d}</span></li>`).join('');
   document.getElementById('brx').innerHTML = `
     <div class="kicker" style="color:var(--loam)">${BR.path.name} · VISIT COMPLETE</div>
-    <div class="meter"><span class="lab">FINAL CONFIDENCE</span><div class="bar"><i style="width:${BR.meter}%"></i></div><span class="lab">${BR.meter}</span></div>
+    ${brMeters()}
     <div class="close-h">${tier.h}</div><p style="max-width:64ch">${tier.text}</p>
+    ${diag}
+    <div class="replay"><span class="pplab">Every move you made</span><ol class="rp">${replay}</ol></div>
     <div class="note" style="margin:18px 0">${BR.set.debrief}</div>
     <button class="btn ghost" onclick="renderJustBranch()">RUN IT AGAIN</button>`;
 }
